@@ -27,8 +27,7 @@
             <kind>1</kind>
             <string>//DEFINE LEGS LOL
 
-instance_create(x,y,oShardEnemy)
-Legs = instance_nearest(x,y,oEnemy)
+Owner = instance_create(x,y,oShardEnemy)
 
 image_xscale = 0.3
 image_yscale = image_xscale 
@@ -67,8 +66,8 @@ RandomSpeedTweak = random_range(-25,55)
             <kind>1</kind>
             <string>//HELP WHERE ARE MY LEGS
 
-x = Legs.x
-y = Legs.y
+x = Owner.x
+y = Owner.y
 
 image_angle = point_direction (x,y,oCamera.x,oCamera.y)
 
@@ -81,9 +80,9 @@ with IncomingProjectile {instance_destroy()}
 DamageEnemy()
 }
 if DamageEnemy(){
-EnemyDestroyedSplatter(oSmallBits,oBitsSplat,oBitsSplat2)
+EnemyDestroyedSplatter(oSmallBits,oBitsSplat,oBitsSplat2,254,199,0)
 instance_destroy()
-with Legs {
+with Owner {
 instance_destroy()
 }
 }

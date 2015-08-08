@@ -33,11 +33,6 @@
         <sprite>sprites\sBits</sprite>
         <sprite>sprites\sBitsSplat</sprite>
       </sprites>
-      <sprites name="Yellow Splats">
-        <sprite>sprites\sBitsSplatYellow</sprite>
-        <sprite>sprites\sBitsYellow</sprite>
-        <sprite>sprites\sSmallBitsYellow</sprite>
-      </sprites>
     </sprites>
     <sprite>sprites\sCrossHair</sprite>
     <sprite>sprites\sCrossHairPinPoint</sprite>
@@ -83,13 +78,6 @@
         <object>objects\oBitsSplat</object>
         <object>objects\oSmallBits</object>
         <object>objects\GREENSPLATS</object>
-      </objects>
-      <objects name="Yellow Splats">
-        <object>objects\oBitsYellow</object>
-        <object>objects\oBitsSplatYellow</object>
-        <object>objects\oSmallBitsYellow</object>
-        <object>objects\oBitsSplat2Yellow</object>
-        <object>objects\YELLOWSPLATS</object>
       </objects>
     </objects>
     <objects name="CrossHair">

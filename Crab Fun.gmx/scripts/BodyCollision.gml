@@ -4,7 +4,7 @@
     and BodyCollisionTimer =0
     {
     BodyCollisionTimer = BodyCollisionTimer +1/room_speed
-    with (Legs)
+    with (Owner)
     vspeed = vspeed*-0.5
     hspeed = hspeed*-0.5
     }
