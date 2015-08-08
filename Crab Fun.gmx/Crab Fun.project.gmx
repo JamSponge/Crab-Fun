@@ -46,6 +46,7 @@
     <sprite>sprites\sEnemyBody</sprite>
     <sprite>sprites\sExplodeEnemyBody</sprite>
     <sprite>sprites\sExplodeGun</sprite>
+    <sprite>sprites\sprite18</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -63,6 +64,7 @@
     <script>scripts\PlayerDies.gml</script>
     <script>scripts\EnemyHeadBehaviour.gml</script>
     <script>scripts\BodyCollision.gml</script>
+    <script>scripts\ThingExplodes.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -71,6 +73,7 @@
   <objects name="objects">
     <object>objects\oPlayer</object>
     <object>objects\oBullet</object>
+    <object>objects\oBullet2</object>
     <object>objects\oStandardEnemy</object>
     <object>objects\oShardEnemy</object>
     <object>objects\oBits</object>
@@ -106,6 +109,8 @@
     <object>objects\oStandardEnemyBody</object>
     <object>objects\oExplodeEnemyBody</object>
     <object>objects\oExplodeGun</object>
+    <object>objects\oPistol</object>
+    <object>objects\oShotgun</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

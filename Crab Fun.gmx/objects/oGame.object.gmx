@@ -111,8 +111,8 @@ CameraControl()} else {CameraReset()}
           <argument>
             <kind>1</kind>
             <string>//Bullet Bar
-if instance_exists(oPlayer){
-draw_sprite_ext(sBulletBar, oPlayer.ShotsFiredCount, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
+if instance_exists (oPlayer){
+draw_sprite_ext(sBulletBar, (oPlayer.CurrentWeapon).ShotsFiredCount, oPlayer.x, oPlayer.y, (oPlayer.CurrentWeapon).BulletBarScale, (oPlayer.CurrentWeapon).BulletBarScale, (oPlayer.CurrentWeapon).BulletBarRotation,-1,(oPlayer.CurrentWeapon).BulletBarAlpha);
 }
 </string>
           </argument>

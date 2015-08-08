@@ -28,7 +28,7 @@ if view_hview >= ScreenHeight {
 view_hview = ScreenHeight
 }
 
-    //CLICK CLICK CLICK CLICK ZOOM
+    /*CLICK CLICK CLICK CLICK ZOOM
     if oPlayer.ShotsFiredCount >= 22 and mouse_check_button(mb_left){
     view_wview = ScreenWidth/1.80
     view_hview = ScreenHeight/1.80
