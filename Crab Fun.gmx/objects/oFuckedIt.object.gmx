@@ -28,6 +28,13 @@
             <string>image_xscale = 3
 image_yscale = 8
 image_alpha = 0.01
+
+if x &lt; 1000 { x = 1000}
+if x &gt; room_width-1000 {x = room_width-1000}
+if y &lt; 600 { y = 600}
+if y &gt; room_height-600 {y = room_height-600}
+
+
 audio_play_sound(aGameOver,100,false)
 </string>
           </argument>

@@ -25,30 +25,28 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>MyBulletSpeed = 1000 / room_speed
-MyGunBombSpeed = 1500/room_speed
+            <string>//ADD WEAPON TO ARRAY
+WeaponPickedUp()
 
-    //SHOOTING SETUP
-    CanShoot=true
+//GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
+CanShoot=true
+ShotsFiredCount = 0
+TimeSinceLastShot = 0
+TimeBetweenShots = 1
+TimeSinceMouseReleased = 0
+
+//GENERIC WEAPON SETUP - VARIABLES
+ShotsFiredCountMax = 10
+MyBulletSpeed = 2000 / room_speed
+RateOfFire = 0.2 //---IN SECONDS
+GunShootSFX = aPlayerShoot
+OutOfAmmoSFX = aPlayerShootClick
+
+
+    //WEAPON-SPECIFIC SETUP
+    MyGunBombSpeed = 1500/room_speed
     BombGunTimer=0
     BombGunThrown = false
-    //RATE OF FIRE
-    TimeSinceLastShot = 0
-    TimeBetweenShots = 1
-    
-    //BULLET BAR
-     BulletBarAlpha = 0.05
-     BulletBarScale = 0.2
-     BulletBarRotation = 0.1
-    
-    //TO DO TO DO TO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DO DUPLICATE!!!
-    //STRESS COOLDOWN - NUMBERS USED IN CAMERA SETUP, SORRY
-    ShotsFiredCount = 0
-    ShotsFiredCountMax = 12
-    ShotsFiredCannotShoot = 9
-    ShotsFiredReloadPoint = 6
-    TimeSinceLastShot = 0
-    TimeSinceMouseReleased = 0
 </string>
           </argument>
         </arguments>
@@ -71,92 +69,96 @@ MyGunBombSpeed = 1500/room_speed
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//END IF PLAYER DOESN'T EXIST
-if !instance_exists (Owner){exit}
-
-if instance_exists (Owner){
+            <string>if instance_exists(oPlayer){
 x = Owner.x
 y = Owner.y
 image_angle = Owner.image_angle
-}
 
-//AMMO REPRESENTATION
-//BULLET WHEEL PROPERTIES
-    //SHOOTING
-    if mouse_check_button(mb_left) or  mouse_check_button_pressed(mb_left){
-    BulletBarAlpha += (1 - BulletBarAlpha) *0.1;
-    BulletBarScale += (0.4 - BulletBarScale) *0.05;
-    BulletBarRotation += (1 - BulletBarRotation) *0.2;
-    }
-    //COOLDOWN
-    if !mouse_check_button(mb_left) or mouse_check_button_released(mb_left) {
-    BulletBarAlpha += (0 - BulletBarAlpha) *0.01;
-    BulletBarScale += (0 - BulletBarScale) *0.05;
-    BulletBarRotation += (35 - BulletBarRotation) *0.5;
-    }
-    //MAXMIN VARIABLES
-    if BulletBarAlpha &gt;=1{BulletBarAlpha=1}
-    if BulletBarAlpha &lt;=0.05{BulletBarAlpha=0.05}
-    if BulletBarScale &gt;= 0.4{BulletBarScale=0.4}
-    if BulletBarScale &lt;= 0.2{BulletBarScale=0.2}
-    if BulletBarRotation &gt;= 35{BulletBarRotation = 35}
-    if BulletBarRotation &lt;= 1{BulletBarRotation = 1}
+if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
 
 //SHOOTING THE GUN
-        /*shooting*/
-    //Check Time Since Last Shot
-    TimeSinceLastShot = TimeSinceLastShot +4/room_speed
-    //Check If You Can Shoot &amp; Play Sound etc if TRUE
-    if ShotsFiredCount = ShotsFiredReloadPoint and CanShoot=false {CanShoot=true audio_play_sound(aGunReload,1,0)
-    BulletBarAlpha = BulletBarAlpha + 1
-    }
-        //Timercheck &amp; CANNOT Shoot!
-        if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= TimeBetweenShots and CanShoot=(false){
-        audio_play_sound(aPlayerShootClick,100,false)
-        ShotsFiredCount = ShotsFiredCount + 1
-        TimeSinceMouseReleased = 0
-        TimeSinceLastShot = 0
-        }
-        //TimerCheck &amp; CAN Shoot
-        if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= TimeBetweenShots and CanShoot=(true) {
-        TimeSinceMouseReleased = 0
-        MyBullet = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oBullet)
+//Check Time Since Last Shot
+TimeSinceLastShot = TimeSinceLastShot +1/room_speed
+//Timercheck &amp; CANNOT Shoot!
+if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
+audio_play_sound(OutOfAmmoSFX,100,false)
+ShotsFiredCount = ShotsFiredCount + 1
+TimeSinceMouseReleased = 0
+TimeSinceLastShot = 0
+}
+//TimerCheck &amp; CAN Shoot
+if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
+TimeSinceMouseReleased = 0
+    
+    //PROJECTILE CREATION
+    MyBullet = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oBullet)        
+    audio_play_sound(GunShootSFX,100,false)
+    MyBullet.direction = image_angle
+    MyBullet.speed = MyBulletSpeed
+    MyBullet.image_angle = image_angle
             
-            audio_play_sound(aPlayerShoot,100,false)
-            MyBullet.direction = image_angle
-            MyBullet.speed = MyBulletSpeed
-            MyBullet.image_angle = image_angle
-    //Check Stress Level, then increase stress
-    ShotsFiredCount = ShotsFiredCount + 1
-    //RESET TIMER
-        TimeSinceLastShot = 0
-        }
-    //Shots Fired Hits Max!
-    if ShotsFiredCount &gt; ShotsFiredCannotShoot{
-    CanShoot=false}
-    if ShotsFiredCount &gt; ShotsFiredCountMax{
-    ShotsFiredCount = ShotsFiredCountMax
-    }
+//INCREASE NUMBER OF SHOTS FIRED
+ShotsFiredCount = ShotsFiredCount + 1
+//RESET TIMER
+TimeSinceLastShot = 0
+}
+//Shots Fired Hits Max!
+if ShotsFiredCount &gt;= ShotsFiredCountMax{
+ShotsFiredCount = ShotsFiredCountMax
+CanShoot=false
+}
         
-    //Code to stop people from tapping button!
-     if !mouse_check_button(mb_left){
-     TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
-    }
-
+//Code to stop people from tapping button!
+if !mouse_check_button(mb_left){
+TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
+}
+if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
+    
+    
     //MAXED GUN, THROW TO EXPLODE!
     if mouse_check_button(mb_right) /*and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false*/{
     BombGunTimer = BombGunTimer +1/room_speed
     BombGunThrown = true
+    
     MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
             
-            audio_play_sound(aPlayerShoot,100,false)
-            MyGunBomb.direction = image_angle
-            MyGunBomb.speed = MyGunBombSpeed
+    audio_play_sound(aPlayerShoot,100,false)
+    MyGunBomb.direction = image_angle
+    MyGunBomb.speed = MyGunBombSpeed
     }
     
-    if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
+
+    }}
+    else {}
     
-        
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if instance_exists(oPlayer){
+
+if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
+draw_sprite_ext(sBulletBar, ((ShotsFiredCount/ShotsFiredCountMax)*100)/5, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
+}
+}
 </string>
           </argument>
         </arguments>

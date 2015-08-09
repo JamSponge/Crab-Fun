@@ -60,6 +60,8 @@
     <script>scripts\EnemyHeadBehaviour.gml</script>
     <script>scripts\BodyCollision.gml</script>
     <script>scripts\ThingExplodes.gml</script>
+    <script>scripts\WeaponPickedUp.gml</script>
+    <script>scripts\WeaponSwitching.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -98,7 +100,6 @@
     <object>objects\oExplodeEnemyBody</object>
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
-    <object>objects\oShotgun</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

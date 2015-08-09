@@ -5,8 +5,9 @@
     {
     BodyCollisionTimer = BodyCollisionTimer +1/room_speed
     with (Owner)
-    vspeed = vspeed*-0.5
-    hspeed = hspeed*-0.5
+    speed = speed*1.2
+    vspeed = vspeed*-1
+    hspeed = hspeed*-1
     }
     
      //COOLDOWN PERIOD
@@ -14,6 +15,6 @@
     BodyCollisionTimer = BodyCollisionTimer +1/room_speed
     }
     //COLLISION RESET
-    if  BodyCollisionTimer >0.2{
+    if  BodyCollisionTimer >0.3{
     BodyCollisionTimer = 0
     }

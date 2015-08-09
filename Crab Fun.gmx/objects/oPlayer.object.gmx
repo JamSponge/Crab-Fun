@@ -25,8 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>CurrentWeapon = instance_create(x,y,oPistol)
-CurrentWeapon.Owner = self.id
+            <string>WeaponCount = 0
+WeaponArrayIndex = 0
+
+instance_create(x,y,oPistol)
+
+
+ //BULLET BAR
+     BulletBarAlpha = 0.05
+     BulletBarScale = 0.2
+     BulletBarRotation = 0.1
+
 
 //Movement Speed When Shooting
 //SPEEDS
@@ -79,19 +88,36 @@ if keyboard_check(ord('D')){
 x = x + PlayerSpeed
 }
 
+//WEAPON SWITCHING
+WeaponSwitching()
 
-//SWITCH WEAPON
+//SPAWN SHOTTY - PLACEHOLDER
 
-if keyboard_check(ord('1')){
-with CurrentWeapon instance_destroy()
-CurrentWeapon = instance_create(x,y,oPistol)
-CurrentWeapon.Owner = self.id
-}
 if keyboard_check(ord('2')){
-with CurrentWeapon instance_destroy()
-CurrentWeapon = instance_create(x,y,oShotgun)
-CurrentWeapon.Owner = self.id
+instance_create(x,y,oShotgun)
 }
+
+//BULLET WHEEL STANDARD VISUAL PROPERTIES
+
+    //SHOOTING
+    if mouse_check_button(mb_left) or  mouse_check_button_pressed(mb_left){
+    BulletBarAlpha += (1 - BulletBarAlpha) *0.1;
+    BulletBarScale += (0.4 - BulletBarScale) *0.05;
+    BulletBarRotation += (1 - BulletBarRotation) *0.2;
+    }
+    //COOLDOWN
+    if !mouse_check_button(mb_left) or mouse_check_button_released(mb_left) {
+    BulletBarAlpha += (0 - BulletBarAlpha) *0.01;
+    BulletBarScale += (0 - BulletBarScale) *0.05;
+    BulletBarRotation += (35 - BulletBarRotation) *0.5;
+    }
+    //MAXMIN VARIABLES
+    if BulletBarAlpha &gt;=1{BulletBarAlpha=1}
+    if BulletBarAlpha &lt;=0.05{BulletBarAlpha=0.05}
+    if BulletBarScale &gt;= 0.4{BulletBarScale=0.4}
+    if BulletBarScale &lt;= 0.2{BulletBarScale=0.2}
+    if BulletBarRotation &gt;= 35{BulletBarRotation = 35}
+    if BulletBarRotation &lt;= 1{BulletBarRotation = 1}
 
 //SHOOTING MOVING SPEED
 
