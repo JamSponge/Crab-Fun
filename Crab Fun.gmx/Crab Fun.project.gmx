@@ -43,6 +43,7 @@
     <sprite>sprites\sExplodeGun</sprite>
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sBulletBeam</sprite>
+    <sprite>sprites\sExplosion</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -63,6 +64,7 @@
     <script>scripts\ThingExplodes.gml</script>
     <script>scripts\WeaponPickedUp.gml</script>
     <script>scripts\WeaponSwitching.gml</script>
+    <script>scripts\StandardEnemyHitAndKilled.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -101,6 +103,7 @@
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
     <object>objects\oInvisibleBulletBar</object>
+    <object>objects\oExplosion</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

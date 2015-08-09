@@ -33,6 +33,11 @@ image_xscale = 0.3
 image_yscale = image_xscale 
 
 BodyCollisionTimer = 0
+AttackSource = oPlayer
+
+EnemySplatR = 254
+EnemySplatG = 199
+EnemySplatB = 0
 
 //HEALTH AND CHUNKS ETC
 TotalBits = 3
@@ -73,20 +78,8 @@ image_angle = point_direction (x,y,oCamera.x,oCamera.y)
 
 //COLLISION DETECT
 BodyCollision()
-
-//DESTROY
-if HitByProjectileCheck(){{ 
-with IncomingProjectile {instance_destroy()}
-DamageEnemy()
-}
-if DamageEnemy(){
-EnemyDestroyedSplatter(oSmallBits,oBitsSplat,oBitsSplat2,254,199,0,)
-instance_destroy()
-with (Owner) {
-instance_destroy()
-}
-}
-}
+//FUCK WHO IS SHOOTING ME AM I DYING
+StandardEnemyHitAndKilled()
 
 </string>
           </argument>
