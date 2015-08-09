@@ -32,7 +32,7 @@ Owner = instance_create(x,y,oShardEnemy)
 image_xscale = 0.3
 image_yscale = image_xscale 
 
-BodyCollisionTimer =0
+BodyCollisionTimer = 0
 
 //HEALTH AND CHUNKS ETC
 TotalBits = 3

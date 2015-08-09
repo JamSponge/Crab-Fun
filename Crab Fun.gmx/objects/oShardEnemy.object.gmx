@@ -31,6 +31,11 @@ Body = instance_nearest(x,y,oEnemyBody)
 
 RandomSpeedTweak = random_range(-25,55)
 
+SpeedBurst = 0
+
+//LONG RANGE BASIC PATHFINDING
+TimeForANewPlan = 0
+
 //COLLISION
 CollisionTimer = 0
 

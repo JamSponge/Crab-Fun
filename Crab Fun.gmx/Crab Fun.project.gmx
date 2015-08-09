@@ -94,7 +94,6 @@
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
       <object>objects\oEnemySpawner</object>
-      <object>objects\oEnemyWhole</object>
     </objects>
     <object>objects\oStandardEnemyBody</object>
     <object>objects\oExplodeEnemyBody</object>

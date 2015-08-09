@@ -25,12 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//DESTROY IF NEAR PLAYER
+            <string>//LINK TO BODY!
 Body = instance_nearest(x,y,oEnemyBody)
+
 RandomSpeedTweak = random_range(-25,55)
+SpeedBurst = 0
 
 //SETUP - COLLISION MAINLY, HEALTH ETC IN BODY
 CollisionTimer = 0
+
+//LONG RANGE BASIC PATHFINDING
+TimeForANewPlan = 0
 
 image_xscale = 0.3
 image_yscale = image_xscale
