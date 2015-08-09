@@ -36,11 +36,15 @@ TimeBetweenShots = 1
 TimeSinceMouseReleased = 0
 
 //GENERIC WEAPON SETUP - VARIABLES
-ShotsFiredCountMax = 10
-MyBulletSpeed = 2000 / room_speed
+ShotsFiredCountMax = 1000
+MyBulletSpeed = 3000 / room_speed
 RateOfFire = 0.2 //---IN SECONDS
+//AUDIO
 GunShootSFX = aPlayerShoot
 OutOfAmmoSFX = aPlayerShootClick
+//VISUAL
+MuzzleFlareType = oMuzzleFlare
+BulletType = oInvisibleBulletBar
 
 
     //WEAPON-SPECIFIC SETUP
@@ -91,7 +95,10 @@ if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanSho
 TimeSinceMouseReleased = 0
     
     //PROJECTILE CREATION
-    MyBullet = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oBullet)        
+    //MUZZLE FLASH
+    instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
+    //ACTUAL BULLET
+    MyBullet = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),BulletType)        
     audio_play_sound(GunShootSFX,100,false)
     MyBullet.direction = image_angle
     MyBullet.speed = MyBulletSpeed

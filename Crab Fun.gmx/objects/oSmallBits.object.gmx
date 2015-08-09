@@ -34,6 +34,8 @@ BitOriginY = y
 SplattedYet=false
 SplatVarX = random_range(50,70)
 SplatVarY = random_range(100,150)
+
+image_speed = 0
 </string>
           </argument>
         </arguments>
@@ -81,6 +83,7 @@ SplattedYet=true
 }
 
 DeathFade()
+
 /*SPLATSTRETCH
 SplatterStretch = 0
 SplatterStretchMax = 5

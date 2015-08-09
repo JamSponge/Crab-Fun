@@ -3,7 +3,7 @@
   <spriteName>sExplodeEnemyBody</spriteName>
   <solid>-1</solid>
   <visible>-1</visible>
-  <depth>-200</depth>
+  <depth>-500</depth>
   <persistent>0</persistent>
   <parentName>oEnemyBody</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -80,13 +80,14 @@ with IncomingProjectile {instance_destroy()}
 DamageEnemy()
 }
 if DamageEnemy(){
-EnemyDestroyedSplatter(oSmallBits,oBitsSplat,oBitsSplat2,254,199,0)
+EnemyDestroyedSplatter(oSmallBits,oBitsSplat,oBitsSplat2,254,199,0,)
 instance_destroy()
-with Owner {
+with (Owner) {
 instance_destroy()
 }
 }
 }
+
 </string>
           </argument>
         </arguments>

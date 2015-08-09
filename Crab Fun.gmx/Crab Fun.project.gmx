@@ -42,6 +42,7 @@
     <sprite>sprites\sExplodeEnemyBody</sprite>
     <sprite>sprites\sExplodeGun</sprite>
     <sprite>sprites\sprite18</sprite>
+    <sprite>sprites\sBulletBeam</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -69,7 +70,7 @@
   </fonts>
   <objects name="objects">
     <object>objects\oPlayer</object>
-    <object>objects\oBullet</object>
+    <object>objects\oMuzzleFlare</object>
     <object>objects\oBullet2</object>
     <object>objects\oStandardEnemy</object>
     <object>objects\oShardEnemy</object>
@@ -99,6 +100,7 @@
     <object>objects\oExplodeEnemyBody</object>
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
+    <object>objects\oInvisibleBulletBar</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

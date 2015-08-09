@@ -47,7 +47,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if instance_number (oEnemyBody) &lt;50
+            <string>if instance_number (oEnemyBody) &lt;150
 and instance_exists(oPlayer)
 {{
 var xx,yy,eType;
