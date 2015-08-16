@@ -1,3 +1,5 @@
+//FOR IMPACT OF BULLET ANIMATION, SEE INVISIBLE BULLET BAR STEP
+
 if HitByProjectileCheck()
 {
 AttackSource = oPlayer

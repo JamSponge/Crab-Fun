@@ -47,6 +47,7 @@
     <sprite>sprites\sCrate</sprite>
     <sprite>sprites\sBigCrate</sprite>
     <sprite>sprites\sIceCreamCrate</sprite>
+    <sprite>sprites\sBulletBeamVisible</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -68,6 +69,7 @@
     <script>scripts\WeaponPickedUp.gml</script>
     <script>scripts\WeaponSwitching.gml</script>
     <script>scripts\StandardEnemyHitAndKilled.gml</script>
+    <script>scripts\ProjectileCreation.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -76,6 +78,7 @@
   <objects name="objects">
     <object>objects\oPlayer</object>
     <object>objects\oMuzzleFlare</object>
+    <object>objects\oPistolShotImpact</object>
     <object>objects\oBullet2</object>
     <object>objects\oStandardEnemy</object>
     <object>objects\oShardEnemy</object>
@@ -98,6 +101,7 @@
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
       <object>objects\oEnemySpawner</object>
+      <object>objects\oGlobalSolid</object>
     </objects>
     <object>objects\oStandardEnemyBody</object>
     <object>objects\oExplodeEnemyBody</object>
@@ -108,6 +112,7 @@
     <object>objects\oSmallCrate</object>
     <object>objects\oIceCreamCrate</object>
     <object>objects\oBigCrate</object>
+    <object>objects\oBulletBeam</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

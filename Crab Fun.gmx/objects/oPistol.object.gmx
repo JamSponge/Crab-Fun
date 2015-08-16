@@ -45,6 +45,8 @@ OutOfAmmoSFX = aPlayerShootClick
 //VISUAL
 MuzzleFlareType = oMuzzleFlare
 BulletType = oInvisibleBulletBar
+BulletBeamType = oBulletBeam
+ImpactAnimationType = oPistolShotImpact
 
 
     //WEAPON-SPECIFIC SETUP
@@ -93,15 +95,8 @@ TimeSinceLastShot = 0
 if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
 TimeSinceMouseReleased = 0
     
-    //PROJECTILE CREATION
-    //MUZZLE FLASH
-    instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
-    //ACTUAL BULLET
-    MyBullet = instance_create(x,y,BulletType)        
-    audio_play_sound(GunShootSFX,100,false)
-    MyBullet.direction = image_angle
-    MyBullet.speed = MyBulletSpeed
-    MyBullet.image_angle = image_angle
+//RUN PROJECTILE CREATION SCRIPT
+ProjectileCreation()
             
 //INCREASE NUMBER OF SHOTS FIRED
 ShotsFiredCount = ShotsFiredCount + 1

@@ -27,7 +27,8 @@
             <kind>1</kind>
             <string>Destructable = true
 WeaponDamage = 1
-image_alpha = 0
+image_alpha = 1
+image_xscale = 0.05
 </string>
           </argument>
         </arguments>
@@ -50,10 +51,11 @@ image_alpha = 0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if distance_to_object(oPlayer) &gt; 1500 {instance_destroy()}
+            <string>if place_meeting(x+hspeed,y+vspeed,oSolidObject){
+instance_destroy()
+}
 
-
-if instance_place(x,y,oSolidObject) {instance_destroy()}
+if distance_to_object(oPlayer) &gt; 1500 {instance_destroy()}
 </string>
           </argument>
         </arguments>

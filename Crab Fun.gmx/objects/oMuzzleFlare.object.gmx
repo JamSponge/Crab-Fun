@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>oProjectile</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -53,9 +53,9 @@ image_yscale = 0.5
             <kind>1</kind>
             <string>speed = speed * 1.05
 if image_xscale &gt; 0{
-image_xscale = image_xscale - 0.2}
+image_xscale = image_xscale - 0.5}
 if image_yscale &gt; 0{
-image_yscale = image_yscale - 0.2}
+image_yscale = image_yscale - 0.5}
 else {image_xscale = image_yscale}
 
 if image_xscale = 0 {instance_destroy()}

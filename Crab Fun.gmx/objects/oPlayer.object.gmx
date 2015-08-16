@@ -3,7 +3,7 @@
   <spriteName>sPlayer</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-900</depth>
+  <depth>-450</depth>
   <persistent>0</persistent>
   <parentName>oCamera</parentName>
   <maskName>&lt;undefined&gt;</maskName>
