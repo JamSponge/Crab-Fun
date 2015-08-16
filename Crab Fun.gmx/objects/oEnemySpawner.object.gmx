@@ -48,17 +48,16 @@
           <argument>
             <kind>1</kind>
             <string>if instance_number (oEnemyBody) &lt;50
-and instance_exists(oPlayer)
-{{
-var xx,yy,eType;
-xx = random_range(0,room_width)
-yy = random_range(0,room_height)
-eType = choose (oStandardEnemyBody, oExplodeEnemyBody)
+and instance_exists(oPlayer){
+if choose(true,false){
+SpawnX = random_range(150,room_width-150)
+SpawnY = choose(150, room_height-150)
+} 
+else{
+SpawnX = choose(150, room_width-150)
+SpawnY = random_range(150,room_height-150)
 }
-
-if point_distance (xx,yy,oPlayer.x,oPlayer.y) &gt;600{
-instance_create(xx,yy,eType)
-}
+instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
 }
 
 </string>
