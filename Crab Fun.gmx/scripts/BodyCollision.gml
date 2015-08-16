@@ -1,20 +1,10 @@
-/* COLLISION UH OH  
-    if distance_to_object(oPlayer) <800
-    and instance_place(x,y,oEnemyBody)
-    and BodyCollisionTimer =0
-    {
-    BodyCollisionTimer = BodyCollisionTimer +1/room_speed }
-    with (Owner){
-    vspeed = vspeed*-1
-    hspeed = hspeed*-1
-    }
-    
-    
-     //COOLDOWN PERIOD
-    if BodyCollisionTimer >0{
-    BodyCollisionTimer = BodyCollisionTimer +1/room_speed
-    }
-    //COLLISION RESET
-    if  BodyCollisionTimer >0.2{
-    BodyCollisionTimer = 0
-    }
+//Bounce off objects
+CollisionChecks = 0
+while place_meeting(x + hspeed, y + vspeed, oSolidObject) && CollisionChecks <= 4 {
+Owner.direction = Owner.direction +45
+CollisionChecks = CollisionChecks + 1
+if CollisionChecks = 4 and instance_place(x,y,oSolidObject) {
+x = xprevious
+y = yprevious
+}
+}

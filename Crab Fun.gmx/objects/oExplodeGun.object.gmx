@@ -53,7 +53,7 @@ GunExplodeTimer = 0
           <argument>
             <kind>1</kind>
             <string>//SPINNY GUN
-SpinTime = SpinTime + 1/room_speed
+SpinTime = SpinTime + 0.7/room_speed
 if SpinTime &lt; SpinLength{
   image_angle += (0 - 360) *random_range(0.001,0.1);
   }
@@ -63,7 +63,11 @@ speed += (0 - speed) *0.05;
 //TIMER COUNTDOWN
 GunExplodeTimer = GunExplodeTimer + 1/room_speed
 //BOOM
-if GunExplodeTimer &gt;= 2 {
+if GunExplodeTimer &gt;= 1 {
+//RESET PLAYER GUN FOR SHOOTING
+oPistol.ShotsFiredCount = 0
+oPistol.CanShoot=true
+oPistol.BombGunThrown = false
 ThingExplodes()}
 
 

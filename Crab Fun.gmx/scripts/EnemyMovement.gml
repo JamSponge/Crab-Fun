@@ -46,10 +46,11 @@ SpeedBurst = SpeedBurst + 5
     }
     
     //COLLISION - FAR & MESSY
-    if instance_place (x,y,oEnemy)
-    and distance_to_object(oPlayer) >1300{
+    if distance_to_object(oPlayer) >1300{
+    if instance_place (x,y,oEnemy) or instance_place (x,y,oSolidObject){
     x = random_range (x+100,x-100)
     y = random_range (y+100,y-100)
+    }
     }
 
 //TURN TOWARDS PLAYER - CLOSE RANGE & ACCURATE

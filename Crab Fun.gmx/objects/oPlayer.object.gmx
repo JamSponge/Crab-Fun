@@ -30,6 +30,8 @@ WeaponArrayIndex = 0
 
 instance_create(x,y,oPistol)
 
+Facing = point_direction (x,y,mouse_x,mouse_y)
+
 
  //BULLET BAR
      BulletBarAlpha = 0.05
@@ -42,6 +44,7 @@ instance_create(x,y,oPistol)
     //Movement Speed When Shooting
     ShootingSpeed = 0
     PlayerSpeed = 500 / room_speed - ShootingSpeed
+    Reloading = false
      
     /*TO DO TO DO TO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DO DUPLICATE!!!
     //STRESS COOLDOWN - NUMBERS USED IN CAMERA SETUP, SORRY
@@ -74,18 +77,19 @@ instance_create(x,y,oPistol)
           <argument>
             <kind>1</kind>
             <string>/*movement*/
+speed = 0
 
 if keyboard_check(ord('W')) {
-    y=y-PlayerSpeed
+vspeed = -PlayerSpeed
 }
 if keyboard_check(ord('A')){
-x = x - PlayerSpeed
+hspeed = -PlayerSpeed
 }
 if keyboard_check(ord('S')){
-y = y + PlayerSpeed
+vspeed = PlayerSpeed
 }
 if keyboard_check(ord('D')){
-x = x + PlayerSpeed
+hspeed = PlayerSpeed
 }
 
 //WEAPON SWITCHING
@@ -130,7 +134,7 @@ ShootingSpeed = 0
 
 /*facing*/
 
-image_angle = point_direction(x,y,mouse_x,mouse_y) 
+Facing = point_direction(x,y,mouse_x,mouse_y) 
 
 //AudioPerspective
 audio_listener_position(x,y,0)
@@ -149,12 +153,40 @@ y = y +lengthdir_y(BulletKick,BulletKickDir)
 }
 */
 
+//COLLISION WITH SOLID OBJECT
+if place_meeting(x+hspeed,y+vspeed,oSolidObject) {
+speed = 0}
+
 //EDGE OF ARENA
 if x &lt; 500 { x = 500}
 if y &lt; 500 { y = 500}
 if x &gt; room_width-500 { x = room_width-500}
 if y &gt; room_height-500 { y = room_height-500}
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//DrawSprite Normally but facing player without turning image_angle
+draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,Facing,image_blend,image_alpha)
 </string>
           </argument>
         </arguments>

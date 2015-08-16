@@ -3,9 +3,9 @@
   <spriteName>sExplosion</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>299</depth>
   <persistent>0</persistent>
-  <parentName>self</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,7 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle = image_angle+random_range(-15,15)
+            <string>image_angle = random_range(1,360)
+TimeToDeathFadeZero = 0
+TimeToDeathFade = 5
+
 </string>
           </argument>
         </arguments>
@@ -48,10 +51,24 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//KILL THE PLAYER
-if instance_place(x,y,oPlayer){PlayerDies()}
+            <string>//KILL PLAYER WITHIN RADIUS WHEN FRAME IS CORRECT
 
-if image_index &gt;= 19 {instance_destroy()}
+if image_index &gt; 3 &amp;&amp; image_index &lt;8 {
+if instance_place(x,y,oPlayer){PlayerDies()}
+}
+
+if image_index &gt;= 50 {
+image_speed = 0
+//BAD NAMES, SIMPLE THING - STOPS SCORCH MARK FADING TOO EARLY
+TimeToDeathFadeZero = TimeToDeathFadeZero + 1/room_speed
+if TimeToDeathFadeZero &gt;= TimeToDeathFade{
+DeathFade()
+//BUT keep depth going down, or it'll not be overlapped by splats
+} else {depth = depth+1}
+}
+
+
+
 </string>
           </argument>
         </arguments>

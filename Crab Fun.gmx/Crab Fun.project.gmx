@@ -44,6 +44,7 @@
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sBulletBeam</sprite>
     <sprite>sprites\sExplosion</sprite>
+    <sprite>sprites\sWallObject</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -78,12 +79,9 @@
     <object>objects\oShardEnemy</object>
     <object>objects\oBits</object>
     <objects name="SPLATS">
-      <objects name="Green Splats">
-        <object>objects\oBitsSplat2</object>
-        <object>objects\oBitsSplat</object>
-        <object>objects\oSmallBits</object>
-        <object>objects\GREENSPLATS</object>
-      </objects>
+      <object>objects\oBitsSplat</object>
+      <object>objects\oSmallBits</object>
+      <object>objects\oBitsSplat2</object>
     </objects>
     <objects name="CrossHair">
       <object>objects\oCrossHairPinPoint</object>
@@ -92,6 +90,7 @@
     <object>objects\oFuckedIt</object>
     <objects name="CORE MECHANICS">
       <object>objects\oEnemyBody</object>
+      <object>objects\oSolidObject</object>
       <object>objects\oProjectile</object>
       <object>objects\oEnemy</object>
       <object>objects\oGame</object>
@@ -104,6 +103,7 @@
     <object>objects\oPistol</object>
     <object>objects\oInvisibleBulletBar</object>
     <object>objects\oExplosion</object>
+    <object>objects\oIceCreamCrate</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

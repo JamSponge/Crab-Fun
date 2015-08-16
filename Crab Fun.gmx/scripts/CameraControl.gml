@@ -10,10 +10,11 @@ if mouse_check_button(mb_left){
 ZoomLevel += (ZoomMax - ZoomLevel) *0.01;
 }
 
-//ZOOM OUT - SPEED RELATIVE TO SHOOTING
-if mouse_check_button(mb_right){
+//ZOOM OUT, GUN EXPLODE!
+if instance_exists(oExplodeGun){
 ZoomLevel += (0 - ZoomLevel) *0.1;
 }
+
 //CAM CONTROL PARAMETERS
 if  ZoomLevel >= ZoomMax{
 ZoomLevel = ZoomMax}
