@@ -76,7 +76,7 @@ y = Owner.y
 Facing = point_direction (x,y,oCamera.x,oCamera.y)
 
 //COLLISION DETECT
-BodyCollision()
+EnemyObjectCollision()
 
 //FUCK WHO IS SHOOTING ME
 StandardEnemyHitAndKilled()

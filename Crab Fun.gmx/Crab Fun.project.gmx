@@ -63,7 +63,7 @@
     <script>scripts\EnemyMovement.gml</script>
     <script>scripts\PlayerDies.gml</script>
     <script>scripts\EnemyHeadBehaviour.gml</script>
-    <script>scripts\BodyCollision.gml</script>
+    <script>scripts\EnemyObjectCollision.gml</script>
     <script>scripts\ThingExplodes.gml</script>
     <script>scripts\WeaponPickedUp.gml</script>
     <script>scripts\WeaponSwitching.gml</script>

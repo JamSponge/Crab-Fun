@@ -30,6 +30,9 @@ SpinLength = random_range (0.1,0.5)
 SpinTime = 0
 image_angle = random_range (270,360)
 GunExplodeTimer = 0
+
+//Define Owner for sake of Collision Code!
+Owner = self.id
 </string>
           </argument>
         </arguments>
@@ -71,14 +74,18 @@ oPistol.BombGunThrown = false
 ThingExplodes()}
 
 
-//BOUNCE OFF ENEMIES
-if instance_place(x,y,oEnemyBody) and GunHitEnemy=false{
+//BOUNCE OFF ENEMIES - slight speed bump and random direction bounce for the lols
+while place_meeting(x+hspeed,y+vspeed,oEnemyBody) and GunHitEnemy=false{
 vspeed = vspeed *-1
 hspeed = hspeed *-1
+direction = direction + random_range (-20,20)
 speed = speed*1.2
 //COLLIDED!
 GunHitEnemy=true
 }
+
+//BOUNCE OFF WALLS - no speed bump, consistent bounce direction
+move_bounce_solid(false);
 </string>
           </argument>
         </arguments>

@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>Destructable = true
 WeaponDamage = 1
+image_alpha = 0
 </string>
           </argument>
         </arguments>
@@ -50,6 +51,9 @@ WeaponDamage = 1
           <argument>
             <kind>1</kind>
             <string>if distance_to_object(oPlayer) &gt; 1500 {instance_destroy()}
+
+
+if instance_place(x,y,oSolidObject) {instance_destroy()}
 </string>
           </argument>
         </arguments>
