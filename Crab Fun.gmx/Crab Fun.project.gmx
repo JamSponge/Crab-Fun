@@ -44,10 +44,12 @@
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sBulletBeam</sprite>
     <sprite>sprites\sExplosion</sprite>
-    <sprite>sprites\sWallObject</sprite>
+    <sprite>sprites\sCrate</sprite>
+    <sprite>sprites\sBigCrate</sprite>
+    <sprite>sprites\sIceCreamCrate</sprite>
   </sprites>
   <backgrounds name="background">
-    <background>background\background0</background>
+    <background>background\background1</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -103,7 +105,9 @@
     <object>objects\oPistol</object>
     <object>objects\oInvisibleBulletBar</object>
     <object>objects\oExplosion</object>
+    <object>objects\oSmallCrate</object>
     <object>objects\oIceCreamCrate</object>
+    <object>objects\oBigCrate</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
