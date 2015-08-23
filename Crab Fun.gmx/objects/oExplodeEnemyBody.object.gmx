@@ -27,8 +27,6 @@
             <kind>1</kind>
             <string>//DEFINE LEGS LOL
 
-Owner = instance_create(x,y,oShardEnemy)
-
 image_xscale = 0.3
 image_yscale = image_xscale 
 Facing = point_direction (x,y,oCamera.x,oCamera.y)
@@ -70,12 +68,7 @@ RandomSpeedTweak = random_range(-25,55)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//HELP WHERE ARE MY LEGS
-
-x = Owner.x
-y = Owner.y
-
-Facing = point_direction (x,y,oCamera.x,oCamera.y)
+            <string>Facing = point_direction (x,y,oCamera.x,oCamera.y)
 
 //COLLISION DETECT
 EnemyObjectCollision()

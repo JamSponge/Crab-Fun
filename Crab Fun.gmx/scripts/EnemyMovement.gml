@@ -1,12 +1,14 @@
 //CONTAINS MOVEMENT AND COLLISION
 
-objToTurn = argument0
+enemytomove = argument0
 target = argument1
 turnSpeed = argument2
 accuracy = argument3
 MoveSpeed = argument4
-MoveSpeedFocused = argument5
+
 facingDir = image_angle
+
+
 
 //SPEED BURST - CONSTANTLY DECREASING, TEMP BUFF!
 SpeedBurst += (0 - SpeedBurst) *0.1;
@@ -56,7 +58,7 @@ SpeedBurst = SpeedBurst + 5
 //TURN TOWARDS PLAYER - CLOSE RANGE & ACCURATE
 if distance_to_object(oPlayer) <800 and CollisionTimer = 0{
 speed = ((MoveSpeed+RandomSpeedTweak+EnemySpeedBuff+SpeedBurst)/ room_speed)*1.3
-var targetDir = point_direction(objToTurn.x, objToTurn.y, target.x, target.y);
+var targetDir = point_direction(enemytomove.x, enemytomove.y, target.x, target.y);
 var facingMinusTarget = facingDir - targetDir;
 var angleDiff = facingMinusTarget;
 if(abs(facingMinusTarget) > 180)
@@ -72,11 +74,11 @@ if(abs(facingMinusTarget) > 180)
 }var leastAccurateAim = 20;
 if(angleDiff > leastAccurateAim * accuracy)
 {
-    objToTurn.direction -= turnSpeed * 3;
+    enemytomove.direction -= turnSpeed * 3;
 }
 else if(angleDiff < leastAccurateAim * accuracy)
 {
-    objToTurn.direction += turnSpeed * 3;
+    enemytomove.direction += turnSpeed * 3;
 }
 }
 //COLLISION - NEAR
@@ -103,11 +105,11 @@ if(abs(facingMinusTarget) > 180)
 }var leastAccurateAim = 80;
 if(angleDiff > leastAccurateAim * accuracy)
 {
-    objToTurn.direction -= turnSpeed * 5;
+    enemytomove.direction -= turnSpeed * 5;
 }
 else if(angleDiff < leastAccurateAim * accuracy)
 {
-    objToTurn.direction += turnSpeed * 5;
+    enemytomove.direction += turnSpeed * 5;
 }
 CollisionTimer = CollisionTimer + 1/room_speed
 }

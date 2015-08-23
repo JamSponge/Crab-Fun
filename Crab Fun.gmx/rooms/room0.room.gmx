@@ -54,7 +54,6 @@
     <instance objName="oPlayer" x="2176" y="1504" name="inst_7DFB56DC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oGame" x="160" y="256" name="inst_C16EFC25" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oEnemy" x="96" y="320" name="inst_38774568" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oEnemySpawner" x="32" y="192" name="inst_5120907B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSmallCrate" x="2016" y="2240" name="inst_578C7528" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSmallCrate" x="2720" y="2240" name="inst_DFBD2491" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oSmallCrate" x="2752" y="1952" name="inst_B6855651" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -62,6 +61,7 @@
     <instance objName="oBigCrate" x="3232" y="2112" name="inst_27149C50" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oBigCrate" x="1664" y="2848" name="inst_7BD611D9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="oIceCreamCrate" x="3072" y="1792" name="inst_F1C79104" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oEnemyArrayController" x="320" y="416" name="inst_771F562B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

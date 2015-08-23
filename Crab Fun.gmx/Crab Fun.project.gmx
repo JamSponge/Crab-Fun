@@ -76,6 +76,7 @@
     <script>scripts\StandardEnemyHitAndKilled.gml</script>
     <script>scripts\ProjectileCreation.gml</script>
     <script>scripts\CrateDestroyed.gml</script>
+    <script>scripts\EnemyMovementArray.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -106,8 +107,9 @@
       <object>objects\oEnemy</object>
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
-      <object>objects\oEnemySpawner</object>
       <object>objects\oGlobalSolid</object>
+      <object>objects\object35</object>
+      <object>objects\oEnemyArrayController</object>
     </objects>
     <object>objects\oStandardEnemyBody</object>
     <object>objects\oExplodeEnemyBody</object>
