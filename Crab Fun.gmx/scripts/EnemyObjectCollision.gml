@@ -1,4 +1,4 @@
-//Bounce off objects
+/*Bounce off objects
 CollisionChecks = 0
 while place_meeting(x + hspeed, y + vspeed, oSolidObject) && CollisionChecks <= 4 {
 Owner.direction = Owner.direction +45

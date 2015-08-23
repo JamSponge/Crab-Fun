@@ -63,11 +63,13 @@ if instance_number (oEnemyBody) &lt;50 {
     }
     
     //Choose an enemy type and spawn it, add it to array
+    var i = array_height_2d(EnemyArray); {
     NewEnemy = instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
-    EnemyArray[array_height_2d(oEnemyArrayController.EnemyArray),0] = NewEnemy
-    NewEnemyLegs = instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
-    EnemyArray[array_height_2d(oEnemyArrayController.EnemyArray)-1,1] = NewEnemyLegs
+    EnemyArray[i,0] = NewEnemy
+    NewEnemyLegs = instance_create (SpawnX,SpawnY, oStandardEnemyLegs)
+    EnemyArray[i,1] = NewEnemyLegs
     }
+}
 
 //MOVE EACH ENEMY IN THE ARRAY
 {var i;

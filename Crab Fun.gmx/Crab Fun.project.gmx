@@ -87,7 +87,7 @@
     <object>objects\oMuzzleFlare</object>
     <object>objects\oPistolShotImpact</object>
     <object>objects\oBullet2</object>
-    <object>objects\oStandardEnemy</object>
+    <object>objects\oStandardEnemyLegs</object>
     <object>objects\oShardEnemy</object>
     <object>objects\oBits</object>
     <objects name="SPLATS">
