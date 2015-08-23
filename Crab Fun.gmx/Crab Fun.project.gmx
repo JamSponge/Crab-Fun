@@ -48,6 +48,11 @@
     <sprite>sprites\sBigCrate</sprite>
     <sprite>sprites\sIceCreamCrate</sprite>
     <sprite>sprites\sBulletBeamVisible</sprite>
+    <sprite>sprites\sCrateShrapnelSmall</sprite>
+    <sprite>sprites\sDestroyedCrate</sprite>
+    <sprite>sprites\sCrateShrapnelBig</sprite>
+    <sprite>sprites\sprite25</sprite>
+    <sprite>sprites\sSmokePuff</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -70,6 +75,7 @@
     <script>scripts\WeaponSwitching.gml</script>
     <script>scripts\StandardEnemyHitAndKilled.gml</script>
     <script>scripts\ProjectileCreation.gml</script>
+    <script>scripts\CrateDestroyed.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -108,11 +114,19 @@
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
     <object>objects\oInvisibleBulletBar</object>
-    <object>objects\oExplosion</object>
+    <objects name="EXPLOSIONS ETC">
+      <object>objects\oExplosion</object>
+      <object>objects\oSmokePuff</object>
+    </objects>
     <object>objects\oSmallCrate</object>
     <object>objects\oIceCreamCrate</object>
     <object>objects\oBigCrate</object>
     <object>objects\oBulletBeam</object>
+    <objects name="CRATE SHRAPNEL">
+      <object>objects\oCrateShrapnel1</object>
+      <object>objects\oCrateShrapnelBig</object>
+    </objects>
+    <object>objects\oDestroyedCrate</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
