@@ -25,7 +25,49 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>EnemyArray[0,0] = 0
+            <string>//2D ARRAY WITH ENEMY DATA [0 Number of the Enemy, 0 legs of enemy 1 collision imminent?]
+EnemyArray[0,0] = 0
+
+alarm[0] = room_speed*2
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var i;
+ for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
+    {
+     //Is it actually an enemy? Or just a blank array slot
+     if EnemyArray[i,0] = 0 {}
+     else {
+//Is the body going to hit another enemy? If it is, put it on a LIST.
+         with (EnemyArray[i,1]) if place_meeting (x+hspeed,y+vspeed,oEnemy){
+         //Add enemy to list of collision problems
+         (oEnemyArrayController.EnemyArray[i,2]) = 1
+         } 
+            else {(oEnemyArrayController.EnemyArray[i,2]) = 0}
+         }
+    }
+
+//RESET ALARM         
+alarm[0] = room_speed*0.5
 </string>
           </argument>
         </arguments>
@@ -66,24 +108,93 @@ if instance_number (oEnemyBody) &lt;50 {
     var i = array_height_2d(EnemyArray); {
     NewEnemy = instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
     EnemyArray[i,0] = NewEnemy
+    NewEnemy.EnemyID = i
     NewEnemyLegs = instance_create (SpawnX,SpawnY, oStandardEnemyLegs)
     EnemyArray[i,1] = NewEnemyLegs
+    EnemyArray[i,2] = 0
     }
 }
 
-//MOVE EACH ENEMY IN THE ARRAY
-{var i;
- for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
-    {
-     //Is it actually an enemy? Or just a blank array slot
-     if EnemyArray[i,0] = 0 {}
-     else {
-     //OK, it's an enemy. Make it move.
-     with (EnemyArray[i,0]) {EnemyMovementArray(oEnemyArrayController.EnemyArray[i,0],oEnemyArrayController.EnemyArray[i,1], oPlayer,1,0.3,100,200)}
-     }
+    //MOVE EACH ENEMY IN THE ARRAY
+      //Set up some variables to save CPU!
+                var playerlocx = oPlayer.x
+                var playerlocy = oPlayer.y
+    {var i;
+     for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
+        
+        
+         //Is it actually an enemy? Or just a blank array slot
+         if EnemyArray[i,0] = 0 {}
+             else {
+                                          
+             
+                 //OK, it's an enemy. Make sure your body is where your legs are.
+                {var xx,yy;
+                xx = EnemyArray[i,1].x
+                yy = EnemyArray[i,1].y
+                    with (EnemyArray[i,0]) {
+                    x = xx
+                    y = yy
+                    }
+                }
+                        
+                //Collision Problem list - if so, change angle
+                if EnemyArray[i,2] = 1{
+                     //GIVE CRAB DATA NEEDED FOR EVASION
+                         with (EnemyArray[i,1]) {
+                             //TEMPORARILY MOVE CRAB MILES AWAY TO GET ACCURATE NEAREST DATA
+                             {
+                             var xx = x;
+                             var yy = y;
+                             x = xx + 50000;
+                             y = yy + 50000;            
+                             var EnemyColliding = instance_nearest(xx,yy,oEnemy);
+                             x = xx;
+                             y = yy;
+                             }
+                         enemylocx = EnemyColliding.x;
+                         enemylocy = EnemyColliding.y;
+                         }
+                     //TRIGGER COLLISION HAS OCCURRED
+                     EnemyArray[i,2] = 2
+                }
+                 //CRAB HAS COLLIDED, USE DATA TO EVADE
+                 // (Ax,Ay,Bx,By, turnspeed, accuracy, facingdir, enemy move speed)
+                 
+                if EnemyArray[i,2] = 2 {
+                    with (EnemyArray[i,1]) {
+                          var turnSpeed = 0.6;
+                          var  accuracy = 0.4;
+                          var enemyspeed = 200/room_speed;            
+                    EnemyTurning(enemylocx,enemylocy,x,y,turnSpeed,accuracy,image_angle,enemyspeed)
+                    }
+                }
+                         
+                     
+                  
+                      
+                //Alright, so no collision up ahead - move as normal
+                if EnemyArray[i,2] = 0 {
+                    with (EnemyArray[i,1]) {
+                        var turnSpeed = 1;
+                        var accuracy = 0.3;
+                        var facingDir = image_angle;
+                        var enemyspeed = 300/room_speed;
+                        
+                            //DEFINE SPEED
+                            speed = enemyspeed
+                            
+                            //TURN TOWARDS PLAYER - (Ax,Ay,Bx,By, turnspeed, accuracy, facingdir, enemy move speed)
+                            if distance_to_point(playerlocx,playerlocy) &lt;1000{
+                            
+                            EnemyTurning(x,y,playerlocx,playerlocy,turnSpeed,accuracy,facingDir,enemyspeed)
+                            }
+                    }
+                }   
+            }
+        }
     }
- }
- }
+
 
     //ABANDONED CODE
     /*Check if there's a old slot in the array that can be used
