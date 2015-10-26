@@ -33,6 +33,7 @@ ScreenHeight = display_get_height()
 //AUDIO SETUP
 audio_falloff_set_model (audio_falloff_exponent_distance)
 audio_listener_position(x, y, 0)
+audio_listener_orientation(0,1,0,0,0,1)
 
 
 //SPLAT DEPTH MODIFIER
@@ -98,29 +99,6 @@ if keyboard_check_pressed(ord('R')) {
 //PLAYER CAMERA ACTIVE
 if instance_exists(oPlayer){
 CameraControl()} else {CameraReset()}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>draw_text (oPlayer.x+100,oPlayer.y+100,oGame.SplatDepth)
 </string>
           </argument>
         </arguments>

@@ -1,3 +1,4 @@
+/* OBSOLETE
 //CONTAINS MOVEMENT AND COLLISION
 
 enemytomove = argument0
@@ -28,7 +29,7 @@ if distance_to_object(oPlayer) >1000{
     }
 
 //NO ENEMY IN THE WAY, I'M COMING RIGHT 4 UR TASTY DICK
-if collision_line(x,y,oPlayer.x,oPlayer.y,oEnemy,false,true) =noone{
+if collision_line(xx,yy,oPlayer.x,oPlayer.y,oEnemy,false,true) =noone{
 speed += (TopMoveSpeed - MoveSpeed) * 0.1
 } else
 { speed = MoveSpeed }

@@ -41,6 +41,7 @@
     <sprite>sprites\sEnemyBody</sprite>
     <sprite>sprites\sExplodeEnemyBody</sprite>
     <sprite>sprites\sExplodeGun</sprite>
+    <sprite>sprites\sExplodedGun</sprite>
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sBulletBeam</sprite>
     <sprite>sprites\sExplosion</sprite>
@@ -60,24 +61,26 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\DeathFade.gml</script>
-    <script>scripts\EnemyDestroyedSplatter.gml</script>
     <script>scripts\CameraControl.gml</script>
     <script>scripts\CameraReset.gml</script>
-    <script>scripts\BounceOffWalls.gml</script>
     <script>scripts\HitByProjectileCheck.gml</script>
     <script>scripts\DamageEnemy.gml</script>
     <script>scripts\EnemyMovement.gml</script>
     <script>scripts\PlayerDies.gml</script>
     <script>scripts\EnemyHeadBehaviour.gml</script>
-    <script>scripts\EnemyObjectCollision.gml</script>
     <script>scripts\ThingExplodes.gml</script>
     <script>scripts\WeaponPickedUp.gml</script>
-    <script>scripts\WeaponSwitching.gml</script>
-    <script>scripts\StandardEnemyHitAndKilled.gml</script>
     <script>scripts\ProjectileCreation.gml</script>
     <script>scripts\CrateDestroyed.gml</script>
-    <script>scripts\EnemyMovementArray.gml</script>
     <script>scripts\EnemyTurning.gml</script>
+    <script>scripts\EnemyDestroyedSplatter.gml</script>
+    <scripts name="STANDARD ENEMY SCRIPTS">
+      <script>scripts\EnemyMovementArray.gml</script>
+      <script>scripts\StandardEnemyHitAndKilled.gml</script>
+      <script>scripts\ExplodeEnemyHitAndKilled.gml</script>
+      <script>scripts\BounceOffWalls.gml</script>
+    </scripts>
+    <script>scripts\ShotgunProjectileCreation.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -89,7 +92,7 @@
     <object>objects\oPistolShotImpact</object>
     <object>objects\oBullet2</object>
     <object>objects\oStandardEnemyLegs</object>
-    <object>objects\oShardEnemy</object>
+    <object>objects\oExplodeEnemyLegs</object>
     <object>objects\oBits</object>
     <objects name="SPLATS">
       <object>objects\oBitsSplat</object>
@@ -116,6 +119,7 @@
     <object>objects\oExplodeEnemyBody</object>
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
+    <object>objects\oShotgun</object>
     <object>objects\oInvisibleBulletBar</object>
     <objects name="EXPLOSIONS ETC">
       <object>objects\oExplosion</object>
@@ -130,6 +134,7 @@
       <object>objects\oCrateShrapnelBig</object>
     </objects>
     <object>objects\oDestroyedCrate</object>
+    <object>objects\oExplodeGunRetrieve</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

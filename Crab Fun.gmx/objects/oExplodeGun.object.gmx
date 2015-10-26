@@ -67,10 +67,7 @@ speed += (0 - speed) *0.05;
 GunExplodeTimer = GunExplodeTimer + 1/room_speed
 //BOOM
 if GunExplodeTimer &gt;= 1 {
-//RESET PLAYER GUN FOR SHOOTING
-oPistol.ShotsFiredCount = 0
-oPistol.CanShoot=true
-oPistol.BombGunThrown = false
+instance_create(x,y,oExplodeGunRetrieve)
 ThingExplodes()}
 
 

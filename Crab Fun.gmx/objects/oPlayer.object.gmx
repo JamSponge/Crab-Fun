@@ -25,10 +25,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>WeaponCount = 0
+            <string>gameover=false
+WeaponCount = 0
 WeaponArrayIndex = 0
+PlayerNoGun = false
 
 instance_create(x,y,oPistol)
+instance_create(x,y,oShotgun)
+
+
 
 Facing = point_direction (x,y,mouse_x,mouse_y)
 
@@ -42,18 +47,9 @@ Facing = point_direction (x,y,mouse_x,mouse_y)
 //Movement Speed When Shooting
 //SPEEDS
     //Movement Speed When Shooting
-    ShootingSpeed = 0
-    PlayerSpeed = 500 / room_speed - ShootingSpeed
+    PlayerSpeed = (500 / room_speed)
     Reloading = false
      
-    /*TO DO TO DO TO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DO DUPLICATE!!!
-    //STRESS COOLDOWN - NUMBERS USED IN CAMERA SETUP, SORRY
-    ShotsFiredCount = 0
-    ShotsFiredCountMax = 12
-    ShotsFiredCannotShoot = 9
-    ShotsFiredReloadPoint = 6
-    TimeSinceLastShot = 0
-    TimeSinceMouseReleased = 0
 </string>
           </argument>
         </arguments>
@@ -76,7 +72,13 @@ Facing = point_direction (x,y,mouse_x,mouse_y)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*movement*/
+            <string>if gameover = true {
+speed = 0
+image_alpha=0
+}
+else{
+
+/*movement*/
 speed = 0
 
 if keyboard_check(ord('W')) {
@@ -92,14 +94,6 @@ if keyboard_check(ord('D')){
 hspeed = PlayerSpeed
 }
 
-//WEAPON SWITCHING
-WeaponSwitching()
-
-//SPAWN SHOTTY - PLACEHOLDER
-
-if keyboard_check(ord('2')){
-instance_create(x,y,oShotgun)
-}
 
 //BULLET WHEEL STANDARD VISUAL PROPERTIES
 
@@ -123,14 +117,24 @@ instance_create(x,y,oShotgun)
     if BulletBarRotation &gt;= 35{BulletBarRotation = 35}
     if BulletBarRotation &lt;= 1{BulletBarRotation = 1}
 
-//SHOOTING MOVING SPEED
+//SHOOTING MOVING SPEED - CHECK IF NO GUN
+if PlayerNoGun = true {
+PlayerSpeed = 700 / room_speed
+}
+else {
+PlayerSpeed = 500 / room_speed
+}
+
+//SHOTGUN AVAILABLE
+
+if PlayerNoGun = true and keyboard_check_pressed(ord('space')){
+
+}
 
 if mouse_check_button(mb_left) {
-ShootingSpeed = 250 / room_speed
+PlayerSpeed = PlayerSpeed/2
 }
-if mouse_check_button_released(mb_left) {
-ShootingSpeed = 0
-}
+
 
 /*facing*/
 
@@ -185,7 +189,7 @@ if x &lt; 500 { x = 500}
 if y &lt; 500 { y = 500}
 if x &gt; room_width-500 { x = room_width-500}
 if y &gt; room_height-500 { y = room_height-500}
-
+}
 </string>
           </argument>
         </arguments>

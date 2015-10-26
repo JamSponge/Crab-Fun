@@ -28,7 +28,14 @@
             <string>//2D ARRAY WITH ENEMY DATA [0 Number of the Enemy, 0 legs of enemy 1 collision imminent?]
 EnemyArray[0,0] = 0
 
+EnemyInactivityDistance = 2000
 alarm[0] = room_speed*2
+
+//ENEMY TYPE/QUANTITY SETUP
+
+ExplodeEnemyMax = 10
+
+
 </string>
           </argument>
         </arguments>
@@ -54,15 +61,17 @@ alarm[0] = room_speed*2
             <string>var i;
  for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
     {
-     //Is it actually an enemy? Or just a blank array slot
-     if EnemyArray[i,0] = 0 {}
-     else {
-//Is the body going to hit another enemy? If it is, put it on a LIST.
-         with (EnemyArray[i,1]) if place_meeting (x+hspeed,y+vspeed,oEnemy){
-         //Add enemy to list of collision problems
-         (oEnemyArrayController.EnemyArray[i,2]) = 1
-         } 
-            else {(oEnemyArrayController.EnemyArray[i,2]) = 0}
+         //Is it actually an enemy? Or just a blank array slot
+         if EnemyArray[i,0] = 0{}
+         else {
+                  
+              //Is the body going to hit another enemy? If it is, put it on a LIST.
+             with (EnemyArray[i,1]) if place_meeting (x+hspeed,y+vspeed,oEnemy){
+                 //Add enemy to list of collision problems
+                 (oEnemyArrayController.EnemyArray[i,2]) = 1
+                 } 
+                else {(oEnemyArrayController.EnemyArray[i,2]) = 0}
+           
          }
     }
 
@@ -94,7 +103,9 @@ alarm[0] = room_speed*0.5
 if instance_exists(oPlayer){
 
 //SPAWN ENEMIES
-if instance_number (oEnemyBody) &lt;50 {
+
+//CHECK NUMBER OF FOES, CHOOSE LOCATION TO SPAWN
+if instance_number (oEnemyBody) &lt;30 {
     if choose(true,false){
     SpawnX = random_range(150,room_width-150)
     SpawnY = choose(150, room_height-150)
@@ -104,12 +115,21 @@ if instance_number (oEnemyBody) &lt;50 {
     SpawnY = random_range(150,room_height-150)
     }
     
+//CHOOSE ENEMY TYPE TO SPAWN
+if instance_number (oExplodeEnemyBody) &lt;ExplodeEnemyMax {
+SpawnType = oExplodeEnemyBody
+SpawnTypeLegs = oExplodeEnemyLegs
+} else {
+SpawnType = oStandardEnemyBody
+SpawnTypeLegs = oStandardEnemyLegs
+}
+    
     //Choose an enemy type and spawn it, add it to array
     var i = array_height_2d(EnemyArray); {
-    NewEnemy = instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
+    NewEnemy = instance_create (SpawnX,SpawnY,SpawnType)
     EnemyArray[i,0] = NewEnemy
     NewEnemy.EnemyID = i
-    NewEnemyLegs = instance_create (SpawnX,SpawnY, oStandardEnemyLegs)
+    NewEnemyLegs = instance_create (SpawnX,SpawnY,SpawnTypeLegs)
     EnemyArray[i,1] = NewEnemyLegs
     EnemyArray[i,2] = 0
     }
@@ -125,6 +145,7 @@ if instance_number (oEnemyBody) &lt;50 {
         
          //Is it actually an enemy? Or just a blank array slot
          if EnemyArray[i,0] = 0 {}
+         
              else {
                                           
              
@@ -136,63 +157,80 @@ if instance_number (oEnemyBody) &lt;50 {
                     x = xx
                     y = yy
                     }
+                
+                    //ENEMY FAR AWAY, NO CLEVER STUFF NEEDED
+                    if point_distance (xx,yy,playerlocx,playerlocy) &gt;EnemyInactivityDistance{
+                    EnemyArray[i,2] = 0
+                    }
+                
                 }
-                        
-                //Collision Problem list - if so, change angle
-                if EnemyArray[i,2] = 1{
+              
+                //Collision Problem - check to see if it can make a mad dash?
+                if EnemyArray[i,2] = 1 and collision_line(xx,yy,playerlocx,playerlocy,oEnemy,false,true) =noone{
+                EnemyArray[i,2] = 0
+                    with (EnemyArray[i,1]) { image_angle = point_direction (xx,yy,playerlocx,playerlocy)
+                    }
+                }
+                
+                 //Collision Problem
+                if EnemyArray[i,2] = 1 {
                      //GIVE CRAB DATA NEEDED FOR EVASION
                          with (EnemyArray[i,1]) {
+                         
+                         if collision_line(xx,yy,playerlocx,playerlocy,oEnemy,false,true) =noone
+                       
+                         
+                         
+                         
                              //TEMPORARILY MOVE CRAB MILES AWAY TO GET ACCURATE NEAREST DATA
-                             {
-                             var xx = x;
-                             var yy = y;
+                             
+                             var xx,yy;
+                             xx = x;
+                             yy = y;
                              x = xx + 50000;
                              y = yy + 50000;            
                              var EnemyColliding = instance_nearest(xx,yy,oEnemy);
                              x = xx;
                              y = yy;
-                             }
-                         enemylocx = EnemyColliding.x;
-                         enemylocy = EnemyColliding.y;
-                         }
-                     //TRIGGER COLLISION HAS OCCURRED
-                     EnemyArray[i,2] = 2
-                }
-                 //CRAB HAS COLLIDED, USE DATA TO EVADE
-                 // (Ax,Ay,Bx,By, turnspeed, accuracy, facingdir, enemy move speed)
-                 
-                if EnemyArray[i,2] = 2 {
-                    with (EnemyArray[i,1]) {
-                          var turnSpeed = 0.6;
-                          var  accuracy = 0.4;
-                          var enemyspeed = 200/room_speed;            
-                    EnemyTurning(enemylocx,enemylocy,x,y,turnSpeed,accuracy,image_angle,enemyspeed)
-                    }
-                }
                          
-                     
-                  
-                      
-                //Alright, so no collision up ahead - move as normal
-                if EnemyArray[i,2] = 0 {
-                    with (EnemyArray[i,1]) {
-                        var turnSpeed = 1;
-                        var accuracy = 0.3;
-                        var facingDir = image_angle;
-                        var enemyspeed = 300/room_speed;
-                        
-                            //DEFINE SPEED
+                           enemylocx = EnemyColliding.x;
+                           enemylocy = EnemyColliding.y;
+                             
+                                 var turnSpeed = 1.2;
+                                 var  accuracy = 0.4;
+                                 var enemyspeed = 200/room_speed;            
+                            EnemyTurning(enemylocx,enemylocy,x,y,turnSpeed,accuracy,image_angle,enemyspeed)
                             speed = enemyspeed
+                         }
+                    } else {
+                    //MOVE AS NORMAL
+                      
+                        with (EnemyArray[i,1]) {
+                            var turnSpeed = choose(0.7,0.8,0.9)
+                            var accuracy = 0.2;
+                            var facingDir = image_angle;
+                            var enemyspeed = 300/room_speed;
                             
-                            //TURN TOWARDS PLAYER - (Ax,Ay,Bx,By, turnspeed, accuracy, facingdir, enemy move speed)
-                            if distance_to_point(playerlocx,playerlocy) &lt;1000{
-                            
-                            EnemyTurning(x,y,playerlocx,playerlocy,turnSpeed,accuracy,facingDir,enemyspeed)
+                            if collision_line(x,y,playerlocx,playerlocy,oEnemy,false,true) =noone{
+                            enemyspeed += (enemyspeed - 500/room_speed) *0.01;    
                             }
+                            EnemyTurning(x,y,playerlocx,playerlocy,turnSpeed,accuracy,facingDir,enemyspeed)
+                            speed = enemyspeed
+                        }
                     }
-                }   
-            }
-        }
+                           
+                                          
+                      //OBJECT COLLISION CHECK
+                     with (EnemyArray[i,1]) if place_meeting (x+(hspeed*3),y+(vspeed*3),oSolidObject){
+                     vspeed = vspeed*-1
+                     hspeed = hspeed*-1
+                    speed = 600/room_speed
+                     }
+               }
+                
+                 
+            } //CLOSES OFF ARRAY LOOP
+      
     }
 
 

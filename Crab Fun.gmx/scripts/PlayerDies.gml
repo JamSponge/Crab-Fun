@@ -1,3 +1,2 @@
-/*instance_create (x,y,oFuckedIt)
-instance_deactivate_object(oPlayer)
-instance_destroy()
+instance_create (x,y,oFuckedIt)
+oPlayer.gameover =true

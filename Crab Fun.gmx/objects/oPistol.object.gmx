@@ -74,7 +74,7 @@ ImpactAnimationType = oPistolShotImpact
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if instance_exists(oPlayer){
+            <string>if oPlayer.gameover=false{
 x = Owner.x
 y = Owner.y
 image_angle = Owner.Facing
@@ -119,6 +119,7 @@ if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
     //MAXED GUN, THROW TO EXPLODE!
     if mouse_check_button(mb_right) and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false{
     BombGunThrown = true
+    oPlayer.PlayerNoGun=true
     
     MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
             

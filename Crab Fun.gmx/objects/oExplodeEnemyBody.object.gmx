@@ -27,8 +27,9 @@
             <kind>1</kind>
             <string>//DEFINE LEGS LOL
 
-image_xscale = 0.3
-image_yscale = image_xscale 
+image_xscale = 0.7
+image_yscale = image_xscale
+
 Facing = point_direction (x,y,oCamera.x,oCamera.y)
 
 BodyCollisionTimer = 0
@@ -70,10 +71,8 @@ RandomSpeedTweak = random_range(-25,55)
             <kind>1</kind>
             <string>Facing = point_direction (x,y,oCamera.x,oCamera.y)
 
-//COLLISION DETECT
-EnemyObjectCollision()
 //FUCK WHO IS SHOOTING ME AM I DYING
-StandardEnemyHitAndKilled()
+ExplodeEnemyHitAndKilled()
 
 </string>
           </argument>

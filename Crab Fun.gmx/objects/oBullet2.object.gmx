@@ -27,8 +27,8 @@
             <kind>1</kind>
             <string>Destructable = true
 WeaponDamage = 1
-image_xscale = 0.9
-image_yscale = 0.8
+image_xscale = choose(0.4,0.5,0.6)
+image_yscale = 0.7
 </string>
           </argument>
         </arguments>
@@ -51,11 +51,10 @@ image_yscale = 0.8
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>speed = speed * 1.05
-if image_xscale &gt; 0.2{
-image_xscale = image_xscale - 0.2}
-if image_yscale &gt; 0.2{
-image_yscale = image_yscale - 0.2}
+            <string>if image_xscale &gt; 0.5{
+image_xscale = image_xscale - 0.05}
+if image_yscale &gt; 0.5{
+image_yscale = image_yscale - 0.05}
 else {image_xscale = image_yscale}
 
 </string>

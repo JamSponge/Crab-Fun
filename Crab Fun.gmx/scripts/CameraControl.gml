@@ -7,7 +7,7 @@ view_hview = ScreenHeight-ZoomLevelH
 
 //ZOOM IN WITH SHOOTING
 if mouse_check_button(mb_left){
-ZoomLevel += (ZoomMax - ZoomLevel) *0.01;
+ZoomLevel += (ZoomMax - ZoomLevel) *0.05;
 }
 
 //ZOOM OUT, GUN EXPLODE!
@@ -27,6 +27,11 @@ view_wview = ScreenWidth
 }
 if view_hview >= ScreenHeight {
 view_hview = ScreenHeight
+}
+
+//GAME OVER ZOOM
+if oPlayer.gameover=true{
+ZoomLevel += (ZoomMax - ZoomLevel) *0.01;
 }
 
     /*CLICK CLICK CLICK CLICK ZOOM
