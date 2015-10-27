@@ -7,7 +7,7 @@ view_hview = ScreenHeight-ZoomLevelH
 
 //ZOOM IN WITH SHOOTING
 if mouse_check_button(mb_left){
-ZoomLevel += (ZoomMax - ZoomLevel) *0.05;
+ZoomLevel += (ZoomMax - ZoomLevel) *0.02;
 }
 
 //ZOOM OUT, GUN EXPLODE!

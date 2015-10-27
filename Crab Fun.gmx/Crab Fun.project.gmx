@@ -54,6 +54,7 @@
     <sprite>sprites\sCrateShrapnelBig</sprite>
     <sprite>sprites\sprite25</sprite>
     <sprite>sprites\sSmokePuff</sprite>
+    <sprite>sprites\sEnemyBodyDead</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -79,6 +80,7 @@
       <script>scripts\StandardEnemyHitAndKilled.gml</script>
       <script>scripts\ExplodeEnemyHitAndKilled.gml</script>
       <script>scripts\BounceOffWalls.gml</script>
+      <script>scripts\EnemySpinAwayAndDie.gml</script>
     </scripts>
     <script>scripts\ShotgunProjectileCreation.gml</script>
   </scripts>
@@ -91,8 +93,6 @@
     <object>objects\oMuzzleFlare</object>
     <object>objects\oPistolShotImpact</object>
     <object>objects\oBullet2</object>
-    <object>objects\oStandardEnemyLegs</object>
-    <object>objects\oExplodeEnemyLegs</object>
     <object>objects\oBits</object>
     <objects name="SPLATS">
       <object>objects\oBitsSplat</object>
@@ -112,11 +112,8 @@
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
       <object>objects\oGlobalSolid</object>
-      <object>objects\object35</object>
       <object>objects\oEnemyArrayController</object>
     </objects>
-    <object>objects\oStandardEnemyBody</object>
-    <object>objects\oExplodeEnemyBody</object>
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
     <object>objects\oShotgun</object>
@@ -135,6 +132,13 @@
     </objects>
     <object>objects\oDestroyedCrate</object>
     <object>objects\oExplodeGunRetrieve</object>
+    <objects name="Enemies">
+      <object>objects\oStandardEnemyBody</object>
+      <object>objects\oExplodeEnemyLegs</object>
+      <object>objects\oStandardEnemyLegs</object>
+      <object>objects\oExplodeEnemyBody</object>
+      <object>objects\oStandardDeadEnemy</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

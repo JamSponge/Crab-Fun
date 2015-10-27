@@ -120,6 +120,7 @@ if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
     if mouse_check_button(mb_right) and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false{
     BombGunThrown = true
     oPlayer.PlayerNoGun=true
+    oPlayer.WeaponArrayIndex ++
     
     MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
             

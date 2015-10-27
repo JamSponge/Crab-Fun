@@ -55,6 +55,8 @@ oPistol.ShotsFiredCount = 0
 oPistol.CanShoot=true
 oPistol.BombGunThrown = false
 oPlayer.PlayerNoGun=false
+oPlayer.WeaponArrayIndex --
+
 audio_play_sound(aGunReload,100,false)
 instance_destroy()
 }
