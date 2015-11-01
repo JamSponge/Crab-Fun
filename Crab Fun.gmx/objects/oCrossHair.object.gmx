@@ -57,10 +57,10 @@ LaserDistance = distance_to_point(oPlayer.x,oPlayer.y)} else LaserDistance = 100
 if LaserDistance &gt; 1000{LaserDistance = 1000}
 if LaserDistance &lt; 100{LaserDistance = 100}
 
-image_alpha =1-(LaserDistance/10000)*10
+image_alpha =1+(LaserDistance/10000)*10
 if image_alpha &lt; 0.3{image_alpha =0.3}
 
-image_xscale =CrossHairScale-(LaserDistance/10000)*10
+image_xscale =CrossHairScale+(LaserDistance/10000)*10
 if image_xscale &lt;= 0.2{image_xscale=0.2}
 
 image_yscale = image_xscale

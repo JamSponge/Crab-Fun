@@ -3,7 +3,7 @@
   <spriteName>sExplosion</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>299</depth>
+  <depth>300</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -27,11 +27,14 @@
             <kind>1</kind>
             <string>image_angle = random_range(1,360)
 TimeToDeathFadeZero = 0
-TimeToDeathFade = 5
+TimeToDeathFade = 1
 
+audio_play_sound_at(aExplode,x,y,0,100,1200,1,false,1)
 
 with (oCamera) {bigscreenshake = true
+bonusscreenshake = bonusscreenshake + 1
 alarm[0]=600/room_speed
+alarm[1]=room_speed*1.5
 }
 
 </string>
@@ -57,14 +60,45 @@ alarm[0]=600/room_speed
           <argument>
             <kind>1</kind>
             <string>
-//KILL PLAYER WITHIN RADIUS WHEN FRAME IS CORRECT
+//IS IT ACTUALLY AN EXPLOSION?
+if image_index &gt; 1 &amp;&amp; image_index &lt;8 
+    {
+    //KILL PLAYER WITHIN RADIUS WHEN FRAME IS CORRECT
+    if instance_place(x,y,oPlayer)
+        {
+        //I AM THE MURDERER, YOUR HONOUR.
+        oCamera.KillerTracker = self
+        //KILL THE PLAYER WITH A SPLAT LOL
+        with (oPlayer)
+            {
+            var HelloIAmTheExplosion;
+            HelloIAmTheExplosion = instance_nearest(x,y,oExplosion)
+            EnemyDestroyedSplatter(oPlayerSmallBits,oPlayerSplat,oPlayerSplat,196,0,0,HelloIAmTheExplosion)
+            }
+        PlayerDies()
+        }
+    
 
-if image_index &gt; 3 &amp;&amp; image_index &lt;8 {
-if instance_place(x,y,oPlayer){PlayerDies()}
+    //DESTROY CRATES LIKE A FUCKING BOSS
+    if instance_place (x,y,oCrate)
+    {
+    CrateToBlowUp = instance_nearest (x,y,oCrate)
+    if CrateToBlowUp.image_index = 0 
+        {
+        with (CrateToBlowUp)
+            {
+            CrateDestroyed(CrateColour,CrateScale)
+            }
+        }
+    }
 }
 
-if image_index &gt;= 50 {
+    
+    
+    
+if image_index &gt;= image_number-1 {
 image_speed = 0
+
 //BAD NAMES, SIMPLE THING - STOPS SCORCH MARK FADING TOO EARLY
 TimeToDeathFadeZero = TimeToDeathFadeZero + 1/room_speed
 if TimeToDeathFadeZero &gt;= TimeToDeathFade{

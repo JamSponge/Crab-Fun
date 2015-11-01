@@ -99,13 +99,9 @@ alarm[0] = room_speed*0.5
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//TESTING ARRAYS LIKE A BOSSSSSSS
-if instance_exists(oPlayer){
-
-//SPAWN ENEMIES
-
+            <string>//SPAWN ENEMIES
 //CHECK NUMBER OF FOES, CHOOSE LOCATION TO SPAWN
-if instance_number (oEnemyBody) &lt;30 {
+if instance_exists(oPlayer) and instance_number (oEnemyBody) &lt;30 {
     if choose(true,false){
     SpawnX = random_range(150,room_width-150)
     SpawnY = choose(150, room_height-150)
@@ -119,9 +115,13 @@ if instance_number (oEnemyBody) &lt;30 {
 if instance_number (oExplodeEnemyBody) &lt;ExplodeEnemyMax {
 SpawnType = oExplodeEnemyBody
 SpawnTypeLegs = oExplodeEnemyLegs
+SpawnTypeDeathAnim =oExplodeEnemyDead
+EnemyDeathSpeed = room_speed
 } else {
 SpawnType = oStandardEnemyBody
 SpawnTypeLegs = oStandardEnemyLegs
+SpawnTypeDeathAnim =oStandardEnemyDead
+EnemyDeathSpeed = room_speed*2
 }
     
     //Choose an enemy type and spawn it, add it to array
@@ -129,16 +129,22 @@ SpawnTypeLegs = oStandardEnemyLegs
     NewEnemy = instance_create (SpawnX,SpawnY,SpawnType)
     EnemyArray[i,0] = NewEnemy
     NewEnemy.EnemyID = i
+    NewEnemy.YesEnemyIsDead = false
     NewEnemyLegs = instance_create (SpawnX,SpawnY,SpawnTypeLegs)
     EnemyArray[i,1] = NewEnemyLegs
     EnemyArray[i,2] = 0
+    EnemyArray[i,3] = SpawnTypeDeathAnim
+    EnemyArray[i,4] = EnemyDeathSpeed
     }
 }
 
+//NO SPAWN, BUT THEY CAN STILL MOVE
+else if instance_exists(oCamera){
+
     //MOVE EACH ENEMY IN THE ARRAY
       //Set up some variables to save CPU!
-                var playerlocx = oPlayer.x
-                var playerlocy = oPlayer.y
+                var playerlocx = oCamera.x
+                var playerlocy = oCamera.y
     {var i;
      for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
         

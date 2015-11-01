@@ -37,14 +37,20 @@ TimeSinceMouseReleased = 0
 
 //GENERIC WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 10
-MyBulletSpeed = 4000 / room_speed
+MyBulletSpeed = 3500 / room_speed
 RateOfFire = 0.2 //---IN SECONDS
 //AUDIO
-GunShootSFX = aPlayerShoot
+GunShootSFX = choose (sPistol1,sPistol2,sPistol3,sPistol4) //ALSO IN ProjectileCreation SCRIPT
+GunShootSFXLow3 = sPistolLow0
+GunShootSFXLow2 = sPistolLow1
+GunShootSFXLow1 = sPistolLow2
 OutOfAmmoSFX = aPlayerShootClick
+
+
+
 //VISUAL
 MuzzleFlareType = oMuzzleFlare
-BulletType = oInvisibleBulletBar
+BulletType = oBullet2
 BulletBeamType = oBulletBeam
 ImpactAnimationType = oPistolShotImpact
 
@@ -74,63 +80,66 @@ ImpactAnimationType = oPistolShotImpact
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if oPlayer.gameover=false{
-x = Owner.x
-y = Owner.y
-image_angle = Owner.Facing
-
-if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
-
-//SHOOTING THE GUN
-//Check Time Since Last Shot
-TimeSinceLastShot = TimeSinceLastShot +1/room_speed
-//Timercheck &amp; CANNOT Shoot!
-if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
-audio_play_sound(OutOfAmmoSFX,100,false)
-ShotsFiredCount = ShotsFiredCount + 1
-TimeSinceMouseReleased = 0
-TimeSinceLastShot = 0
-}
-//TimerCheck &amp; CAN Shoot
-if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
-TimeSinceMouseReleased = 0
+            <string>if instance_exists (oPlayer)
+    {
     
-//RUN PROJECTILE CREATION SCRIPT
-ProjectileCreation()
-            
-//INCREASE NUMBER OF SHOTS FIRED
-ShotsFiredCount = ShotsFiredCount + 1
-//RESET TIMER
-TimeSinceLastShot = 0
-}
-//Shots Fired Hits Max!
-if ShotsFiredCount &gt;= ShotsFiredCountMax{
-ShotsFiredCount = ShotsFiredCountMax
-CanShoot=false
-}
-        
-//Code to stop people from tapping button!
-if !mouse_check_button(mb_left){
-TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
-}
-if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
+    x = Owner.x
+    y = Owner.y
+    image_angle = Owner.Facing
     
+    if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
     
-    //MAXED GUN, THROW TO EXPLODE!
-    if mouse_check_button(mb_right) and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false{
-    BombGunThrown = true
-    oPlayer.PlayerNoGun=true
-    oPlayer.WeaponArrayIndex ++
-    
-    MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
-            
-    audio_play_sound(aPlayerShoot,100,false)
-    MyGunBomb.direction = image_angle
-    MyGunBomb.speed = MyGunBombSpeed
+    //SHOOTING THE GUN
+    //Check Time Since Last Shot
+    TimeSinceLastShot = TimeSinceLastShot +1/room_speed
+    //Timercheck &amp; CANNOT Shoot!
+    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
+    audio_play_sound(OutOfAmmoSFX,100,false)
+    ShotsFiredCount = ShotsFiredCount + 1
+    TimeSinceMouseReleased = 0
+    TimeSinceLastShot = 0
     }
+    //TimerCheck &amp; CAN Shoot
+    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
+    TimeSinceMouseReleased = 0
+        
+    //RUN PROJECTILE CREATION SCRIPT
+    ProjectileCreation()
+                
+    //INCREASE NUMBER OF SHOTS FIRED
+    ShotsFiredCount = ShotsFiredCount + 1
+    //RESET TIMER
+    TimeSinceLastShot = 0
+    }
+    //Shots Fired Hits Max!
+    if ShotsFiredCount &gt;= ShotsFiredCountMax{
+    ShotsFiredCount = ShotsFiredCountMax
+    CanShoot=false
+    }
+            
+    //Code to stop people from tapping button!
+    if !mouse_check_button(mb_left){
+    TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
+    }
+    if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
+        
+        
+        //MAXED GUN, THROW TO EXPLODE!
+        if mouse_check_button(mb_right) and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false{
+        BombGunThrown = true
+        ShotsFiredCount = 0
+        CanShoot = true
+        
+        MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
+                
+        audio_play_sound(aPlayerShoot,100,false)
+        MyGunBomb.direction = image_angle
+        MyGunBomb.speed = MyGunBombSpeed
+        }
+        
     
-
-    }}
+        }
+    }
     else {}
     
 </string>

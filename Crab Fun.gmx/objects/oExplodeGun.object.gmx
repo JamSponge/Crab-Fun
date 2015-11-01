@@ -67,7 +67,7 @@ speed += (0 - speed) *0.05;
 GunExplodeTimer = GunExplodeTimer + 1/room_speed
 //BOOM
 if GunExplodeTimer &gt;= 1 {
-instance_create(x,y,oExplodeGunRetrieve)
+oPistol.BombGunThrown = false
 ThingExplodes()}
 
 

@@ -25,11 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>window_set_fullscreen(false)
-
-ScreenWidth = display_get_width()
-ScreenHeight = display_get_height()
-
+            <string>
 //AUDIO SETUP
 audio_falloff_set_model (audio_falloff_exponent_distance)
 audio_listener_position(x, y, 0)
@@ -39,25 +35,10 @@ audio_listener_orientation(0,1,0,0,0,1)
 //SPLAT DEPTH MODIFIER
 SplatDepth = 800
 
-//Camera Setup
-ZoomLevel = 0
-ZoomMax=400
-
-/* how much of the room do we want on-screen?*/
-view_wview = ScreenWidth
-view_hview = ScreenHeight
-
-/* how much of the screen do we want to take up?*/
-view_wport = ScreenWidth
-view_hport = ScreenHeight
-
 //Crosshair Load
 window_set_cursor(cr_none)
 instance_create (mouse_x, mouse_y, oCrossHair)
 instance_create (mouse_x, mouse_y, oCrossHairPinPoint)
-
-//Weird Bullshit
-surface_resize(application_surface,ScreenWidth,ScreenHeight)
 
 
 
@@ -96,9 +77,6 @@ if keyboard_check_pressed(ord('R')) {
     game_restart()
     }
     
-//PLAYER CAMERA ACTIVE
-if instance_exists(oPlayer){
-CameraControl()} else {CameraReset()}
 </string>
           </argument>
         </arguments>

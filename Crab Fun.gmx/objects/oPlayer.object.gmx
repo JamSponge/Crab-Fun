@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-450</depth>
   <persistent>0</persistent>
-  <parentName>self</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -30,8 +30,10 @@ WeaponCount = 0
 WeaponArrayIndex = 0
 PlayerNoGun = false
 
-//Camera
+//Camera &amp; HUD
 instance_create(x,y,oCamera)
+instance_create(x,y,oHUD)
+
 instance_create(x,y,oPistol)
 instance_create(x,y,oShotgun)
 
@@ -51,6 +53,11 @@ Facing = point_direction (x,y,mouse_x,mouse_y)
     //Movement Speed When Shooting
     PlayerSpeed = (500 / room_speed)
     Reloading = false
+    
+//HEALTH AND CHUNKS ETC
+TotalBits = 4
+BitsCreated = 0
+ExtraSplatChance = random_range(1,10)
      
 </string>
           </argument>
@@ -144,6 +151,9 @@ audio_listener_position(x,y,0)
 //DEATH
 
 if instance_place (x,y,oEnemy){
+EnemyThatKilledYou = instance_nearest(x,y,oEnemy)
+EnemyDestroyedSplatter(oPlayerSmallBits,oPlayerSplat,oPlayerSplat,196,0,0,EnemyThatKilledYou)
+oCamera.KillerTracker = EnemyThatKilledYou
 PlayerDies()
 }
 

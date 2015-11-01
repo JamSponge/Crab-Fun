@@ -3,7 +3,7 @@
   <spriteName>sDestroyedCrate</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>300</depth>
+  <depth>299</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>

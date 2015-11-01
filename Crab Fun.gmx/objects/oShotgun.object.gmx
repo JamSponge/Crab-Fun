@@ -74,7 +74,8 @@ ImpactAnimationType = oPistolShotImpact
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if oPlayer.gameover=false{
+            <string>if instance_exists(oPlayer)
+{
 x = Owner.x
 y = Owner.y
 image_angle = Owner.Facing
