@@ -29,6 +29,7 @@
 image_index = 0
 CrateColour = make_colour_rgb (173,188,237)
 CrateScale = 1
+CrateContains = 1 //CONES
 </string>
           </argument>
         </arguments>

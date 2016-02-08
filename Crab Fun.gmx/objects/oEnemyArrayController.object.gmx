@@ -33,9 +33,6 @@ alarm[0] = room_speed*2
 
 //ENEMY TYPE/QUANTITY SETUP
 
-ExplodeEnemyMax = 10
-
-
 </string>
           </argument>
         </arguments>
@@ -110,42 +107,28 @@ if instance_exists(oPlayer) and instance_number (oEnemyBody) &lt;30 {
     SpawnX = choose(150, room_width-150)
     SpawnY = random_range(150,room_height-150)
     }
-    
-//CHOOSE ENEMY TYPE TO SPAWN
-if instance_number (oExplodeEnemyBody) &lt;ExplodeEnemyMax {
+
+    //CHOOSE ENEMY TYPE TO SPAWN
+/* PRE-ICECREAM LEGACY CODE if instance_number (oExplodeEnemyBody) &lt;ExplodeEnemyMax {
 SpawnType = oExplodeEnemyBody
 SpawnTypeLegs = oExplodeEnemyLegs
 SpawnTypeDeathAnim =oExplodeEnemyDead
-EnemyDeathSpeed = room_speed
-} else {
-SpawnType = oStandardEnemyBody
-SpawnTypeLegs = oStandardEnemyLegs
-SpawnTypeDeathAnim =oStandardEnemyDead
-EnemyDeathSpeed = room_speed*2
-}
-    
-    //Choose an enemy type and spawn it, add it to array
-    var i = array_height_2d(EnemyArray); {
-    NewEnemy = instance_create (SpawnX,SpawnY,SpawnType)
-    EnemyArray[i,0] = NewEnemy
-    NewEnemy.EnemyID = i
-    NewEnemy.YesEnemyIsDead = false
-    NewEnemyLegs = instance_create (SpawnX,SpawnY,SpawnTypeLegs)
-    EnemyArray[i,1] = NewEnemyLegs
-    EnemyArray[i,2] = 0
-    EnemyArray[i,3] = SpawnTypeDeathAnim
-    EnemyArray[i,4] = EnemyDeathSpeed
-    }
+EnemyDeathSpeed = room_speed*/
+
+SpawnAnEnemy(1,SpawnX,SpawnY,90)
+
 }
 
 //NO SPAWN, BUT THEY CAN STILL MOVE
-else if instance_exists(oCamera){
+if instance_exists(oCamera){
 
     //MOVE EACH ENEMY IN THE ARRAY
       //Set up some variables to save CPU!
-                var playerlocx = oCamera.x
-                var playerlocy = oCamera.y
-    {var i;
+                var TargetX = oCamera.x
+                var TargetY = oCamera.y
+                var PlayerX = TargetX
+                var PlayerY = TargetY
+    var i;
      for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
         
         
@@ -156,37 +139,30 @@ else if instance_exists(oCamera){
                                           
              
                  //OK, it's an enemy. Make sure your body is where your legs are.
-                {var xx,yy;
-                xx = EnemyArray[i,1].x
-                yy = EnemyArray[i,1].y
+                var CurrentX,CurrentY;
+               CurrentX = EnemyArray[i,1].x
+               CurrentY = EnemyArray[i,1].y
                     with (EnemyArray[i,0]) {
-                    x = xx
-                    y = yy
+                    x = CurrentX
+                    y = CurrentY
                     }
-                
-                    //ENEMY FAR AWAY, NO CLEVER STUFF NEEDED
-                    if point_distance (xx,yy,playerlocx,playerlocy) &gt;EnemyInactivityDistance{
+                    
+//SEE HOW MANY CRABS CAN SKIP COLLISION CHECKS THIS TIME
+
+                //ENEMY FAR AWAY, NO CLEVER STUFF NEEDED
+                    if point_distance (CurrentX,CurrentY,TargetX,TargetY) &gt;EnemyInactivityDistance{
                     EnemyArray[i,2] = 0
                     }
                 
-                }
-              
-                //Collision Problem - check to see if it can make a mad dash?
-                if EnemyArray[i,2] = 1 and collision_line(xx,yy,playerlocx,playerlocy,oEnemy,false,true) =noone{
-                EnemyArray[i,2] = 0
-                    with (EnemyArray[i,1]) { image_angle = point_direction (xx,yy,playerlocx,playerlocy)
-                    }
-                }
-                
-                 //Collision Problem
+//THESE CRABS GOT PROBLEMS, YO!                
                 if EnemyArray[i,2] = 1 {
+                
+                var turnSpeed = EnemyArray[i,1].EnemyTurnSpeed*0.7
+                var accuracy = EnemyArray[i,1].EnemyAccuracy*2
+                var enemyspeed = EnemyArray[i,1].EnemySpeed*1.2      
+                
                      //GIVE CRAB DATA NEEDED FOR EVASION
                          with (EnemyArray[i,1]) {
-                         
-                         if collision_line(xx,yy,playerlocx,playerlocy,oEnemy,false,true) =noone
-                       
-                         
-                         
                          
                              //TEMPORARILY MOVE CRAB MILES AWAY TO GET ACCURATE NEAREST DATA
                              
@@ -198,46 +174,112 @@ else if instance_exists(oCamera){
                              var EnemyColliding = instance_nearest(xx,yy,oEnemy);
                              x = xx;
                              y = yy;
+                         }  
+                           //USE OTHER CRAB AS Current POINT, RATHER THAN YOURSELF
+                           var CurrentX,CurrentY,TargetX,TargetY, ActualX,ActualY;
+                           CurrentX = EnemyColliding.x;
+                           CurrentY = EnemyColliding.y;
+                           TargetX = xx
+                           TargetY = yy
+                           ActualX = xx
+                           ActualY = yy     
                          
-                           enemylocx = EnemyColliding.x;
-                           enemylocy = EnemyColliding.y;
-                             
-                                 var turnSpeed = 1.2;
-                                 var  accuracy = 0.4;
-                                 var enemyspeed = 200/room_speed;            
-                            EnemyTurning(enemylocx,enemylocy,x,y,turnSpeed,accuracy,image_angle,enemyspeed)
-                            speed = enemyspeed
-                         }
                     } else {
-                    //MOVE AS NORMAL
-                      
+                    //MOVE AS NORMAL - TOWARDS PLAYER, OR MAYBE AN ICECREAM
+                        
+                    var turnSpeed = EnemyArray[i,1].EnemyTurnSpeed
+                    var accuracy = EnemyArray[i,1].EnemyAccuracy
+                    var enemyspeed = EnemyArray[i,1].EnemySpeed   
+                    
+                       
                         with (EnemyArray[i,1]) {
-                            var turnSpeed = choose(0.7,0.8,0.9)
-                            var accuracy = 0.2;
-                            var facingDir = image_angle;
-                            var enemyspeed = 300/room_speed;
+                            var facingDir,CurrentX,CurrentY,ActualX,ActualY;
+                            facingDir = image_angle; 
+                            CurrentX = x
+                            CurrentY = y
+                            ActualX = x
+                            ActualY = y  
                             
-                            if collision_line(x,y,playerlocx,playerlocy,oEnemy,false,true) =noone{
-                            enemyspeed += (enemyspeed - 500/room_speed) *0.01;    
-                            }
-                            EnemyTurning(x,y,playerlocx,playerlocy,turnSpeed,accuracy,facingDir,enemyspeed)
-                            speed = enemyspeed
+                            
+                                //WHOA FUCK THAT GUY I SAW AN ICECREAM
+                                if IceCreamValue = 0 and distance_to_object (oDeadIceCreamCone) &lt;= 200 {
+                                var NearestIceCreamCone = instance_nearest (x,y,oDeadIceCreamCone)
+                                var TargetX = NearestIceCreamCone.x
+                                var TargetY = NearestIceCreamCone.y
+                                }
+                            }           
                         }
-                    }
-                           
-                                          
-                      //OBJECT COLLISION CHECK
-                     with (EnemyArray[i,1]) if place_meeting (x+(hspeed*3),y+(vspeed*3),oSolidObject){
-                     vspeed = vspeed*-1
-                     hspeed = hspeed*-1
-                    speed = 600/room_speed
-                     }
-               }
+            
+            //THERE'S A CLEAR LINE TO THE PLAYER MATE, GUN IT.
+            if collision_line(ActualX,ActualY,PlayerX,PlayerY,oEnemy,false,true) =noone { //THIS USES A BUNCH OF WEIRD SHIT DUE TO REVERSAL OF POSITIONS FOR COLLISION, SORRY
+            var enemyspeed = EnemyArray[i,1].EnemySpeed*1.3
+            var turnSpeed = EnemyArray[i,1].EnemyTurnSpeed*3
+            var accuracy = EnemyArray[i,1].EnemyAccuracy*5
+            
+            //RESET SETTINGS TO NORMAL CRAB MODE, POINT TOWARDS THE PLAYER!
+            CurrentX = ActualX
+            CurrentY = ActualY
+            TargetX = PlayerX 
+            TargetY = PlayerY
+            }
                 
-                 
-            } //CLOSES OFF ARRAY LOOP
-      
-    }
+                //OBJECT COLLISION CHECK
+                with (EnemyArray[i,1]) if place_meeting (x+(hspeed*3),y+(vspeed*3),oSolidObject){
+                vspeed = vspeed*-1
+                hspeed = hspeed*-1
+                direction = direction + choose (-35,-20,0,20,35)
+                
+                var turnSpeed = EnemyTurnSpeed*0.3
+                var accuracy = EnemyAccuracy*0.5
+                }
+                         
+
+                
+            
+            //CARRY OUT ACTUAL ANGLE AND SPEED
+            with (EnemyArray[i,1]) {
+            EnemyTurning(CurrentX,CurrentY,TargetX,TargetY,turnSpeed,accuracy,image_angle)
+            speed = enemyspeed
+            }                              
+
+           
+
+//ENEMY DIES BUT **IS NOT A KILL** !!!
+            
+//EATING AN ICECREAM
+//POWER-UP ANIMATION TO REPLACE PREVIOUS CRAB
+                                    with (EnemyArray[i,1]) if instance_place(x,y,oDeadIceCreamCone){                                                               
+                                    var SpawnX = x
+                                    var SpawnY = y
+                                    
+                                    {
+                                    RedToBlueCrab = instance_create (SpawnX,SpawnY,oRedToBlueCrab)
+                                    RedToBlueCrab.image_angle = facingDir
+                                    }                                                               
+
+//CLEAN UP THE DEBRIS &amp; WIPE ARRAY DATA
+    
+                                      //DESTROY THE LEGS 
+                                       instance_destroy()  
+                                      //DESTROY THE BODY
+                                       with (oEnemyArrayController.EnemyArray[i,0]) {instance_destroy()}   
+                                      //WIPE PREVIOUS ENEMY DATA
+                                       with oEnemyArrayController {
+                                       
+                                       var ii;
+                                        for (ii = 0; ii &lt; array_length_2d(EnemyArray, i); ii += 1) //Loop Through Full Array
+                                        EnemyArray[i,ii] = 0
+                                        }                                       
+                                        //KILL THE ICE CREAM CONE
+                                       var NearestIceCreamCone = instance_nearest (x,y,oDeadIceCreamCone)        
+                                       with NearestIceCreamCone {
+                                       instance_destroy()
+                                       }    
+                                    }
+        } //CLOSES OFF ARRAY LOOP
+        
+}  //IF CAMERA EXISTS BOOKEND     
+
 
 
     //ABANDONED CODE

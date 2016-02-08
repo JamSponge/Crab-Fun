@@ -68,6 +68,9 @@
     <sprite>sprites\sExplodeEnemyDead</sprite>
     <sprite>sprites\sExplodeEnemyBOOM</sprite>
     <sprite>sprites\sprite33</sprite>
+    <sprite>sprites\sIceCreamCone</sprite>
+    <sprite>sprites\sIceCreamPool</sprite>
+    <sprite>sprites\sprite34</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -95,6 +98,7 @@
     </scripts>
     <script>scripts\ShotgunProjectileCreation.gml</script>
     <script>scripts\CrabBodyFacingAngle.gml</script>
+    <script>scripts\SpawnAnEnemy.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -157,6 +161,10 @@
       <object>objects\oExplodeEnemyBOOM</object>
       <object>objects\oDeadEnemy</object>
     </objects>
+    <object>objects\oIceCreamCone</object>
+    <object>objects\oDeadIceCreamCone</object>
+    <object>objects\oIceCreamPool</object>
+    <object>objects\oRedToBlueCrab</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

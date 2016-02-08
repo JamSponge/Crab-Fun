@@ -5,7 +5,6 @@ PointBY = argument3
 turnSpeed = argument4
 accuracy = argument5
 facingDir = argument6
-enemyspeed = argument7
 
 var targetDir = point_direction(PointAX,PointAY,PointBX,PointBY);
 var facingMinusTarget = facingDir - targetDir;

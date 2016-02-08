@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>//DEFINE LEGS LOL
 
-image_xscale = 0.6
+image_xscale = 0.4
 image_yscale = image_xscale
 
 Facing = point_direction (x,y,oCamera.x,oCamera.y)

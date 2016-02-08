@@ -38,6 +38,24 @@ NewBitSmall2.speed= random_range(1000,3000)/room_speed
 NewBitSmall2.image_blend=Colour
 }
 
+//WHAT'S IN THE BOX? WHAT'S IN THE BOX? OH GOD. OH JESUS CHRIST. OH GOD.
+    //0 = Nothing, 1 = Ice-cream
+if CrateContains !=0 
+{
+if CrateContains = 1
+    {
+    var ConeNum = 6;
+    }
+        while ConeNum > 0
+        {
+        ConeNum--
+        NewCone = instance_create(x,y,oIceCreamCone)
+        NewCone.direction = point_direction(AttackSource.x,AttackSource.y, x,y)+random_range(2,270)
+        NewCone.speed= 2000/room_speed
+        }
+
+}
+
 //EXTRA BIG CHUNK & SMOKE!
 if BitsCreated >= TotalBits {
 //PUFF OF SMOKE

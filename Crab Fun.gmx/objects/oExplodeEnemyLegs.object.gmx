@@ -31,8 +31,6 @@
 image_xscale = 0.3
 image_yscale = image_xscale
 
-direction = random(360)
-
 </string>
           </argument>
         </arguments>
@@ -62,6 +60,8 @@ image_angle = direction
 if(instance_exists(oPlayer)){
     EnemyMovement(self.id, oPlayer,1,0.3,100,300);
 }
+
+
 
 /*bouncing*/
 BounceOffWalls()
