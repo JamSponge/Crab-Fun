@@ -25,9 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Destructable = true
-WeaponDamage = 1
-Nudged = false
+            <string>WeaponDamage = 1
+Impact = 1000/room_speed
 
 image_xscale = 7
 
@@ -77,25 +76,10 @@ alarm[0] = room_speed
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*if image_xscale &lt; 2{
-image_xscale = image_xscale + 0.05}
-if image_yscale &lt; 4{
-image_yscale = image_yscale + 0.05}
-*/
+            <string>ProjectileImpactChecker(oCamera,WeaponDamage,Impact,1)
 
-if instance_place(x,y,oSolidObject)
-    {
-    instance_destroy()
-    }
-    
-if instance_place(x,y,oDeadEnemy) and Nudged = false
-{
-EnemyToNudge = instance_nearest(x,y,oDeadEnemy)
-EnemyToNudge.direction = point_direction (oCamera.x,oCamera.y,EnemyToNudge.x,EnemyToNudge.y)
-EnemyToNudge.speed = 1000/room_speed
-EnemyToNudge.friction = 5
-Nudged = true
-}
+
+
 
 </string>
           </argument>

@@ -25,13 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//DESTROY IF NEAR PLAYER
-
-//SETUP
-image_xscale = 0.3
-image_yscale = image_xscale
-
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>

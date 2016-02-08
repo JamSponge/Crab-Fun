@@ -1,30 +1,3 @@
-//WHAT HAVE YOU BEEN HIT BY?
-
-//SHOT BY PLAYER
-if HitByProjectileCheck(){ 
-with IncomingProjectile {instance_destroy()}
-    if DamageEnemy(1){
-    AttackSource = oCamera
-    YesEnemyIsDead = true
-    FrictionRange = choose(0.8,0.9,1)
-    oPersistantValues.CrabsKilled++
-    }
-}
-
-//HIT BY EXPLOSION
-if instance_place(x,y,oExplosion){ 
-NearestExplosion = instance_nearest(x,y,oExplosion)
-//Check frame in explode animation are actually explosive
-    if NearestExplosion.image_index > 3 and NearestExplosion.image_index <8 {
-        if DamageEnemy(10){
-            AttackSource = NearestExplosion
-            YesEnemyIsDead = true
-            FrictionRange = choose(1,2,3)
-            oPersistantValues.CrabsKilled++
-        }
-    }
-}
-
 //OH BOY HE'S DEAD - SPLATTER!
 if YesEnemyIsDead = true {
 
@@ -42,10 +15,12 @@ DeadEnemy.image_angle = Eangle + choose(3,6,-3,-6)
 DeadEnemy.image_xscale = Escale
 DeadEnemy.image_yscale = Escale
 DeadEnemy.direction = Edir
-DeadEnemy.speed = 1200/room_speed
-DeadEnemy.friction = FrictionRange
+DeadEnemy.speed = WeaponImpact
+DeadEnemy.friction = EnemyWeight
 DeadEnemy.SpinType = choose (0.5,-0.5,1,-1,)
 DeadEnemy.Dead=false
+DeadEnemy.Nudged=false
+DeadEnemy.EnemyWeight = EnemyWeight*0.8
 DeadEnemy.alarm[0] = Edeathspeed
 //TELL CAMERA TO TRACK DEAD ENEMY
 oCamera.KillerTracker = DeadEnemy

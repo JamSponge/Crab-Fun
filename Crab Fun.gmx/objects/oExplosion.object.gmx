@@ -29,7 +29,10 @@
 TimeToDeathFadeZero = 0
 TimeToDeathFade = 1
 
-audio_play_sound_at(aExplode,x,y,0,100,1200,1,false,1)
+WeaponDamage = 5
+Impact = 2000/room_speed
+
+audio_play_sound_at(aExplode,x,y,0,100,800,1,false,1)
 
 with (oCamera) {bigscreenshake = true
 bonusscreenshake = bonusscreenshake + 1
@@ -67,7 +70,7 @@ if image_index &gt; 1 &amp;&amp; image_index &lt;8
     if instance_place(x,y,oPlayer)
         {
         //I AM THE MURDERER, YOUR HONOUR.
-        oCamera.KillerTracker = self
+        oCamera.KillerTracker = id
         //KILL THE PLAYER WITH A SPLAT LOL
         with (oPlayer)
             {
@@ -91,6 +94,9 @@ if image_index &gt; 1 &amp;&amp; image_index &lt;8
             }
         }
     }
+ProjectileImpactChecker(id,WeaponDamage,Impact,3)
+
+        
 }
 
     

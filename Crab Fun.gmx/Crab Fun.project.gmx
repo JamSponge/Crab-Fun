@@ -79,7 +79,6 @@
   <scripts name="scripts">
     <script>scripts\DeathFade.gml</script>
     <script>scripts\CameraReset.gml</script>
-    <script>scripts\HitByProjectileCheck.gml</script>
     <script>scripts\DamageEnemy.gml</script>
     <script>scripts\EnemyMovement.gml</script>
     <script>scripts\PlayerDies.gml</script>
@@ -94,11 +93,11 @@
       <script>scripts\StandardEnemyHitAndKilled.gml</script>
       <script>scripts\BounceOffWalls.gml</script>
       <script>scripts\EnemySpinAwayAndDie.gml</script>
-      <script>scripts\DeadBodyPhysics.gml</script>
     </scripts>
     <script>scripts\ShotgunProjectileCreation.gml</script>
     <script>scripts\CrabBodyFacingAngle.gml</script>
     <script>scripts\SpawnAnEnemy.gml</script>
+    <script>scripts\ProjectileImpactChecker.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>

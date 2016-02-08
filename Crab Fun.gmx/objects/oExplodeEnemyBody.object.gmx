@@ -25,12 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//DEFINE LEGS LOL
-
-image_xscale = 0.7
-image_yscale = image_xscale
-
-Facing = point_direction (x,y,oCamera.x,oCamera.y)
+            <string>Facing = point_direction (x,y,oCamera.x,oCamera.y)
 
 BodyCollisionTimer = 0
 AttackSource = oPlayer
@@ -43,7 +38,6 @@ EnemySplatB = 0
 TotalBits = 3
 BitsCreated = 0
 ExtraSplatChance = random_range(1,10)
-EnemyHealth = 1
 RandomSpeedTweak = random_range(-25,55)
 
 

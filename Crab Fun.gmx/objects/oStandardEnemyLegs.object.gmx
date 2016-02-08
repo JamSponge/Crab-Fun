@@ -25,12 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//LINK TO BODY!
-
-image_xscale = 0.2
-image_yscale = image_xscale
-
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>
