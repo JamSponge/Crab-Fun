@@ -12,7 +12,7 @@ if EnemyType = 1
     var EnemyDeathSpeed = room_speed*2
     var EnemyHealth = 1
     var EnemyScale = random_range(0.3,0.6)
-    var EnemyWeight = random_range(0.8,1.5)
+    var EnemyWeight = EnemyScale*3
     var EnemySpeed = 300/room_speed
     var EnemyTurnSpeed = choose(0.8,0.9,1.0)
     var EnemyAccuracy = 0.2
@@ -28,7 +28,7 @@ if EnemyType = 2
     var EnemyDeathSpeed = room_speed
     var EnemyHealth = 3
     var EnemyScale = random_range(0.6,0.8)
-    var EnemyWeight = random_range(1.5,3)
+    var EnemyWeight = EnemyScale*2
     var EnemySpeed = 350/room_speed
     var EnemyTurnSpeed = choose(0.6,0.7,0.8)
     var EnemyAccuracy = 0.2
@@ -39,7 +39,7 @@ if EnemyType = 2
     var i = array_height_2d(EnemyArray); {
     NewEnemy = instance_create (SpawnX,SpawnY,SpawnType)
     NewEnemy.image_angle = StartingDir
-    EnemyArray[i,0] = NewEnemy
+    EnemyArray[i,EnemyBody] = NewEnemy
     NewEnemy.EnemyID = i
     NewEnemy.YesEnemyIsDead = false
     //HEALTH & WEIGHT REMAINS IN THE BODY. MAKES SENSE, SORTA.
@@ -58,9 +58,9 @@ if EnemyType = 2
     NewEnemyLegs.EnemyTurnSpeed = EnemyTurnSpeed
     NewEnemyLegs.EnemyAccuracy = EnemyAccuracy
     
-    EnemyArray[i,1] = NewEnemyLegs
-    EnemyArray[i,2] = 0 //This relates to collision checks for other crabs
-    EnemyArray[i,3] = SpawnTypeDeathAnim
-    EnemyArray[i,4] = EnemyDeathSpeed
+    EnemyArray[i,EnemyLegs] = NewEnemyLegs
+    EnemyArray[i,EnemyCollisionTIMERVALUE] = 0 //This relates to collision checks for other crabs
+    EnemyArray[i,EnemyDeathAnimation] = SpawnTypeDeathAnim
+    EnemyArray[i,EnemyDeathSpeed] = EnemyDeathSpeed
     }
 

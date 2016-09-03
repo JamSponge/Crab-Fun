@@ -10,11 +10,12 @@ EnemyHit = instance_nearest (x,y,oEnemyBody)
 
     //DMG THE FOE
     with EnemyHit {
-        if DamageEnemy(ProjectileDamage)
+        if DamageEnemy(ProjectileDamage){
         AttackSource = DamageSource
         YesEnemyIsDead = true
         WeaponImpact = ProjectileImpact
         oPersistantValues.CrabsKilled++
+        }
     }
     //DESTROY THE BULLET
     if ProjectileType = 1 {instance_destroy()}    

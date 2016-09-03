@@ -21,7 +21,7 @@ DeadEnemy.SpinType = choose (0.5,-0.5,1,-1,)
 DeadEnemy.Dead=false
 DeadEnemy.Nudged=false
 DeadEnemy.EnemyWeight = EnemyWeight*0.8
-DeadEnemy.alarm[0] = Edeathspeed
+DeadEnemy.alarm[0] = 3000/room_speed
 //TELL CAMERA TO TRACK DEAD ENEMY
 oCamera.KillerTracker = DeadEnemy
 

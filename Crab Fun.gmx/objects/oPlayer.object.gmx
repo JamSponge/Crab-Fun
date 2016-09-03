@@ -134,7 +134,7 @@ else {
 PlayerSpeed = 500 / room_speed
 }
 
-//SHOTGUN AVAILABLE
+//SHOOTING SLOWDOWN
 
 if mouse_check_button(mb_left) {
 PlayerSpeed = PlayerSpeed/2

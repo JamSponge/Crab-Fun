@@ -27,6 +27,13 @@
             <kind>1</kind>
             <string>//2D ARRAY WITH ENEMY DATA [0 Number of the Enemy, 0 legs of enemy 1 collision imminent?]
 EnemyArray[0,0] = 0
+//ARRAY TEXT FOR EASE OF READING LOL
+EnemyBody = 0
+EnemyLegs = 1
+EnemyCollisionTIMERVALUE = 2
+EnemyDeathAnimation = 3
+EnemyDeathSpeed = 4
+
 
 EnemyInactivityDistance = 2000
 alarm[0] = room_speed*2
@@ -197,7 +204,7 @@ if instance_exists(oCamera){
 //FINAL INSTRUCTIONS FOR EACH SET OF LEGS
             with (EnemyArray[i,1]) {
             //THERE'S A CLEAR LINE TO THE PLAYER MATE, GUN IT.
-            if collision_line(ActualX,ActualY,PlayerX,PlayerY,oEnemy,false,true) =noone { //THIS USES A BUNCH OF WEIRD SHIT DUE TO REVERSAL OF POSITIONS FOR COLLISION, SORRY
+            if IHaveLineOfSightTo(oPlayer){
             var enemyspeed = EnemySpeed*1.2
             var turnSpeed = EnemyTurnSpeed*1.5
             var accuracy = EnemyAccuracy/2
@@ -207,13 +214,14 @@ if instance_exists(oCamera){
             CurrentY = ActualY
             TargetX = PlayerX 
             TargetY = PlayerY
-            }
+            } else {}
             
              //WHOA FUCK THAT GUY I SAW AN ICECREAM
                    if IceCreamValue = 0 and distance_to_object (oDeadIceCreamCone) &lt;= 200 {
                    var NearestIceCreamCone = instance_nearest (x,y,oDeadIceCreamCone)
                    var TargetX = NearestIceCreamCone.x
                    var TargetY = NearestIceCreamCone.y
+                   
                     }
                 
                 //OBJECT COLLISION CHECK
@@ -237,7 +245,7 @@ if instance_exists(oCamera){
             
 //EATING AN ICECREAM
 //POWER-UP ANIMATION TO REPLACE PREVIOUS CRAB
-                                    with (EnemyArray[i,1]) if instance_place(x,y,oDeadIceCreamCone){                                                               
+                                    with (EnemyArray[i,1]) if instance_place(x,y,oDeadIceCreamCone) and IceCreamValue = 0{                                                               
                                     var SpawnX = x
                                     var SpawnY = y
                                     

@@ -1,3 +1,3 @@
-/*instance_create (x,y,oFuckedIt)
+instance_create (x,y,oFuckedIt)
 with (oPlayer) instance_destroy ()
 
