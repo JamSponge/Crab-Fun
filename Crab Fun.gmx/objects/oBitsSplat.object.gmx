@@ -54,11 +54,13 @@ image_speed = 0
             <kind>1</kind>
             <string>SplatScale = 0.3
 
+if !instance_place(x,y,oSolidObject)
+{
 if image_xscale &lt; MaxSplatSize { 
 image_xscale = image_xscale+SplatScale
 }
 image_yscale = image_xscale*SplatSetupY
-
+}
 DeathFade()
 </string>
           </argument>

@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>oWeapon</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,27 +25,33 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>WeaponPickedUp()
+            <string>//ADD WEAPON TO ARRAY
+WeaponPickedUp()
 
-MyBulletSpeed = 1000 / room_speed
-MyGunBombSpeed = 1500/room_speed
+//GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
+CanShoot=true
+ShotsFiredCount = 0
+TimeSinceLastShot = 0
+TimeBetweenShots = 1
+TimeSinceMouseReleased = 0
 
-    //SHOOTING SETUP
-    CanShoot=true
-    BombGunTimer=0
+//GENERIC WEAPON SETUP - VARIABLES
+ShotsFiredCountMax = 4
+MyBulletSpeed = 4000 / room_speed
+RateOfFire = 0.2 //---IN SECONDS
+//AUDIO
+GunShootSFX = aPlayerShoot
+OutOfAmmoSFX = aPlayerShootClick
+//VISUAL
+MuzzleFlareType = oMuzzleFlare
+BulletType = oBullet2
+BulletBeamType = oBulletBeam
+ImpactAnimationType = oPistolShotImpact
+
+
+    //WEAPON-SPECIFIC SETUP
+    MyGunBombSpeed = 1500/room_speed
     BombGunThrown = false
-    //RATE OF FIRE
-    TimeSinceLastShot = 0
-    TimeBetweenShots = 1
-    
-    //TO DO TO DO TO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DOTO DO TO DO DUPLICATE!!!
-    //STRESS COOLDOWN - NUMBERS USED IN CAMERA SETUP, SORRY
-    ShotsFiredCount = 0
-    ShotsFiredCountMax = 12
-    ShotsFiredCannotShoot = 9
-    ShotsFiredReloadPoint = 6
-    TimeSinceLastShot = 0
-    TimeSinceMouseReleased = 0
 </string>
           </argument>
         </arguments>
@@ -68,68 +74,87 @@ MyGunBombSpeed = 1500/room_speed
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x = Owner.x
+            <string>if instance_exists(oPlayer)
+{
+x = Owner.x
 y = Owner.y
-image_angle = Owner.image_angle
-
+image_angle = Owner.Facing
 
 if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
 
 //SHOOTING THE GUN
-        /*shooting*/
-    //Check Time Since Last Shot
-    TimeSinceLastShot = TimeSinceLastShot +4/room_speed
-    //Check If You Can Shoot &amp; Play Sound etc if TRUE
-    if ShotsFiredCount = ShotsFiredReloadPoint and CanShoot=false {CanShoot=true audio_play_sound(aGunReload,1,0)
-    BulletBarAlpha = BulletBarAlpha + 1
-    }
-        //Timercheck &amp; CANNOT Shoot!
-        if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= TimeBetweenShots and CanShoot=(false){
-        audio_play_sound(aPlayerShootClick,100,false)
-        ShotsFiredCount = ShotsFiredCount + 1
-        TimeSinceMouseReleased = 0
-        TimeSinceLastShot = 0
-        }
-        //TimerCheck &amp; CAN Shoot
-        if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= TimeBetweenShots and CanShoot=(true) {
-        TimeSinceMouseReleased = 0
-        MyBullet = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oBullet2)
-            
-            audio_play_sound(aPlayerShoot,100,false)
-            MyBullet.direction = image_angle
-            MyBullet.speed = MyBulletSpeed
-            MyBullet.image_angle = image_angle
-    //Check Stress Level, then increase stress
-    ShotsFiredCount = ShotsFiredCount + 1
-    //RESET TIMER
-        TimeSinceLastShot = 0
-        }
-    //Shots Fired Hits Max!
-    if ShotsFiredCount &gt; ShotsFiredCannotShoot{
-    CanShoot=false}
-    if ShotsFiredCount &gt; ShotsFiredCountMax{
-    ShotsFiredCount = ShotsFiredCountMax
-    }
-        
-    //Code to stop people from tapping button!
-     if !mouse_check_button(mb_left){
-     TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
-    }
+//Check Time Since Last Shot
+TimeSinceLastShot = TimeSinceLastShot +1/room_speed
+//Timercheck &amp; CANNOT Shoot!
+if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
+audio_play_sound(OutOfAmmoSFX,100,false)
+ShotsFiredCount = ShotsFiredCount + 1
+TimeSinceMouseReleased = 0
+TimeSinceLastShot = 0
+}
+//TimerCheck &amp; CAN Shoot
+if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
+TimeSinceMouseReleased = 0
+    
+//RUN PROJECTILE CREATION SCRIPT
+ShotgunProjectileCreation()
 
-    //MAXED GUN, THROW TO EXPLODE!
-    if mouse_check_button(mb_right) /*and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false*/{
-    BombGunTimer = BombGunTimer +1/room_speed
-    BombGunThrown = true
-    MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
-            
-            audio_play_sound(aPlayerShoot,100,false)
-            MyGunBomb.direction = image_angle
-            MyGunBomb.speed = MyGunBombSpeed
-    }
+//Player KICKBACK
+with (oPlayer){
+motion_add(point_direction(x,y,mouse_x,mouse_y)+180,2000/room_speed);
+}
+
+//INCREASE NUMBER OF SHOTS FIRED
+ShotsFiredCount = ShotsFiredCount + 1
+//RESET TIMER
+TimeSinceLastShot = 0
+}
+//Shots Fired Hits Max!
+if ShotsFiredCount &gt;= ShotsFiredCountMax{
+ShotsFiredCount = ShotsFiredCountMax
+CanShoot=false
+}
+        
+//Code to stop people from tapping button!
+if !mouse_check_button(mb_left){
+TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
+}
+if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
     
-    if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
     
-    }
+    
+
+    }}
+    else {}
+    
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if instance_exists(oPlayer){
+
+if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
+draw_sprite_ext(sBulletBar, ((ShotsFiredCount/ShotsFiredCountMax)*100)/5, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
+}
+}
 </string>
           </argument>
         </arguments>

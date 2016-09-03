@@ -20,6 +20,16 @@
     <sound>sound\aGameOver</sound>
     <sound>sound\aPlayerShootClick</sound>
     <sound>sound\aGunReload</sound>
+    <sounds name="Pistol Shooting">
+      <sound>sound\sPistol1</sound>
+      <sound>sound\sPistol2</sound>
+      <sound>sound\sPistol3</sound>
+      <sound>sound\sPistol4</sound>
+      <sound>sound\sPistolLow0</sound>
+      <sound>sound\sPistolLow1</sound>
+      <sound>sound\sPistolLow2</sound>
+    </sounds>
+    <sound>sound\aExplode</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
@@ -41,18 +51,26 @@
     <sprite>sprites\sEnemyBody</sprite>
     <sprite>sprites\sExplodeEnemyBody</sprite>
     <sprite>sprites\sExplodeGun</sprite>
+    <sprite>sprites\sExplodedGun</sprite>
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sBulletBeam</sprite>
     <sprite>sprites\sExplosion</sprite>
     <sprite>sprites\sCrate</sprite>
-    <sprite>sprites\sBigCrate</sprite>
     <sprite>sprites\sIceCreamCrate</sprite>
+    <sprite>sprites\sBigCrate</sprite>
     <sprite>sprites\sBulletBeamVisible</sprite>
     <sprite>sprites\sCrateShrapnelSmall</sprite>
     <sprite>sprites\sDestroyedCrate</sprite>
     <sprite>sprites\sCrateShrapnelBig</sprite>
     <sprite>sprites\sprite25</sprite>
     <sprite>sprites\sSmokePuff</sprite>
+    <sprite>sprites\sEnemyBodyDead</sprite>
+    <sprite>sprites\sExplodeEnemyDead</sprite>
+    <sprite>sprites\sExplodeEnemyBOOM</sprite>
+    <sprite>sprites\sprite33</sprite>
+    <sprite>sprites\sIceCreamCone</sprite>
+    <sprite>sprites\sIceCreamPool</sprite>
+    <sprite>sprites\sprite34</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -60,38 +78,42 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\DeathFade.gml</script>
-    <script>scripts\EnemyDestroyedSplatter.gml</script>
-    <script>scripts\CameraControl.gml</script>
     <script>scripts\CameraReset.gml</script>
-    <script>scripts\BounceOffWalls.gml</script>
-    <script>scripts\HitByProjectileCheck.gml</script>
     <script>scripts\DamageEnemy.gml</script>
     <script>scripts\EnemyMovement.gml</script>
     <script>scripts\PlayerDies.gml</script>
     <script>scripts\EnemyHeadBehaviour.gml</script>
-    <script>scripts\EnemyObjectCollision.gml</script>
     <script>scripts\ThingExplodes.gml</script>
     <script>scripts\WeaponPickedUp.gml</script>
-    <script>scripts\WeaponSwitching.gml</script>
-    <script>scripts\StandardEnemyHitAndKilled.gml</script>
     <script>scripts\ProjectileCreation.gml</script>
     <script>scripts\CrateDestroyed.gml</script>
+    <script>scripts\EnemyTurning.gml</script>
+    <script>scripts\EnemyDestroyedSplatter.gml</script>
+    <scripts name="STANDARD ENEMY SCRIPTS">
+      <script>scripts\StandardEnemyHitAndKilled.gml</script>
+      <script>scripts\BounceOffWalls.gml</script>
+      <script>scripts\EnemySpinAwayAndDie.gml</script>
+    </scripts>
+    <script>scripts\ShotgunProjectileCreation.gml</script>
+    <script>scripts\CrabBodyFacingAngle.gml</script>
+    <script>scripts\SpawnAnEnemy.gml</script>
+    <script>scripts\ProjectileImpactChecker.gml</script>
+    <script>scripts\IHaveLineOfSightTo.gml</script>
   </scripts>
   <fonts name="fonts">
-    <font>fonts\font0</font>
-    <font>fonts\fBulletsFiredTEMP</font>
+    <font>fonts\fCrabPoints</font>
   </fonts>
   <objects name="objects">
     <object>objects\oPlayer</object>
     <object>objects\oMuzzleFlare</object>
     <object>objects\oPistolShotImpact</object>
     <object>objects\oBullet2</object>
-    <object>objects\oStandardEnemy</object>
-    <object>objects\oShardEnemy</object>
     <object>objects\oBits</object>
     <objects name="SPLATS">
       <object>objects\oBitsSplat</object>
+      <object>objects\oPlayerSplat</object>
       <object>objects\oSmallBits</object>
+      <object>objects\oPlayerSmallBits</object>
       <object>objects\oBitsSplat2</object>
     </objects>
     <objects name="CrossHair">
@@ -106,20 +128,23 @@
       <object>objects\oEnemy</object>
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
-      <object>objects\oEnemySpawner</object>
       <object>objects\oGlobalSolid</object>
+      <object>objects\oEnemyArrayController</object>
+      <object>objects\oHUD</object>
+      <object>objects\oPersistantValues</object>
     </objects>
-    <object>objects\oStandardEnemyBody</object>
-    <object>objects\oExplodeEnemyBody</object>
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
+    <object>objects\oMachineGun</object>
+    <object>objects\oShotgun</object>
     <object>objects\oInvisibleBulletBar</object>
     <objects name="EXPLOSIONS ETC">
       <object>objects\oExplosion</object>
       <object>objects\oSmokePuff</object>
     </objects>
+    <object>objects\oCrate</object>
     <object>objects\oSmallCrate</object>
-    <object>objects\oIceCreamCrate</object>
+    <object>objects\oSmallIceCreamCrate</object>
     <object>objects\oBigCrate</object>
     <object>objects\oBulletBeam</object>
     <objects name="CRATE SHRAPNEL">
@@ -127,6 +152,20 @@
       <object>objects\oCrateShrapnelBig</object>
     </objects>
     <object>objects\oDestroyedCrate</object>
+    <objects name="Enemies">
+      <object>objects\oStandardEnemyBody</object>
+      <object>objects\oExplodeEnemyLegs</object>
+      <object>objects\oStandardEnemyLegs</object>
+      <object>objects\oExplodeEnemyBody</object>
+      <object>objects\oStandardEnemyDead</object>
+      <object>objects\oExplodeEnemyDead</object>
+      <object>objects\oExplodeEnemyBOOM</object>
+      <object>objects\oDeadEnemy</object>
+    </objects>
+    <object>objects\oIceCreamCone</object>
+    <object>objects\oDeadIceCreamCone</object>
+    <object>objects\oIceCreamPool</object>
+    <object>objects\oRedToBlueCrab</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

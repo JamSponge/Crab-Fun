@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-500</depth>
   <persistent>0</persistent>
-  <parentName>oSolidObject</parentName>
+  <parentName>oCrate</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -27,6 +27,9 @@
             <kind>1</kind>
             <string>image_speed = 0
 image_index = 0
+CrateColour = make_colour_rgb (212,177,109)
+CrateScale = 0.5
+CrateContains = 0
 </string>
           </argument>
         </arguments>
@@ -49,21 +52,8 @@ image_index = 0
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if instance_place (x,y,oExplosion) and image_index = 0 {
-//ANIMATE DESTRUCTION, DECREASE DEPTH
-image_speed = 1
-depth = depth -100
-//CHUNKS OF WOOD PLS
-CrateDestroyed()
-//REPLACE WITH DEAD CRATE
-instance_create (x,y,oDestroyedCrate)
-}
-
-//ANIMATION ENDED, KILL IT.
-if image_index &gt;2{
-instance_destroy()
-}
-
+            <string>  //ANIMATION ENDED, KILL IT.
+            if image_index = image_number -1 instance_destroy();
 </string>
           </argument>
         </arguments>

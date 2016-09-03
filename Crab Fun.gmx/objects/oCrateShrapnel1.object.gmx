@@ -36,8 +36,6 @@ SpinTime = 0
 image_angle = random_range (20,360)
 HasHitEnemy=false
 
-image_xscale = random_range(0.8,1.5)
-image_yscale = image_xscale
 </string>
           </argument>
         </arguments>
@@ -61,6 +59,14 @@ image_yscale = image_xscale
           <argument>
             <kind>1</kind>
             <string>DeathFade()
+
+//SIZE DECREASE
+if image_xscale &gt; BaseScale
+{
+        image_xscale += (BaseScale - image_xscale) *0.1;
+}
+
+image_yscale = image_xscale
 
 //SPINNY!
 if speed &gt; 15{

@@ -49,16 +49,44 @@
             <kind>1</kind>
             <string>if instance_number (oEnemyBody) &lt;50
 and instance_exists(oPlayer){
-if choose(true,false){
-SpawnX = random_range(150,room_width-150)
-SpawnY = choose(150, room_height-150)
-} 
-else{
-SpawnX = choose(150, room_width-150)
-SpawnY = random_range(150,room_height-150)
+    if choose(true,false){
+    SpawnX = random_range(150,room_width-150)
+    SpawnY = choose(150, room_height-150)
+    } 
+    else{
+    SpawnX = choose(150, room_width-150)
+    SpawnY = random_range(150,room_height-150)
+    }
+    
+    //Choose an enemy type and spawn it
+    NewEnemy = instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
+    
+    //ADD ENEMY TO ARRAY
+    with (oEnemyArrayController) EnemyArray[array_length_1d(oEnemyArrayController.EnemyArray)] = NewEnemy.id
+    
+    //ABANDONED CODE
+    /*Check if there's a old slot in the array that can be used
+    var i;
+     i = array_length_1d(oEnemyArrayController.EnemyArray) //See how many enemy array entries exist
+     
+         repeat(array_length_1d(oEnemyArrayController.EnemyArray)) {
+         if oEnemyArrayController.EnemyArray[i] = 0 {
+         //Oh! There is a free gap. Make the new enemy fill the old gap.
+        with (oEnemyArrayController) EnemyArray[i] = NewEnemy.id
+         //EXIT
+         exit
+         } else {
+         i -= 1;
+         }
+         //There aren't any gaps, create a new entry
+             if i &lt;= 0 {   
+             with (oEnemyArrayController) EnemyArray[array_length_1d(oEnemyArrayController.EnemyArray)] = NewEnemy.id
+             }
+         }    */         
+            
 }
-instance_create (SpawnX,SpawnY, choose(oStandardEnemyBody, oExplodeEnemyBody))
-}
+
+
 
 </string>
           </argument>
