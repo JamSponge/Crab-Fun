@@ -99,6 +99,9 @@
     <script>scripts\SpawnAnEnemy.gml</script>
     <script>scripts\ProjectileImpactChecker.gml</script>
     <script>scripts\IHaveLineOfSightTo.gml</script>
+    <scripts name="Tweening">
+      <script>scripts\Tween_script.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -131,10 +134,13 @@
       <object>objects\oGlobalSolid</object>
       <object>objects\oEnemyArrayController</object>
       <object>objects\oHUD</object>
-      <object>objects\oPersistantValues</object>
+      <object>objects\oPersistentValues</object>
     </objects>
     <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
+    <objects name="MENUS">
+      <object>objects\oPauseScreen</object>
+    </objects>
     <object>objects\oMachineGun</object>
     <object>objects\oShotgun</object>
     <object>objects\oInvisibleBulletBar</object>
@@ -169,6 +175,7 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
+    <room>rooms\Menu_Screen</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

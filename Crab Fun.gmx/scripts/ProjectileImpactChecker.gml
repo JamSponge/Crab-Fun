@@ -14,7 +14,7 @@ EnemyHit = instance_nearest (x,y,oEnemyBody)
         AttackSource = DamageSource
         YesEnemyIsDead = true
         WeaponImpact = ProjectileImpact
-        oPersistantValues.CrabsKilled++
+        oPersistentValues.CrabsKilled++
         }
     }
     //DESTROY THE BULLET
