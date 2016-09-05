@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>//ADD WEAPON TO ARRAY
 WeaponPickedUp()
+instance_deactivate_object(oPistol)
 
 //GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
 CanShoot=true
@@ -80,7 +81,7 @@ x = Owner.x
 y = Owner.y
 image_angle = Owner.Facing
 
-if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
+{
 
 //SHOOTING THE GUN
 //Check Time Since Last Shot
@@ -113,6 +114,9 @@ TimeSinceLastShot = 0
 if ShotsFiredCount &gt;= ShotsFiredCountMax{
 ShotsFiredCount = ShotsFiredCountMax
 CanShoot=false
+
+instance_activate_object(oPistol)
+instance_destroy()
 }
         
 //Code to stop people from tapping button!

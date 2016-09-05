@@ -71,6 +71,8 @@
     <sprite>sprites\sIceCreamCone</sprite>
     <sprite>sprites\sIceCreamPool</sprite>
     <sprite>sprites\sprite34</sprite>
+    <sprite>sprites\sprite36</sprite>
+    <sprite>sprites\sprite37</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -85,7 +87,6 @@
     <script>scripts\EnemyHeadBehaviour.gml</script>
     <script>scripts\ThingExplodes.gml</script>
     <script>scripts\WeaponPickedUp.gml</script>
-    <script>scripts\ProjectileCreation.gml</script>
     <script>scripts\CrateDestroyed.gml</script>
     <script>scripts\EnemyTurning.gml</script>
     <script>scripts\EnemyDestroyedSplatter.gml</script>
@@ -94,7 +95,7 @@
       <script>scripts\BounceOffWalls.gml</script>
       <script>scripts\EnemySpinAwayAndDie.gml</script>
     </scripts>
-    <script>scripts\ShotgunProjectileCreation.gml</script>
+    <script>scripts\Projectile_Calculations.gml</script>
     <script>scripts\CrabBodyFacingAngle.gml</script>
     <script>scripts\SpawnAnEnemy.gml</script>
     <script>scripts\ProjectileImpactChecker.gml</script>
@@ -172,6 +173,10 @@
     <object>objects\oDeadIceCreamCone</object>
     <object>objects\oIceCreamPool</object>
     <object>objects\oRedToBlueCrab</object>
+    <objects name="Pickups">
+      <object>objects\oShotgunPickup</object>
+      <object>objects\oMachineGunPickup</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

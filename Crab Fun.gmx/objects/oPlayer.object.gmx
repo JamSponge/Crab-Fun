@@ -35,7 +35,6 @@ instance_create(x,y,oCamera)
 instance_create(x,y,oHUD)
 
 instance_create(x,y,oPistol)
-instance_create(x,y,oShotgun)
 
 
 
@@ -104,7 +103,6 @@ vspeed = PlayerSpeed
 if keyboard_check(ord('D')){
 hspeed = PlayerSpeed
 }
-
 
 //BULLET WHEEL STANDARD VISUAL PROPERTIES
 

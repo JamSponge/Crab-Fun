@@ -25,8 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//ADD WEAPON TO ARRAY
-WeaponPickedUp()
+            <string>WeaponPickedUp()
+
+//DEACTIVATE PISTOL
+instance_deactivate_object(oPistol)
 
 //GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
 CanShoot=true
@@ -38,9 +40,9 @@ TimeSinceMouseReleased = 0
 //GENERIC WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 100
 MyBulletSpeed = 3500 / room_speed
-RateOfFire = 0.2 //---IN SECONDS
+RateOfFire = 0.1 //---IN SECONDS
 //AUDIO
-GunShootSFX = choose (sPistol1,sPistol2,sPistol3,sPistol4) //ALSO IN ProjectileCreation SCRIPT
+GunShootSFX = choose (sPistol1,sPistol2,sPistol3,sPistol4) //ALSO IN PistolProjectileCreation SCRIPT
 GunShootSFXLow3 = sPistolLow0
 GunShootSFXLow2 = sPistolLow1
 GunShootSFXLow1 = sPistolLow2
@@ -82,12 +84,9 @@ ImpactAnimationType = oPistolShotImpact
             <kind>1</kind>
             <string>if instance_exists (oPlayer)
     {
-    
     x = Owner.x
     y = Owner.y
     image_angle = Owner.Facing
-    
-    if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
     
     //SHOOTING THE GUN
     //Check Time Since Last Shot
@@ -104,7 +103,7 @@ ImpactAnimationType = oPistolShotImpact
     TimeSinceMouseReleased = 0
         
     //RUN PROJECTILE CREATION SCRIPT
-    ProjectileCreation()
+    MachineGunProjectileCreation()
                 
     //INCREASE NUMBER OF SHOTS FIRED
     ShotsFiredCount = ShotsFiredCount + 1
@@ -135,11 +134,14 @@ ImpactAnimationType = oPistolShotImpact
         audio_play_sound(aPlayerShoot,100,false)
         MyGunBomb.direction = image_angle
         MyGunBomb.speed = MyGunBombSpeed
+        
+        instance_activate_object(oPistol)
+        instance_destroy()
         }
         
     
         }
-    }
+    
     else {}
     
 </string>
@@ -165,8 +167,7 @@ ImpactAnimationType = oPistolShotImpact
           <argument>
             <kind>1</kind>
             <string>if instance_exists(oPlayer){
-
-if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
+{
 draw_sprite_ext(sBulletBar, ((ShotsFiredCount/ShotsFiredCountMax)*100)/5, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
 }
 }
