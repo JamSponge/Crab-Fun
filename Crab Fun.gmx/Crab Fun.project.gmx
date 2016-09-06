@@ -73,9 +73,11 @@
     <sprite>sprites\sprite34</sprite>
     <sprite>sprites\sprite36</sprite>
     <sprite>sprites\sprite37</sprite>
+    <sprite>sprites\spr_leveltiles</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
+    <background>background\bg_tile</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -103,6 +105,7 @@
     <scripts name="Tweening">
       <script>scripts\Tween_script.gml</script>
     </scripts>
+    <script>scripts\Dice_Rolls.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -136,9 +139,10 @@
       <object>objects\oEnemyArrayController</object>
       <object>objects\oHUD</object>
       <object>objects\oPersistentValues</object>
+      <object>objects\oLevelGen</object>
     </objects>
-    <object>objects\oExplodeGun</object>
     <object>objects\oPistol</object>
+    <object>objects\oExplodeGun</object>
     <objects name="MENUS">
       <object>objects\oPauseScreen</object>
     </objects>
