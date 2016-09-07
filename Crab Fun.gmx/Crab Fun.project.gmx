@@ -3,6 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
+  <datafiles number="3" name="datafiles"/>
   <NewExtensions/>
   <sounds name="sound">
     <sound>sound\aPlayerShoot</sound>
@@ -78,6 +79,7 @@
   <backgrounds name="background">
     <background>background\background1</background>
     <background>background\bg_tile</background>
+    <background>background\background3</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">

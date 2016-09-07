@@ -65,11 +65,6 @@ speed += (0 - speed) *0.05;
 
 //TIMER COUNTDOWN
 GunExplodeTimer = GunExplodeTimer + 1/room_speed
-//BOOM
-if GunExplodeTimer &gt;= 1 {
-oPistol.BombGunThrown = false
-ThingExplodes()}
-
 
 //BOUNCE OFF ENEMIES - slight speed bump and random direction bounce for the lols
 while place_meeting(x+hspeed,y+vspeed,oEnemyBody) and GunHitEnemy=false{
@@ -83,6 +78,11 @@ GunHitEnemy=true
 
 //BOUNCE OFF WALLS - no speed bump, consistent bounce direction
 move_bounce_solid(false);
+
+//BOOM
+if GunExplodeTimer &gt;= 1 {
+oPistol.BombGunThrown = false
+ThingExplodes()}
 </string>
           </argument>
         </arguments>

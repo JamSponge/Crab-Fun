@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-270</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -34,21 +34,122 @@ gridoutofbounds= gridmax div 10
 gridmiddlebegin= (gridmax div 4)-1
 gridmiddleend= (gridmax div 1.33)-1
 
+//INITIALISE 256 to 48 ARRAY
+tileset[0,0] = 2   
+tileset[0,1] = 1
+tileset[1,0] = 8   
+tileset[1,1] = 2
+tileset[2,0] = 10  
+tileset[2,1] = 3
+tileset[3,0] = 11  
+tileset[3,1] = 4
+tileset[4,0] = 16  
+tileset[4,1] = 5
+tileset[5,0] = 18  
+tileset[5,1] = 6
+tileset[6,0] = 22  
+tileset[6,1] = 7
+tileset[7,0] = 24  
+tileset[7,1] = 8
+tileset[8,0] = 26  
+tileset[8,1] = 9
+tileset[9,0] = 27  
+tileset[9,1] = 10
+tileset[10,0] = 30  
+tileset[10,1] = 11
+tileset[11,0] = 31  
+tileset[11,1] = 12
+tileset[12,0] = 64  
+tileset[12,1] = 13
+tileset[13,0] = 66  
+tileset[13,1] = 14
+tileset[14,0] = 72  
+tileset[14,1] = 15
+tileset[15,0] = 74  
+tileset[15,1] = 16
+tileset[16,0] = 75  
+tileset[16,1] = 17
+tileset[17,0] = 80  
+tileset[17,1] = 18
+tileset[18,0] = 82  
+tileset[18,1] = 19
+tileset[19,0] = 86
+tileset[19,1] = 20
+tileset[20,0] = 88
+tileset[20,1] = 21
+tileset[21,0] = 90
+tileset[21,1] = 22
+tileset[22,0] = 91
+tileset[22,1] = 23
+tileset[23,0] = 94
+tileset[23,1] = 24
+tileset[24,0] = 95
+tileset[24,1] = 25
+tileset[25,0] = 104
+tileset[25,1] = 26
+tileset[26,0] = 106
+tileset[26,1] = 27
+tileset[27,0] = 107
+tileset[27,1] = 28
+tileset[28,0] = 120
+tileset[28,1] = 29
+tileset[29,0] = 122
+tileset[29,1] = 30
+tileset[30,0] = 123
+tileset[30,1] = 31
+tileset[31,0] = 126
+tileset[31,1] = 32
+tileset[32,0] = 127
+tileset[32,1] = 33
+tileset[33,0] = 208
+tileset[33,1] = 34
+tileset[34,0] = 210
+tileset[34,1] = 35
+tileset[35,0] = 214
+tileset[35,1] = 36
+tileset[36,0] = 216
+tileset[36,1] = 37
+tileset[37,0] = 218
+tileset[37,1] = 38
+tileset[38,0] = 219
+tileset[38,1] = 39
+tileset[39,0] = 222
+tileset[39,1] = 40
+tileset[40,0] = 223
+tileset[40,1] = 41
+tileset[41,0] = 248
+tileset[41,1] = 42
+tileset[42,0] = 250
+tileset[42,1] = 43
+tileset[43,0] = 251
+tileset[43,1] = 44
+tileset[44,0] = 254
+tileset[44,1] = 45
+tileset[45,0] = 255
+tileset[45,1] = 46
+tileset[46,0] = 0
+tileset[46,1] = 47
+
+//LISTEN UP THIS IS ***IMPORTANT*** - Beach tiles are NOT beach tiles, they are empty spaces for bground.
+var BEACH=-2;
+var SEATILE=-3;
+var POOL=-5;
+
 grid = ds_grid_create(gridmax,gridmax)
 
-ds_grid_set_region(grid,0,0,gridmax-1,gridmax-1,-1)
+ds_grid_set_region(grid,0,0,gridmax-1,gridmax-1,BEACH)
 
 //ADD RANDOM POOLS
 
-var HowManyPools = choose(3,4,5,6)
+var HowManyPools = choose(5,7,9,12)
 while HowManyPools &gt;=0
     {
     //POOL SIZE
     var PoolWidth, PoolHeight
-    PoolWidth = round(random(8))
+    PoolWidth = round(random(12))
         if PoolWidth &gt;4
         {
-        PoolHeight = choose(2,3,4)
+        PoolHeight = choose(3,4,6)
         }
     else
     PoolHeight = choose(4,5,6,7,8)
@@ -59,7 +160,7 @@ while HowManyPools &gt;=0
     RandomY = round(random_range(gridoutofbounds,gridmax-(gridoutofbounds*2)))
     
     //PLACE THE POOLS PLEASE, GENTLEMEN
-    ds_grid_set_region(grid,RandomX,RandomY,(RandomX+PoolWidth),(RandomY+PoolHeight),2)
+    ds_grid_set_region(grid,RandomX,RandomY,(RandomX+PoolWidth),(RandomY+PoolHeight),POOL)
     HowManyPools--
     }
 
@@ -70,22 +171,22 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
     {
     //SET THE OUTER SEA LIMITS, YE BLUBBY LUBBER
     if col &lt;=3 || col &gt;=gridmax-4 || row &lt;=3 || row &gt;=gridmax-4 
-    {grid[# col, row] = 0}
+    {grid[# col, row] = SEATILE}
 
 
 //SORT OUT THE POOLS
- if (grid[# col, row] == 2)
+ if (grid[# col, row] == POOL)
         {
-        if RollD20(18) = true
+        if RollD20(18) == true
                 {
-                grid[# col, row] = 1
+                grid[# col, row] = SEATILE
                 }
                 else
-                grid[# col, row] = 0
+                grid[# col, row] = BEACH
         }
 
 //SCAN THROUGH ALL NON-ASSIGNED TILES
-    if (grid[# col, row] == -1)
+    if (grid[# col, row] == BEACH)
         {
          //ENSURE MIDDLE AREA IS MOSTLY BEACH
         if col &gt; gridmiddlebegin 
@@ -93,26 +194,89 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
         &amp;&amp; row &gt; gridmiddlebegin 
         &amp;&amp; row &lt; gridmax-gridmiddlebegin
         {
-                grid[# col, row] = 1
-                if RollD20(2) = true
+                if RollD20(4) = true
                     {
-                    grid[# col, row] = 1
+                    grid[# col, row] = BEACH
                     }
                     else
-                    grid[# col, row] = 0
+                    grid[# col, row] = SEATILE
             
             //ALLOW OUTER AREAS TO BE SEA-ISH
          }   
             else
-            if RollD20(15) = true
+            if RollD20(17) = true
                 {
-                grid[# col, row] = 1
+                grid[# col, row] = BEACH
                 }
                 else
-                grid[# col, row] = 0
+                grid[# col, row] = SEATILE
          
         }
-        
+    }
+}
+
+      //ALL ASSIGNED AS BEACH OR FULL - TIME TO PLACE THE SEA TILES        
+      //ONLY APPLY TO REQUIRED SPACES, SO THIS IS A SECOND FULL-SCAN OF THE GRID
+ //SCAN THROUGH GRID
+    for (var row=0; row&lt;ds_grid_height(grid); row++)
+    {
+        for (var col=0; col&lt;ds_grid_width(grid); col++)
+        {
+            //CHECK IT'S A SEA TILE, IF IT IS, WE'LL WORK OUT WHAT TYPE.
+            if (grid[# col, row] == SEATILE)
+            {
+            var sum = 0; 
+            var NW,N,NE,W,E,SW,S,SE;
+            NW=0;N=0;NE=0;W=0;E=0;SW=0;S=0;SE=0;
+
+            
+            //NORTH
+            if grid[# col, row-1] != BEACH {N=1}
+            //WEST
+            if grid[# col-1, row] != BEACH {W=1}
+            //EAST
+            if grid[# col+1, row] != BEACH {E=1}
+            //SOUTH
+            if grid[# col, row+1] != BEACH {S=1}
+            
+            //NORTH-WEST
+            if N=1 &amp;&amp; W=1
+                {
+                if grid[# col-1, row-1] != BEACH {NW=1}
+                }
+            //NORTH-EAST
+            if N=1 &amp;&amp; E=1
+                {
+                if grid[# col+1, row-1] != BEACH {NE=1}
+                }
+            //SOUTH-WEST
+            if S=1 &amp;&amp; W=1
+                {
+                if grid[# col-1, row+1] != BEACH {SW=1}
+                }
+            //SOUTH-EAST
+            if S=1 &amp;&amp; E=1
+                {
+                if grid[# col+1, row+1] != BEACH {SE=1}
+                }
+                
+            sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
+            //SET THE SPRITE ID BASED ON SUM
+
+                for (var i=0; i&lt; array_height_2d(tileset); i+= 1)
+                    { 
+                    if (sum == tileset[i,0])
+                        {
+                        grid[# col, row] = tileset[i,1]
+                        //REMOVE THOSE AWFUL SOLITARY CUBE POOLS
+                        if grid[# col, row] = 47 {grid[# col, row] =-2}
+                        break;
+                        }
+                    }
+
+            }
+            else
+            {}
     }
 }
 </string>
@@ -139,12 +303,17 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
             <kind>1</kind>
             <string>for (var row=0; row&lt;ds_grid_height(grid); row++)
 {
-    for (var col=0; col&lt;ds_grid_width(grid); col++)
-    {
-    
-    var subimage = grid[# col, row]
+        for (var col=0; col&lt;ds_grid_width(grid); col++)
+        {
         
-    draw_sprite(spr_leveltiles, subimage, col*128, row*128);
+        //ONLY PLACE TILES IN SPACES
+        if grid[# col, row] = -2 
+        {}
+        else 
+        {
+        var subimage = grid[# col, row]  
+        draw_sprite(spr_leveltiles, subimage, (col*128)+64, (row*128)+64);
+        }
     }
 }
 </string>
