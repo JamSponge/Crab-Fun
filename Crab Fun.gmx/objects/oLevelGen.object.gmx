@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-270</depth>
+  <depth>400</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -33,6 +33,12 @@ gridmax=40
 gridoutofbounds= gridmax div 10
 gridmiddlebegin= (gridmax div 4)-1
 gridmiddleend= (gridmax div 1.33)-1
+
+//LISTEN UP THIS IS ***IMPORTANT*** - Beach tiles are NOT beach tiles, they are empty spaces for bground.
+var BEACH=-2;
+var SEATILE=-3;
+var DEEPSEA=999;
+var POOL=-5;
 
 //INITIALISE 256 to 48 ARRAY
 tileset[0,0] = 2   
@@ -130,18 +136,13 @@ tileset[45,1] = 46
 tileset[46,0] = 0
 tileset[46,1] = 47
 
-//LISTEN UP THIS IS ***IMPORTANT*** - Beach tiles are NOT beach tiles, they are empty spaces for bground.
-var BEACH=-2;
-var SEATILE=-3;
-var POOL=-5;
-
 grid = ds_grid_create(gridmax,gridmax)
 
 ds_grid_set_region(grid,0,0,gridmax-1,gridmax-1,BEACH)
 
 //ADD RANDOM POOLS
 
-var HowManyPools = choose(5,7,9,12)
+var HowManyPools = choose(4,5,7,9,12)
 while HowManyPools &gt;=0
     {
     //POOL SIZE
@@ -170,14 +171,26 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
     for (var col=0; col&lt;ds_grid_width(grid); col++)
     {
     //SET THE OUTER SEA LIMITS, YE BLUBBY LUBBER
+    //STANDARD SEA WITH A BIT OF DEEP
+    if col &lt;=5 || col &gt;=gridmax-6 || row &lt;=5 || row &gt;=gridmax-6 
+    {
+        if RollD20(18) == true
+                {
+                grid[# col, row] = BEACH
+                }
+                else
+                grid[# col, row] = SEATILE
+    }
+    //DEEP SEA
     if col &lt;=3 || col &gt;=gridmax-4 || row &lt;=3 || row &gt;=gridmax-4 
-    {grid[# col, row] = SEATILE}
+    {grid[# col, row] = DEEPSEA}
+    
 
 
 //SORT OUT THE POOLS
  if (grid[# col, row] == POOL)
         {
-        if RollD20(18) == true
+        if RollD20(3) == true
                 {
                 grid[# col, row] = SEATILE
                 }
@@ -204,7 +217,7 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
             //ALLOW OUTER AREAS TO BE SEA-ISH
          }   
             else
-            if RollD20(17) = true
+            if RollD20(18) = true
                 {
                 grid[# col, row] = BEACH
                 }
@@ -222,6 +235,7 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
     {
         for (var col=0; col&lt;ds_grid_width(grid); col++)
         {
+            
             //CHECK IT'S A SEA TILE, IF IT IS, WE'LL WORK OUT WHAT TYPE.
             if (grid[# col, row] == SEATILE)
             {
@@ -270,15 +284,167 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
                         grid[# col, row] = tileset[i,1]
                         //REMOVE THOSE AWFUL SOLITARY CUBE POOLS
                         if grid[# col, row] = 47 {grid[# col, row] =-2}
+                        //MAKE ONLY ONE TYPE OF SEA-SEA TILE
+                        if grid[# col, row] = 46 {grid[# col, row] =0}
                         break;
                         }
                     }
-
             }
-            else
-            {}
+        }
     }
-}
+            
+//OK, DEEP SEA TIME MOTHERHUBBARDDDD! FIND THEM DEEP SEA TILES!            
+    for (var row=0; row&lt;ds_grid_height(grid); row++)
+    {
+        for (var col=0; col&lt;ds_grid_width(grid); col++)
+        {
+
+        //CREATE DEEP SEA TILES, ONLY IF THEY ARE OUT IN THE SEAAAA
+            if grid[# col, row] = 0
+            {
+            //NESW - FULL CHECK FOR FULL SEA TILES
+           var deepenough = 4;
+        
+           if grid[# col, row-1] = 0 || grid[# col, row-1] = DEEPSEA
+           {deepenough--}
+           
+           if grid[# col-1, row] = 0 || grid[# col-1, row] = DEEPSEA
+            {deepenough--}
+            
+           if grid[# col+1, row] = 0 || grid[# col+1, row] = DEEPSEA
+            {deepenough--}
+            
+           if grid[# col, row+1] = 0 || grid[# col, row+1] = DEEPSEA
+            {deepenough--}
+            
+            if deepenough &lt;= 1 {grid[# col, row] = DEEPSEA}  
+                
+            }
+        }
+    }
+                        
+                        
+            //OK, now sort the deep sea tileset - and CREATE INVISIBLE WALLS, MATE!
+for (var row=0; row&lt;ds_grid_height(grid); row++)
+    {
+        for (var col=0; col&lt;ds_grid_width(grid); col++)
+        {
+            if grid[# col, row] = DEEPSEA
+            {
+            
+            //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
+            instance_create((col*128)+64, (row*128)+64,oInvisibleWall)
+            
+            var sum = 0; 
+            var NW,N,NE,W,E,SW,S,SE;
+            NW=0;N=0;NE=0;W=0;E=0;SW=0;S=0;SE=0;
+
+            
+                //NORTH
+            if grid[# col, row-1] &gt;= 48
+            {N=1}
+            //WEST
+            if grid[# col-1, row] &gt;= 48
+            {W=1}
+            //EAST
+            if grid[# col+1, row] &gt;= 48
+            {E=1}
+            //SOUTH
+            if grid[# col, row+1] &gt;= 48
+            {S=1}
+            
+            //NORTH-WEST
+            if N=1 &amp;&amp; W=1
+                {
+                if grid[# col-1, row-1] &gt;= 48
+                {NW=1}
+                }
+            //NORTH-EAST
+            if N=1 &amp;&amp; E=1
+                {
+                if grid[# col+1, row-1] &gt;= 48
+                {NE=1}
+                }
+            //SOUTH-WEST
+            if S=1 &amp;&amp; W=1
+                {
+                if grid[# col-1, row+1] &gt;= 48
+                {SW=1}
+                }
+            //SOUTH-EAST
+            if S=1 &amp;&amp; E=1
+                {
+                if grid[# col+1, row+1] &gt;= 48
+                {SE=1}
+                }
+                
+                
+                
+                /*
+                    //NORTH
+            if grid[# col, row-1] != BEACH
+            &amp;&amp; grid[# col, row-1] &lt; 47
+            {N=1}
+            //WEST
+            if grid[# col-1, row] != BEACH
+            &amp;&amp; grid[# col-1, row] &lt; 47
+            {W=1}
+            //EAST
+            if grid[# col+1, row] != BEACH
+            &amp;&amp; grid[# col+1, row] &lt; 47
+            {E=1}
+            //SOUTH
+            if grid[# col, row+1] != BEACH
+            &amp;&amp; grid[# col, row+1] &lt; 47
+            {S=1}
+            
+            //NORTH-WEST
+            if N=1 &amp;&amp; W=1
+                {
+                if grid[# col-1, row-1] != BEACH
+                &amp;&amp; grid[# col-1, row-1] &lt; 47
+                {NW=1}
+                }
+            //NORTH-EAST
+            if N=1 &amp;&amp; E=1
+                {
+                if grid[# col+1, row-1] != BEACH 
+                &amp;&amp; grid[# col+1, row-1] &lt; 47
+                {NE=1}
+                }
+            //SOUTH-WEST
+            if S=1 &amp;&amp; W=1
+                {
+                if grid[# col-1, row+1] != BEACH
+                &amp;&amp; grid[# col-1, row+1] &lt; 47
+                {SW=1}
+                }
+            //SOUTH-EAST
+            if S=1 &amp;&amp; E=1
+                {
+                if grid[# col+1, row+1] != BEACH
+                &amp;&amp; grid[# col+1, row+1] &lt; 47
+                {SE=1}
+                }
+                */
+                
+            sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
+            //SET THE SPRITE ID BASED ON SUM
+
+                for (var i=0; i&lt; array_height_2d(tileset); i+= 1)
+                    { 
+                    if (sum == tileset[i,0])
+                        {
+                        grid[# col, row] = tileset[i,1]+48
+                        break;
+                        }
+                    }
+            }
+        }
+
+    }
+    
+
 </string>
           </argument>
         </arguments>
@@ -307,7 +473,7 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
         {
         
         //ONLY PLACE TILES IN SPACES
-        if grid[# col, row] = -2 
+        if grid[# col, row] = -2
         {}
         else 
         {
