@@ -57,7 +57,7 @@
     <instance objName="oEnemyArrayController" x="320" y="416" name="inst_771F562B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oPersistentValues" x="288" y="352" name="inst_E1E4C23A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oShotgunPickup" x="2272" y="2560" name="inst_2E97E250" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oMachineGunPickup" x="2176" y="1504" name="inst_91E13A15" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oMachineGunPickup" x="1984" y="1248" name="inst_91E13A15" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oLevelGen" x="160" y="384" name="inst_92AA2379" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>

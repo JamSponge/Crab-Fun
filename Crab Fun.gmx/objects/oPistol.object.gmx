@@ -34,6 +34,7 @@ ShotsFiredCount = 0
 TimeSinceLastShot = 0
 TimeBetweenShots = 1
 TimeSinceMouseReleased = 0
+DrawAimingBeam = false
 
 //GENERIC WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 10
@@ -100,17 +101,18 @@ ImpactAnimationType = oPistolShotImpact
     TimeSinceLastShot = 0
     }
     //TimerCheck &amp; CAN Shoot
-    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
-    TimeSinceMouseReleased = 0
-        
-    //RUN PROJECTILE CREATION SCRIPT
-    PistolProjectileCreation()
-                
-    //INCREASE NUMBER OF SHOTS FIRED
-    ShotsFiredCount = ShotsFiredCount + 1
-    //RESET TIMER
-    TimeSinceLastShot = 0
-    }
+    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) 
+        {
+        TimeSinceMouseReleased = 0
+            
+        //RUN PROJECTILE CREATION SCRIPT
+        PistolProjectileCreation()
+                    
+        //INCREASE NUMBER OF SHOTS FIRED
+        ShotsFiredCount = ShotsFiredCount + 1
+        //RESET TIMER
+        TimeSinceLastShot = 0
+        }
     //Shots Fired Hits Max!
     if ShotsFiredCount &gt;= ShotsFiredCountMax{
     ShotsFiredCount = ShotsFiredCountMax
@@ -124,8 +126,20 @@ ImpactAnimationType = oPistolShotImpact
     if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
         
         
-        //MAXED GUN, THROW TO EXPLODE!
-        if mouse_check_button(mb_right) and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false{
+    //MAXED GUN, THROW TO EXPLODE!
+    if ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false
+    {
+        
+    //AIM THE EXPLOSION
+    if mouse_check_button_pressed(mb_right)
+    {
+    //SWITCH ON BEAM GRAPHICS
+    DrawAimingBeam = true
+    }
+
+        //RELEASE AND FIRE IT
+        if mouse_check_button_released(mb_right)
+        {
         BombGunThrown = true
         ShotsFiredCount = 0
         CanShoot = true
@@ -135,10 +149,15 @@ ImpactAnimationType = oPistolShotImpact
         audio_play_sound(aPlayerShoot,100,false)
         MyGunBomb.direction = image_angle
         MyGunBomb.speed = MyGunBombSpeed
+        
+        //SWITCH OFF LASER AIM BEAM
+        DrawAimingBeam=false
+        
         }
         
     
-        }
+    }
+    }
     }
     else {}
     
@@ -169,6 +188,30 @@ ImpactAnimationType = oPistolShotImpact
 if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
 draw_sprite_ext(sBulletBar, ((ShotsFiredCount/ShotsFiredCountMax)*100)/5, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
 }
+
+//AIMING A GRENADE, ETC
+if DrawAimingBeam = true
+{
+/*var distance;
+distance = point_distance(oPlayer.x,oPlayer.y,mouse_x,mouse_y)*/
+
+var aimbarlen, maxaimbarlen;
+aimbarlen = 0
+maxaimbarlen = 700
+
+//See where the line hits something
+while (aimbarlen &lt; maxaimbarlen &amp;&amp; 
+!position_meeting(x+lengthdir_x(aimbarlen,point_direction(x,y,mouse_x,mouse_y)),y+lengthdir_y(aimbarlen,point_direction(x,y,mouse_x,mouse_y)),oEnemy))
+    {
+    //Draw the line!
+    draw_line_width_colour(x,y,x+lengthdir_x(aimbarlen,point_direction(x,y,mouse_x,mouse_y)),y+lengthdir_y(aimbarlen,point_direction(x,y,mouse_x,mouse_y)),5,c_purple,c_fuchsia)
+    //Extend the line!
+    aimbarlen += 4
+    }
+
+    
+}
+
 }
 </string>
           </argument>
