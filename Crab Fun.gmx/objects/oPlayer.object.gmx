@@ -3,7 +3,7 @@
   <spriteName>sPlayer</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-450</depth>
+  <depth>-10010</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -193,7 +193,7 @@ PlayerCollision(oInvisibleWall)
           <argument>
             <kind>1</kind>
             <string>//DrawSprite Normally but facing player without turning image_angle
-draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,Facing,image_blend,image_alpha)
+draw_sprite_ext(sPlayer,image_index,x,y,image_xscale,image_yscale,Facing,image_blend,image_alpha)
 </string>
           </argument>
         </arguments>

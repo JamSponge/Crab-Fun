@@ -30,6 +30,8 @@
 ScreenWidth = display_get_width()
 ScreenHeight = display_get_height()
 
+display_reset(2, true)
+
 //Camera Setup
 ZoomLevel = 0
 ZoomMax=300
@@ -41,6 +43,7 @@ view_hview = ScreenHeight
 /* how much of the screen do we want to take up?*/
 view_wport = ScreenWidth
 view_hport = ScreenHeight
+
 
 //Weird Bullshit
 surface_resize(application_surface,ScreenWidth,ScreenHeight)

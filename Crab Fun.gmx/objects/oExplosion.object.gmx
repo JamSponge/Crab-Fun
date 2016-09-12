@@ -70,7 +70,7 @@ if image_index &gt; 1 &amp;&amp; image_index &lt;8
     if instance_place(x,y,oPlayer)
         {
         //I AM THE MURDERER, YOUR HONOUR.
-        oCamera.KillerTracker = id
+        oCamera.KillerTracker = self.id
         //KILL THE PLAYER WITH A SPLAT LOL
         with (oPlayer)
             {

@@ -76,6 +76,7 @@
     <sprite>sprites\sprite37</sprite>
     <sprite>sprites\spr_leveltiles</sprite>
     <sprite>sprites\sMovementBlocker</sprite>
+    <sprite>sprites\sExplosionEstimater</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -110,6 +111,7 @@
     </scripts>
     <script>scripts\Dice_Rolls.gml</script>
     <script>scripts\PlayerCollision.gml</script>
+    <script>scripts\CROSSHAIR_AND_AIMING.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -127,13 +129,10 @@
       <object>objects\oPlayerSmallBits</object>
       <object>objects\oBitsSplat2</object>
     </objects>
-    <objects name="CrossHair">
-      <object>objects\oCrossHairPinPoint</object>
-      <object>objects\oCrossHair</object>
-    </objects>
     <object>objects\oFuckedIt</object>
     <objects name="CORE MECHANICS">
       <object>objects\oEnemyBody</object>
+      <object>objects\oCrossHair</object>
       <object>objects\oSolidObject</object>
       <object>objects\oInvisibleWall</object>
       <object>objects\oProjectile</object>

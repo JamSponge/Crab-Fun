@@ -478,7 +478,7 @@ for (var row=0; row&lt;ds_grid_height(grid); row++)
         else 
         {
         var subimage = grid[# col, row]  
-        draw_sprite(spr_leveltiles, subimage, (col*128)+64, (row*128)+64);
+        draw_sprite(spr_leveltiles, subimage, round((col*128)+64), round((row*128)+64));
         }
     }
 }
