@@ -140,6 +140,9 @@ ImpactAnimationType = oPistolShotImpact
     //SWITCH ON BEAM GRAPHICS &amp; PREP IT ETC
     oCrossHair.DrawAimingBeam = true
     oCrossHair.RadiusSize = ExplosionSize
+    //PUT IMPACT TRACKER IN ROUGHLY THE RIGHT PLACE
+    oImpactTracker.x = x
+    oImpactTracker.y = y
     }
 
         //RELEASE AND FIRE IT

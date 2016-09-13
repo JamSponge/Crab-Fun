@@ -37,9 +37,7 @@ SplatDepth = 800
 //Crosshair Load
 /*window_set_cursor(cr_none)*/
 instance_create (x,y,oCrossHair)
-
-
-
+instance_create (x,y,oImpactTracker) 
 </string>
           </argument>
         </arguments>

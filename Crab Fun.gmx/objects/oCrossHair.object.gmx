@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>DrawAimingBeam = false
+            <string>ExplosionSizeVisualiser = 0
+DrawAimingBeam = false
+ImpactTrackerAlpha = 0
 </string>
           </argument>
         </arguments>

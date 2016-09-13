@@ -1,20 +1,25 @@
 #define CROSSHAIR_AND_AIMING
 
+
 #define CrossHairDraw
 CrossHairSprite0 = argument0
 CrossHairSprite1 = argument1
 
         //THIS IS A DRAW EVENT - SEE NEXT TAB FOR STEP SETUP
 
-if DrawingTheLine = true && instance_exists(oPlayer)
+if DrawingTheLine = true && instance_exists(oPlayer) && instance_exists(oImpactTracker)
 {
 //Draw the line!
-draw_line_width_colour(PlayerX,PlayerY,EndOfLineX,EndOfLineY,aimbarwidth,c_fuchsia,c_purple)   
+/*draw_line_width_colour(PlayerX,PlayerY,EndOfLineX,EndOfLineY,aimbarwidth,c_fuchsia,c_purple)  */ 
 
 //Draw the ExplosionEstimater
-draw_sprite_ext(sExplosionEstimater,image_index,EndOfLineX,EndOfLineY,CrossHairDotScale,CrossHairDotScale,0,c_white,1)
+draw_sprite_ext(sExplosionEstimater,image_index,oImpactTracker.x,oImpactTracker.y,ExplosionSizeVisualiser,ExplosionSizeVisualiser,0,c_white,ImpactTrackerAlpha)
+
+//DEBUG DRAW
+draw_text(oPlayer.x,oPlayer.y,ExplosionSizeVisualiser)
 
 }
+
 
 
 //NO WEIRD STUFF, JUST THE NORMAL CROSSHAIR PLS
@@ -54,19 +59,15 @@ if instance_exists(oPlayer)
     DrawingTheLine = false
     if DrawAimingBeam = true && instance_exists(oPlayer)
     {
+    //HOW BIG IS THIS "BIG-A-BAD-A-BOOM", EXACTLY?
+    ExplosionSizeVisualiserMax = 1
     
-    /*TIGHTEN THE MOUSE AIM WINDOW
-    var TightWidth, TightHeight;
-    TightWidth = oCamera.TightWidth
-    TightHeight = oCamera.TightHeight
-    if PointerX < PlayerX - TightWidth {x = PlayerX - TightWidth}
-    if PlayerX + TightWidth < PointerX {x = PlayerX + TightWidth}
-    if PointerY < PlayerY - TightHeight {y = PlayerX - TightHeight}
-    if PlayerY + TightHeight < PointerY {y = PlayerX + TightHeight}
-    */
+    /*oPlayer.ExplosionSize*/
     
-    /*var distance;
-    distance = point_distance(oPlayer.x,oPlayer.y,PointerX,PointerY)*/
+    //TWEENTWEAKS FOR IMPACT TRACKER ETC (Movement in Impact Tracker)
+    AlphaTweenSpeed = 0.2
+    ScaleTweenSpeedIn = 0.2
+    ScaleTweenSpeedOut = 0.1
     
     var maxaimbarlen;
     aimbarlen = 0
@@ -82,12 +83,62 @@ if instance_exists(oPlayer)
             if aimbarwidth <= 1 {aimbarwidth = 1}
             if 8 < aimbarwidth {aimbarwidth = 8}
         //Extend the line!
-        aimbarlen += 4
+        aimbarlen += 10
         EndOfLineX = PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY))
         EndOfLineY = PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY))
+        //GIVE TARGET X AND Y TO TRACKER
+        oImpactTracker.TargetX = EndOfLineX
+        oImpactTracker.TargetY = EndOfLineY
         }
+    
+    //IF IMPACT IS AN ENEMY, THEN MAKE THE IMPACT RING SWELL. SWOLLEN RINGS! HAH, FILTH MATE. FILTH.
+    
+    if maxaimbarlen <= aimbarlen 
+    {
+    ExplosionSizeVisualiser += (0 - ExplosionSizeVisualiser) *ScaleTweenSpeedOut;
+    oImpactTracker.TargetX = x
+    oImpactTracker.TargetY = y
+    }
+    else
+    {
+    ExplosionSizeVisualiser += (ExplosionSizeVisualiserMax - ExplosionSizeVisualiser) *ScaleTweenSpeedIn;
+    }
+    //OUTER LIMITS
+    if ExplosionSizeVisualiser <= 0 {ExplosionSizeVisualiser = 0}
+    if ExplosionSizeVisualiserMax <= ExplosionSizeVisualiser {ExplosionSizeVisualiser = ExplosionSizeVisualiserMax} 
+    //ALPHA FADE
+    if ExplosionSizeVisualiser <= ExplosionSizeVisualiserMax*0.75
+    {
+    ImpactTrackerAlpha += (0 - ImpactTrackerAlpha) *AlphaTweenSpeed;
+    }
+    else
+    if ImpactTrackerAlpha <1
+    {
+    ImpactTrackerAlpha += (1 - ImpactTrackerAlpha) *AlphaTweenSpeed;
+    }
+    
+         
     /*draw_sprite_ext(CrossHairSprite0,image_index,PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),CrossHairDotScale,CrossHairDotScale,0,c_white,0.8)
     draw_sprite_ext(CrossHairSprite1,image_index,PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),CrossHairDotScale,CrossHairDotScale,0,c_white,0.8)
     */
+    }
+    //DESTROY IMPACT RING TRACKER
+    
+    
+}
+
+#define ImpactTracker
+if instance_exists (oPlayer)
+{
+    if oCrossHair.DrawingTheLine = false
+    {
+    TargetX = oPlayer.x
+    TargetY = oPlayer.y
+    }
+    
+    if oCrossHair.DrawAimingBeam = true
+    {
+    x += (TargetX - x) *0.15;
+    y += (TargetY - y) *0.15;
     }
 }
