@@ -237,57 +237,75 @@
     <font>fonts\fCrabPoints</font>
   </fonts>
   <objects name="objects">
-    <object>objects\oPlayer</object>
-    <object>objects\oMuzzleFlare</object>
-    <object>objects\oPistolShotImpact</object>
-    <object>objects\oBullet2</object>
-    <object>objects\oBits</object>
-    <objects name="SPLATS">
-      <object>objects\oBitsSplat</object>
-      <object>objects\oPlayerSplat</object>
-      <object>objects\oSmallBits</object>
-      <object>objects\oPlayerSmallBits</object>
-      <object>objects\oBitsSplat2</object>
-    </objects>
-    <object>objects\oFuckedIt</object>
-    <objects name="CORE MECHANICS">
-      <object>objects\oEnemyBody</object>
-      <object>objects\oCrossHair</object>
-      <object>objects\oSolidObject</object>
-      <object>objects\oInvisibleWall</object>
-      <object>objects\oProjectile</object>
-      <object>objects\oEnemy</object>
+    <objects name="ESSENTIAL AT GAME START">
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
-      <object>objects\oGlobalSolid</object>
-      <object>objects\oEnemyArrayController</object>
-      <object>objects\oHUD</object>
       <object>objects\oPersistentValues</object>
       <object>objects\oLevelGen</object>
     </objects>
-    <object>objects\oPistol</object>
-    <object>objects\oExplodeGun</object>
-    <objects name="MENUS">
-      <object>objects\oPauseScreen</object>
+    <objects name="MENUS AND UI">
+      <objects name="MENU STUFF">
+        <object>objects\oPauseScreen</object>
+      </objects>
+      <object>objects\oFuckedIt</object>
+      <object>objects\oHUD</object>
     </objects>
-    <object>objects\oMachineGun</object>
-    <object>objects\oShotgun</object>
-    <object>objects\oInvisibleBulletBar</object>
-    <objects name="EXPLOSIONS ETC">
-      <object>objects\oExplosion</object>
-      <object>objects\oSmokePuff</object>
+    <objects name="ENVIRONMENT AND OBJECTS">
+      <object>objects\oCrate</object>
+      <object>objects\oSmallCrate</object>
+      <object>objects\oBigCrate</object>
+      <objects name="ICE CREAM">
+        <object>objects\oSmallIceCreamCrate</object>
+        <object>objects\oIceCreamCone</object>
+        <object>objects\oIceCreamPool</object>
+        <object>objects\oDeadIceCreamCone</object>
+      </objects>
+      <objects name="CRATE SHRAPNEL">
+        <object>objects\oCrateShrapnel1</object>
+        <object>objects\oDestroyedCrate</object>
+        <object>objects\oCrateShrapnelBig</object>
+      </objects>
+      <objects name="PARENTS &amp; GLOBAL CONCEPTS">
+        <object>objects\oSolidObject</object>
+        <object>objects\oInvisibleWall</object>
+        <object>objects\oGlobalSolid</object>
+      </objects>
     </objects>
-    <object>objects\oCrate</object>
-    <object>objects\oSmallCrate</object>
-    <object>objects\oSmallIceCreamCrate</object>
-    <object>objects\oBigCrate</object>
-    <object>objects\oBulletBeam</object>
-    <objects name="CRATE SHRAPNEL">
-      <object>objects\oCrateShrapnel1</object>
-      <object>objects\oCrateShrapnelBig</object>
+    <object>objects\oPlayer</object>
+    <objects name="WEAPONS AND SHOOTIN">
+      <objects name="NON-SPECIFIC STUFF">
+        <object>objects\oImpactTracker</object>
+        <object>objects\oCrossHair</object>
+        <object>objects\oProjectile</object>
+      </objects>
+      <objects name="DEATHSPLATS">
+        <object>objects\oBitsSplat</object>
+        <object>objects\oPlayerSplat</object>
+        <object>objects\oSmallBits</object>
+        <object>objects\oPlayerSmallBits</object>
+        <object>objects\oBitsSplat2</object>
+        <object>objects\oBits</object>
+      </objects>
+      <object>objects\oPistol</object>
+      <object>objects\oShotgun</object>
+      <object>objects\oMachineGun</object>
+      <object>objects\oPistolShotImpact</object>
+      <object>objects\oBullet2</object>
+      <object>objects\oMuzzleFlare</object>
+      <object>objects\oInvisibleBulletBar</object>
+      <object>objects\oExplodeGun</object>
+      <objects name="EXPLOSIONS ETC">
+        <object>objects\oExplosion</object>
+        <object>objects\oSmokePuff</object>
+      </objects>
+      <object>objects\oBulletBeam</object>
     </objects>
-    <object>objects\oDestroyedCrate</object>
-    <objects name="Enemies">
+    <objects name="ENEMIES AND AI">
+      <object>objects\oEnemyArrayController</object>
+      <object>objects\oEnemyBody</object>
+      <object>objects\oEnemy</object>
+      <object>objects\oDeadEnemy</object>
+      <object>objects\oRedToBlueCrab</object>
       <object>objects\oStandardEnemyBody</object>
       <object>objects\oExplodeEnemyLegs</object>
       <object>objects\oStandardEnemyLegs</object>
@@ -295,20 +313,14 @@
       <object>objects\oStandardEnemyDead</object>
       <object>objects\oExplodeEnemyDead</object>
       <object>objects\oExplodeEnemyBOOM</object>
-      <object>objects\oDeadEnemy</object>
     </objects>
-    <object>objects\oIceCreamCone</object>
-    <object>objects\oDeadIceCreamCone</object>
-    <object>objects\oIceCreamPool</object>
-    <object>objects\oRedToBlueCrab</object>
-    <objects name="Pickups">
+    <objects name="PICKUPS AND POWERS">
       <object>objects\oShotgunPickup</object>
       <object>objects\oMachineGunPickup</object>
     </objects>
     <objects name="TweenGMS">
       <object>objects\obj_SharedTweener</object>
     </objects>
-    <object>objects\oImpactTracker</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
