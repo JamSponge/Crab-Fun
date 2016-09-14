@@ -27,7 +27,12 @@
             <kind>1</kind>
             <string>ExplosionSizeVisualiser = 0
 DrawAimingBeam = false
+DrawingTheLine = false
 ImpactTrackerAlpha = 0
+ExplosionSize = 0
+PowerBarXScale = 0
+PowerBarYScale = 0
+PowerBarAlpha = 0
 </string>
           </argument>
         </arguments>

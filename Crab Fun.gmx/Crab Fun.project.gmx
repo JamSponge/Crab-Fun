@@ -151,6 +151,7 @@
     <sprite>sprites\sMovementBlocker</sprite>
     <sprite>sprites\sExplosionEstimater</sprite>
     <sprite>sprites\sprite40</sprite>
+    <sprite>sprites\sExplosionEstimaterPart2</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -167,6 +168,7 @@
     <script>scripts\EnemyHeadBehaviour.gml</script>
     <script>scripts\ThingExplodes.gml</script>
     <script>scripts\WeaponPickedUp.gml</script>
+    <script>scripts\ScreenShake.gml</script>
     <script>scripts\CrateDestroyed.gml</script>
     <script>scripts\EnemyTurning.gml</script>
     <script>scripts\EnemyDestroyedSplatter.gml</script>
@@ -286,6 +288,10 @@
         <object>objects\oBitsSplat2</object>
         <object>objects\oBits</object>
       </objects>
+      <objects name="EXPLOSIONS ETC">
+        <object>objects\oExplosion</object>
+        <object>objects\oSmokePuff</object>
+      </objects>
       <object>objects\oPistol</object>
       <object>objects\oShotgun</object>
       <object>objects\oMachineGun</object>
@@ -294,10 +300,6 @@
       <object>objects\oMuzzleFlare</object>
       <object>objects\oInvisibleBulletBar</object>
       <object>objects\oExplodeGun</object>
-      <objects name="EXPLOSIONS ETC">
-        <object>objects\oExplosion</object>
-        <object>objects\oSmokePuff</object>
-      </objects>
       <object>objects\oBulletBeam</object>
     </objects>
     <objects name="ENEMIES AND AI">

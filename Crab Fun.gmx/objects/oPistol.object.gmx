@@ -40,6 +40,7 @@ DrawAimingBeam = false
 ShotsFiredCountMax = 10
 MyBulletSpeed = 3500 / room_speed
 RateOfFire = 0.2 //---IN SECONDS
+
 //AUDIO
 GunShootSFX = choose (sPistol1,sPistol2,sPistol3,sPistol4) //ALSO IN PistolProjectileCreation SCRIPT
 GunShootSFXLow3 = sPistolLow0
@@ -47,18 +48,24 @@ GunShootSFXLow2 = sPistolLow1
 GunShootSFXLow1 = sPistolLow2
 OutOfAmmoSFX = aPlayerShootClick
 
-
-
 //VISUAL
 MuzzleFlareType = oMuzzleFlare
 BulletType = oBullet2
 BulletBeamType = oBulletBeam
 ImpactAnimationType = oPistolShotImpact
 
+//GUN-FEEL
+WeaponScreenShake = oCamera.DisplayRatio*12
 
     //WEAPON-SPECIFIC SETUP
-    MyGunBombSpeed = 1500/room_speed
+    
+    //EXPLODYTIMES
+    MyGunBombSpeed = 2000/room_speed
     BombGunThrown = false
+    WeaponMinExplodeSize = 0.1
+    WeaponMaxExplodeSize = 2
+    WeaponExplodeSizeGrowthRate = 0.01
+    
 </string>
           </argument>
         </arguments>
@@ -105,7 +112,7 @@ ImpactAnimationType = oPistolShotImpact
         {
         TimeSinceMouseReleased = 0
             
-        //RUN PROJECTILE CREATION SCRIPT
+        //CREATE A PROJECTILE POW POW POW
         PistolProjectileCreation()
                     
         //INCREASE NUMBER OF SHOTS FIRED
@@ -127,23 +134,29 @@ ImpactAnimationType = oPistolShotImpact
         
         
     //MAXED GUN, THROW TO EXPLODE!
-    if ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false
-    {
-        
-    //AIM THE EXPLOSION
+    if BombGunThrown = false{
+    
     if mouse_check_button_pressed(mb_right)
     {
+    //PASS DATA ONTO CROSSHAIR, IN CASE PISTOL GOES AWAY FOR SOME REASON??
     //HOW BIG IS THIS "BIG BOOM" GOING TO BE, SIR?
-    ExplosionSize=1
-    
-    
+    ExplosionSize = ShotsFiredCount/ShotsFiredCountMax; if ExplosionSize &lt;WeaponMinExplodeSize {ExplosionSize = WeaponMinExplodeSize}
     //SWITCH ON BEAM GRAPHICS &amp; PREP IT ETC
     oCrossHair.DrawAimingBeam = true
-    oCrossHair.RadiusSize = ExplosionSize
     //PUT IMPACT TRACKER IN ROUGHLY THE RIGHT PLACE
     oImpactTracker.x = x
     oImpactTracker.y = y
     }
+    
+    //HOLD DOWN, INCREASE BOMB SIZE
+    if mouse_check_button(mb_right)
+    {
+    ExplosionSize += (WeaponMaxExplodeSize - ExplosionSize) *WeaponExplodeSizeGrowthRate;
+    if WeaponMaxExplodeSize &lt; ExplosionSize {ExplosionSize = WeaponMaxExplodeSize}
+    oCrossHair.ExplosionSize = ExplosionSize
+    } 
+    
+    
 
         //RELEASE AND FIRE IT
         if mouse_check_button_released(mb_right)
@@ -157,10 +170,10 @@ ImpactAnimationType = oPistolShotImpact
         audio_play_sound(aPlayerShoot,100,false)
         MyGunBomb.direction = image_angle
         MyGunBomb.speed = MyGunBombSpeed
+        MyGunBomb.ExplosionSize = ExplosionSize
         
         //SWITCH OFF LASER AIM BEAM
         oCrossHair.DrawAimingBeam=false
-        
         }
         
     

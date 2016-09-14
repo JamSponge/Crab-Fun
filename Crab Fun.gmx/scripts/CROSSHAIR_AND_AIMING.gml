@@ -15,8 +15,12 @@ if DrawingTheLine = true && instance_exists(oPlayer) && instance_exists(oImpactT
 //Draw the ExplosionEstimater
 draw_sprite_ext(sExplosionEstimater,image_index,oImpactTracker.x,oImpactTracker.y,ExplosionSizeVisualiser,ExplosionSizeVisualiser,0,c_white,ImpactTrackerAlpha)
 
+//DRAW THE POWER BAR
+draw_sprite_ext(sExplosionEstimaterPart2,image_index,oPlayer.x,oPlayer.y,PowerBarXScale,PowerBarYScale,PowerBarDir,c_white,PowerBarAlpha)
+
+
 //DEBUG DRAW
-draw_text(oPlayer.x,oPlayer.y,ExplosionSizeVisualiser)
+//draw_text(oPlayer.x,oPlayer.y,ExplosionSizeVisualiser)
 
 }
 
@@ -35,7 +39,9 @@ draw_sprite_ext(CrossHairSprite1,image_index,x,y,CrossHairDotScale,CrossHairDotS
 x = mouse_x
 y = mouse_y
 
-
+    //ALWAYS START BY ASSUMING THE INVISIBLE LINE ISN'T BEING DRAWN, I GUESS?
+    DrawingTheLine = false
+    
 if instance_exists(oPlayer)
 {
     var LaserDistance, LaserDistanceMin, LaserDistanceMax;
@@ -53,16 +59,12 @@ if instance_exists(oPlayer)
     if CrossHairDotScale  <= 0.9{CrossHairDotScale =0.9}
     if 1.5 < CrossHairDotScale{CrossHairDotScale =1.5}
     
-    
-    
     //AIMING A GRENADE, ETC - BRING UP THE BAR!
-    DrawingTheLine = false
     if DrawAimingBeam = true && instance_exists(oPlayer)
     {
-    //HOW BIG IS THIS "BIG-A-BAD-A-BOOM", EXACTLY?
-    ExplosionSizeVisualiserMax = 1
     
-    /*oPlayer.ExplosionSize*/
+    //HOW BIG IS THIS "BIG-A-BAD-A-BOOM", EXACTLY?
+    ExplosionSizeVisualiserMax = ExplosionSize
     
     //TWEENTWEAKS FOR IMPACT TRACKER ETC (Movement in Impact Tracker)
     AlphaTweenSpeed = 0.2
@@ -78,12 +80,8 @@ if instance_exists(oPlayer)
     (aimbarlen < maxaimbarlen && !position_meeting (PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),oEnemy))
         { 
         DrawingTheLine = true
-            //CHANGE GIRTH LOL
-            aimbarwidth = (aimbarlen-(aimbarlen*2)+ maxaimbarlen) div 60
-            if aimbarwidth <= 1 {aimbarwidth = 1}
-            if 8 < aimbarwidth {aimbarwidth = 8}
         //Extend the line!
-        aimbarlen += 10
+        aimbarlen += 15
         EndOfLineX = PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY))
         EndOfLineY = PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY))
         //GIVE TARGET X AND Y TO TRACKER
@@ -117,14 +115,14 @@ if instance_exists(oPlayer)
     ImpactTrackerAlpha += (1 - ImpactTrackerAlpha) *AlphaTweenSpeed;
     }
     
-         
-    /*draw_sprite_ext(CrossHairSprite0,image_index,PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),CrossHairDotScale,CrossHairDotScale,0,c_white,0.8)
-    draw_sprite_ext(CrossHairSprite1,image_index,PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),CrossHairDotScale,CrossHairDotScale,0,c_white,0.8)
-    */
+        //BASIC DIRECTIONAL POWER-BAR, NO FUNNY BUSINESS
+        PowerBarDir = point_direction(PlayerX,PlayerY,PointerX,PointerY)
+        PowerBarXScale += (ExplosionSize - PowerBarXScale) *ScaleTweenSpeedIn;
+        PowerBarYScale += (ExplosionSize - PowerBarXScale) *ScaleTweenSpeedOut;
+        PowerBarAlpha += (1 - 0) *0.01;
+    
     }
-    //DESTROY IMPACT RING TRACKER
-    
-    
+
 }
 
 #define ImpactTracker

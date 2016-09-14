@@ -25,22 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle = random_range(1,360)
-TimeToDeathFadeZero = 0
-TimeToDeathFade = 1
-
-WeaponDamage = 5
-Impact = 2000/room_speed
-
-audio_play_sound_at(aExplode,x,y,0,100,800,1,false,1)
-
-with (oCamera) {bigscreenshake = true
-bonusscreenshake = bonusscreenshake + 1
-alarm[0]=600/room_speed
-alarm[1]=room_speed*1.5
-}
-
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>

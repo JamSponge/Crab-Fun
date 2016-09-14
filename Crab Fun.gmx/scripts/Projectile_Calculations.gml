@@ -28,8 +28,10 @@
     //PROJECTILE CREATION
     //MUZZLE FLASH
     instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
-           
-        with (oCamera) {screenshake = true
+    
+        oCamera.ShakeAmount = WeaponScreenShake
+        with (oCamera) {
+        screenshake = true
         alarm[0]=300/room_speed
         }
     

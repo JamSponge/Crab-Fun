@@ -86,7 +86,7 @@ if GunExplodeTimer &gt;= 1
 instance_place(x,y,oEnemy)
 {
 oPistol.BombGunThrown = false
-ThingExplodes()
+ThingExplodes(ExplosionSize)
 }
 </string>
           </argument>
