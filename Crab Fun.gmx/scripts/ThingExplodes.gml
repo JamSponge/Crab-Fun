@@ -6,8 +6,9 @@ theboom.TimeToDeathFadeZero = 0
 theboom.TimeToDeathFade = 1
 theboom.image_xscale = ExplosionSize
 theboom.image_yscale = ExplosionSize
-theboom.WeaponDamage = ExplosionSize*10
-theboom.Impact = (ExplosionSize*100 + 1000)/room_speed
+theboom.WeaponDamage = ExplosionSize*5
+theboom.Impact = ExplosionSize*1500/room_speed
+
 
 audio_play_sound_at(aExplode,x,y,0,100,800,1,false,1)
 

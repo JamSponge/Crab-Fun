@@ -35,6 +35,7 @@ TimeSinceLastShot = 0
 TimeBetweenShots = 1
 TimeSinceMouseReleased = 0
 DrawAimingBeam = false
+GunBombCharging = false
 
 //GENERIC WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 10
@@ -64,7 +65,7 @@ WeaponScreenShake = oCamera.DisplayRatio*12
     BombGunThrown = false
     WeaponMinExplodeSize = 0.1
     WeaponMaxExplodeSize = 2
-    WeaponExplodeSizeGrowthRate = 0.01
+    WeaponExplodeSizeGrowthRate = 0.002
     
 </string>
           </argument>
@@ -134,10 +135,12 @@ WeaponScreenShake = oCamera.DisplayRatio*12
         
         
     //MAXED GUN, THROW TO EXPLODE!
-    if BombGunThrown = false{
+    if BombGunThrown = false
+    {
     
     if mouse_check_button_pressed(mb_right)
     {
+    GunBombCharging = true
     //PASS DATA ONTO CROSSHAIR, IN CASE PISTOL GOES AWAY FOR SOME REASON??
     //HOW BIG IS THIS "BIG BOOM" GOING TO BE, SIR?
     ExplosionSize = ShotsFiredCount/ShotsFiredCountMax; if ExplosionSize &lt;WeaponMinExplodeSize {ExplosionSize = WeaponMinExplodeSize}
@@ -149,22 +152,35 @@ WeaponScreenShake = oCamera.DisplayRatio*12
     }
     
     //HOLD DOWN, INCREASE BOMB SIZE
-    if mouse_check_button(mb_right)
+    if mouse_check_button(mb_right) 
     {
-    ExplosionSize += (WeaponMaxExplodeSize - ExplosionSize) *WeaponExplodeSizeGrowthRate;
-    if WeaponMaxExplodeSize &lt; ExplosionSize {ExplosionSize = WeaponMaxExplodeSize}
-    oCrossHair.ExplosionSize = ExplosionSize
-    } 
-    
-    
+        if GunBombCharging = true
+        {
+        ExplosionSize += (WeaponMaxExplodeSize - ExplosionSize) *WeaponExplodeSizeGrowthRate;
+        if WeaponMaxExplodeSize &lt; ExplosionSize {ExplosionSize = WeaponMaxExplodeSize}
+        oCrossHair.ExplosionSize = ExplosionSize
+        } 
+        else
+        {
+        GunBombCharging = true
+        //THIS IS DUPLICATE OF STUFF ABOVE - PROBABLY SCRIPT AT SOME POINT, MATEY
+        //HOW BIG IS THIS "BIG BOOM" GOING TO BE, SIR?
+        ExplosionSize = ShotsFiredCount/ShotsFiredCountMax; if ExplosionSize &lt;WeaponMinExplodeSize {ExplosionSize = WeaponMinExplodeSize}
+        //SWITCH ON BEAM GRAPHICS &amp; PREP IT ETC
+        oCrossHair.DrawAimingBeam = true
+        //PUT IMPACT TRACKER IN ROUGHLY THE RIGHT PLACE
+        oImpactTracker.x = x
+        oImpactTracker.y = y
+        }
+    }
 
         //RELEASE AND FIRE IT
         if mouse_check_button_released(mb_right)
         {
+        GunBombCharging = false
         BombGunThrown = true
         ShotsFiredCount = 0
         CanShoot = true
-        
         MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
                 
         audio_play_sound(aPlayerShoot,100,false)
@@ -172,8 +188,14 @@ WeaponScreenShake = oCamera.DisplayRatio*12
         MyGunBomb.speed = MyGunBombSpeed
         MyGunBomb.ExplosionSize = ExplosionSize
         
-        //SWITCH OFF LASER AIM BEAM
-        oCrossHair.DrawAimingBeam=false
+            //SWITCH OFF LASER AIM BEAM SHIT
+            with (oCrossHair)
+            {
+            DrawAimingBeam=false
+            PowerBarXScale=0
+            PowerBarYScale=0
+            PowerBarAlpha=0
+            }
         }
         
     

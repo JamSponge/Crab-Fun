@@ -73,7 +73,7 @@ if instance_exists(oPlayer)
     
     var maxaimbarlen;
     aimbarlen = 0
-    maxaimbarlen = 600
+    maxaimbarlen = 800
     
     //See where the line hits something
     while 
@@ -136,7 +136,7 @@ if instance_exists (oPlayer)
     
     if oCrossHair.DrawAimingBeam = true
     {
-    x += (TargetX - x) *0.15;
-    y += (TargetY - y) *0.15;
+    x += (TargetX - x) *0.2;
+    y += (TargetY - y) *0.2;
     }
 }
