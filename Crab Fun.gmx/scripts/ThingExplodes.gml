@@ -15,7 +15,7 @@ audio_play_sound_at(aExplode,x,y,0,100,800,1,false,1)
 with (oCamera) 
 {
 screenshake = true
-ShakeAmount = oCamera.DisplayRatio*((ExplosionSize*20)+5)
+ShakeAmount = global.DisplayRatio*((ExplosionSize*20)+5)
 bonusscreenshake = bonusscreenshake + ExplosionSize
 alarm[0]=600/room_speed
 alarm[1]=room_speed*1.5

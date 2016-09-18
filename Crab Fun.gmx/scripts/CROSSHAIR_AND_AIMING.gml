@@ -124,6 +124,10 @@ if instance_exists(oPlayer)
     }
 
 }
+else
+{
+CrossHairDotScale = 1
+}
 
 #define ImpactTracker
 if instance_exists (oPlayer)

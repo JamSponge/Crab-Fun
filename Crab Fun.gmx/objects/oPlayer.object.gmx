@@ -31,12 +31,7 @@ WeaponArrayIndex = 0
 PlayerNoGun = false
 
 //Camera &amp; HUD
-instance_create(x,y,oCamera)
 instance_create(x,y,oHUD)
-
-instance_create(x,y,oPistol)
-
-
 
 Facing = point_direction (x,y,mouse_x,mouse_y)
 
@@ -80,7 +75,9 @@ ExtraSplatChance = random_range(1,10)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if gameover = true {
+            <string>room_speed = 60
+
+if gameover = true {
 speed = 0
 image_alpha=0
 }
@@ -192,7 +189,9 @@ PlayerCollision(oInvisibleWall)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//DrawSprite Normally but facing player without turning image_angle
+            <string>draw_text(x,y,oPlayer.x)
+
+//DrawSprite Normally but facing player without turning image_angle
 draw_sprite_ext(sPlayer,image_index,x,y,image_xscale,image_yscale,Facing,image_blend,image_alpha)
 </string>
           </argument>

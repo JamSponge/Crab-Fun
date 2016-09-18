@@ -15,11 +15,11 @@ if ZoomLevel <0{
 ZoomLevel = 0}
 
 //FIX CAMERA BOUNDS
-if view_wview > ScreenWidth {
-view_wview = ScreenWidth
+if ScreenWidth*1.5 < view_wview{
+view_wview = ScreenWidth*1.5
 }
-if view_hview > ScreenHeight {
-view_hview = ScreenHeight
+if ScreenHeight*1.5 < view_hview {
+view_hview = ScreenHeight*1.5
 }
 if view_wview < ScreenWidth/1.8 {
 view_wview = ScreenWidth/1.8

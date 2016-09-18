@@ -152,6 +152,7 @@
     <sprite>sprites\sExplosionEstimater</sprite>
     <sprite>sprites\sprite40</sprite>
     <sprite>sprites\sExplosionEstimaterPart2</sprite>
+    <sprite>sprites\sprite42</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -234,6 +235,9 @@
         <script>scripts\Deprecated_TweenDefaults.gml</script>
       </scripts>
     </scripts>
+    <script>scripts\LEVEL_GENERATION.gml</script>
+    <script>scripts\script63.gml</script>
+    <script>scripts\GAME_SETTINGS.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -243,7 +247,8 @@
       <object>objects\oGame</object>
       <object>objects\oCamera</object>
       <object>objects\oPersistentValues</object>
-      <object>objects\oLevelGen</object>
+      <object>objects\oStartGame</object>
+      <object>objects\oStartup</object>
     </objects>
     <objects name="MENUS AND UI">
       <objects name="MENU STUFF">
@@ -325,7 +330,7 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
+    <room>rooms\MAIN_MENU_temp</room>
     <room>rooms\Menu_Screen</room>
   </rooms>
   <help>

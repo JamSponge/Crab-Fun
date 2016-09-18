@@ -56,7 +56,7 @@ BulletBeamType = oBulletBeam
 ImpactAnimationType = oPistolShotImpact
 
 //GUN-FEEL
-WeaponScreenShake = oCamera.DisplayRatio*12
+WeaponScreenShake = global.DisplayRatio*12
 
     //WEAPON-SPECIFIC SETUP
     
