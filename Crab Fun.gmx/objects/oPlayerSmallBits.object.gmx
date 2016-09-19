@@ -36,6 +36,15 @@ SplatVarX = random_range(50,70)
 SplatVarY = random_range(100,150)
 
 image_speed = 0
+
+DeathFadeSetup(3)
+
+var DebrisID = self.id
+with (oDebrisArray)
+{
+CurrentArray[CurrentArraySlot] = DebrisID
+CurrentArraySlot++
+}
 </string>
           </argument>
         </arguments>
@@ -61,6 +70,13 @@ image_speed = 0
             <string>image_angle = direction
 Deceleration = 100/random(100)
 
+if 0 &lt; speed &amp;&amp; SplattedYet =true
+{
+DeathFadeAlarmTrigger()
+}
+else
+{
+
 if speed &gt; Deceleration {
 speed = speed-(Deceleration/room_speed)
 } else{ speed=0}
@@ -68,7 +84,7 @@ speed = speed-(Deceleration/room_speed)
 if speed &gt; 0 {
 image_xscale = image_xscale+(distance_to_point (BitOriginX, BitOriginY)/SplatVarX)
 image_xscale = image_yscale+(distance_to_point (BitOriginX, BitOriginY)/SplatVarY)
-}
+
 
 if distance_to_point (BitOriginX, BitOriginY) &gt; 50 {
 speed =0
@@ -76,25 +92,20 @@ speed =0
 
 if image_xscale &gt; 10 { image_xscale = 10}
 
-if speed=0 and SplattedYet=false {
-image_xscale=image_xscale*1.3
-image_yscale=image_yscale*1.3
-SplattedYet=true
-}
-
 if instance_place(x,y,oSolidObject)
 {
 SplattedYet=true
 speed = 0
 }
 
-DeathFade()
+}
 
-/*SPLATSTRETCH
-SplatterStretch = 0
-SplatterStretchMax = 5
-if speed &lt;10 while SplatterStretch &lt; SplatterStretchMax {
-SplatterStretch = SplatterStretch+1
+if speed=0 and SplattedYet=false {
+image_xscale=image_xscale*1.3
+image_yscale=image_yscale*1.3
+SplattedYet=true
+}
+}
 </string>
           </argument>
         </arguments>

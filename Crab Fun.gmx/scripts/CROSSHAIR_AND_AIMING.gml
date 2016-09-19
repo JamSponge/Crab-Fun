@@ -77,7 +77,7 @@ if instance_exists(oPlayer)
     
     //See where the line hits something
     while 
-    (aimbarlen < maxaimbarlen && !position_meeting (PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),oEnemy))
+    (aimbarlen < maxaimbarlen && !position_meeting (PlayerX+lengthdir_x(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),PlayerY+lengthdir_y(aimbarlen,point_direction(PlayerX,PlayerY,PointerX,PointerY)),oGlobalSolid))
         { 
         DrawingTheLine = true
         //Extend the line!

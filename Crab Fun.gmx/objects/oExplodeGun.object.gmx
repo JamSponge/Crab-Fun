@@ -78,15 +78,17 @@ GunHitEnemy=true
 */
 
 //BOUNCE OFF WALLS - no speed bump, consistent bounce direction
-move_bounce_solid(false);
+//move_bounce_solid(false);
 
 //BOOM
 if GunExplodeTimer &gt;= 1
 || 
 instance_place(x,y,oEnemy)
+||
+instance_place(x,y,oCrate)
 {
 oPistol.BombGunThrown = false
-ThingExplodes(ExplosionSize)
+ThingExplodes(ExplosionSize,c_white)
 }
 </string>
           </argument>

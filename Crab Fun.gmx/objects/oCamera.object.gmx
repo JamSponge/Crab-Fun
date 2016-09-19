@@ -3,7 +3,7 @@
   <spriteName>sprite36</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>400</depth>
+  <depth>100</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -169,14 +169,14 @@ if view_hview &gt;= ScreenHeight*1.5
 else if KillerTracker != 0
     {
     CameraReset()
-    var targetX,targetY,xx,yy;
-targetX=KillerTracker.x;
-targetY=KillerTracker.y;
+    var Target,xx,yy;
+Target = instance_nearest(x,y,oEnemy)
+
 xx=x
 yy=y
 
-x += (targetX - xx) *0.1;
-y += (targetY - yy) *0.1;   
+x += (Target.x - xx) *0.1;
+y += (Target.y - yy) *0.1;   
     }
 
 else 

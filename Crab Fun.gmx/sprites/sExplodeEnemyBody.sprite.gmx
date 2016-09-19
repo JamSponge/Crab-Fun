@@ -60,5 +60,9 @@
     <frame index="37">images\sExplodeEnemyBody_37.png</frame>
     <frame index="38">images\sExplodeEnemyBody_38.png</frame>
     <frame index="39">images\sExplodeEnemyBody_39.png</frame>
+    <frame index="40">images\sExplodeEnemyBody_40.png</frame>
+    <frame index="41">images\sExplodeEnemyBody_41.png</frame>
+    <frame index="42">images\sExplodeEnemyBody_42.png</frame>
+    <frame index="43">images\sExplodeEnemyBody_43.png</frame>
   </frames>
 </sprite>

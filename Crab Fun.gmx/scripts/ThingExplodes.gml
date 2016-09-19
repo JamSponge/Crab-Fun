@@ -1,4 +1,5 @@
 var ExplosionSize=argument0;
+var ExplosionColour=argument1;
 
 theboom = instance_create(x,y,oExplosion)
 theboom.image_angle = random_range(1,360)

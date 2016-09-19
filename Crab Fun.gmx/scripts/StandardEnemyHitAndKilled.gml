@@ -1,7 +1,8 @@
+#define StandardEnemyHitAndKilled
 //OH BOY HE'S DEAD - SPLATTER!
 if YesEnemyIsDead = true {
 
-EnemyDestroyedSplatter(oSmallBits,oBitsSplat,oBitsSplat2,EnemySplatR,EnemySplatG,EnemySplatB,AttackSource)
+EnemyDestroyedSplatter(oSmallBits,oBitsSplat2,oBitsSplat2,EnemySplatR,EnemySplatG,EnemySplatB,AttackSource)
 
 //CREATE DEAD ENEMY SPRITE
 var Eangle, Escale, Edir;
@@ -36,3 +37,44 @@ oEnemyArrayController.EnemyArray[EnemyID,4] = 0
 instance_destroy()}
 
 else{}
+
+#define EnemyDestroyedSplatter
+//SET CACHE LIMIT FOR COLOUR VARIATIONS?!
+
+SmallSplatterUsed = argument0
+BigSplatterUsed = argument1
+SecondBigSplatterUsed = argument2
+SplatterColourR = argument3
+SplatterColourG = argument4
+
+SplatterColourB = argument5
+AttackSource = argument6
+
+while BitsCreated < TotalBits {BitsCreated = BitsCreated+1
+NewBitSmall = instance_create(x,y,SmallSplatterUsed)
+NewBitSmall.image_blend = make_colour_rgb (SplatterColourR,SplatterColourG,SplatterColourB)
+NewBitSmall.direction = point_direction(AttackSource.x,AttackSource.y, x,y)+random_range(5,35)
+NewBitSmall.image_angle=direction
+NewBitSmall.speed= 2000/room_speed
+NewBitSmall.SecondsUntilFadeStarts = 4
+
+NewBitSmall2 = instance_create(x,y,SmallSplatterUsed)
+NewBitSmall2.image_blend = make_colour_rgb (SplatterColourR,SplatterColourG,SplatterColourB)
+NewBitSmall2.direction = point_direction(AttackSource.x,AttackSource.y, x,y)-random_range(5,35)
+NewBitSmall2.image_angle=direction
+NewBitSmall2.speed= 2000/room_speed
+NewBitSmall2.SecondsUntilFadeStarts = 4
+}
+
+if BitsCreated >= TotalBits{
+NewBitSplat = instance_create(x,y,BigSplatterUsed)
+NewBitSplat.image_blend = make_colour_rgb (SplatterColourR,SplatterColourG,SplatterColourB)
+NewBitSplat.image_angle = point_direction(AttackSource.x,AttackSource.y, x,y)+-random(3)
+NewBitSplat.SecondsUntilFadeStarts = 4
+NewBitSplat2 = instance_create(x,y,BigSplatterUsed)
+NewBitSplat2.image_blend = make_colour_rgb (SplatterColourR,SplatterColourG,SplatterColourB)
+NewBitSplat2.image_angle = point_direction(AttackSource.x,AttackSource.y, x,y)+-random(30)
+NewBitSplat2.SecondsUntilFadeStarts = 4
+audio_play_sound_at(choose(aDeathSplat1,aDeathSplat2,aDeathSplat3,aDeathSplat4,aDeathSplat5,aDeathSplat6,aDeathSplat7,aDeathSplat8,aDeathSplat9),x,y,0,100,300,1,false,1)
+
+}

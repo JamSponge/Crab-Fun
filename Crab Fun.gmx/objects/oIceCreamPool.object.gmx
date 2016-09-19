@@ -3,8 +3,8 @@
   <spriteName>sIceCreamPool</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
-  <persistent>-1</persistent>
+  <depth>300</depth>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -30,6 +30,14 @@ image_xscale = 0.5
 image_yscale = 0.5
 PoolSize = random_range (35,50)
 image_speed = 0.2
+DeathFadeSetup(3)
+
+var DebrisID = self.id
+with (oDebrisArray)
+{
+CurrentArray[CurrentArraySlot] = DebrisID
+CurrentArraySlot++
+}
 </string>
           </argument>
         </arguments>
@@ -59,7 +67,7 @@ image_speed = 0
 
 if !instance_exists(Owner)
 { 
-DeathFade()
+DeathFadeAlarmTrigger()
 }
 </string>
           </argument>

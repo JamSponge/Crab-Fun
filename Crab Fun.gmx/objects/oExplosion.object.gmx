@@ -25,7 +25,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>DeathFadeSetup(5)
+
+var DebrisID = self.id
+with (oDebrisArray)
+{
+CurrentArray[CurrentArraySlot] = DebrisID
+CurrentArraySlot++
+}
+</string>
           </argument>
         </arguments>
       </action>
@@ -47,9 +55,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>if image_speed = 0
+{
+DeathFadeAlarmTrigger()
+}
+else
+{
+
 //IS IT ACTUALLY AN EXPLOSION?
-if image_index &gt; 1 &amp;&amp; image_index &lt;8 
+if image_index &lt; 8 &amp;&amp; image_index &gt; 5
     {
     //KILL PLAYER WITHIN RADIUS WHEN FRAME IS CORRECT
     if instance_place(x,y,oPlayer)
@@ -65,39 +79,25 @@ if image_index &gt; 1 &amp;&amp; image_index &lt;8
             }
         PlayerDies()
         }
-    
-
-    //DESTROY CRATES LIKE A FUCKING BOSS
-    if instance_place (x,y,oCrate)
+        
+        ProjectileImpactChecker(id,WeaponDamage,Impact,3)
+}
+     if  image_index == 4  
+    while instance_place(x,y,oCrate)
     {
-    CrateToBlowUp = instance_nearest (x,y,oCrate)
-    if CrateToBlowUp.image_index = 0 
+    with instance_nearest(x,y,oCrate)
         {
-        with (CrateToBlowUp)
-            {
-            CrateDestroyed(CrateColour,CrateScale)
-            }
+        CrateDestroyed(CrateColour,CrateScale,CrateRotation)
+        instance_destroy()
         }
     }
-ProjectileImpactChecker(id,WeaponDamage,Impact,3)
+    
 
-        
-}
 
-    
-    
-    
 if image_index &gt;= image_number-1 {
 image_speed = 0
-
-//BAD NAMES, SIMPLE THING - STOPS SCORCH MARK FADING TOO EARLY
-TimeToDeathFadeZero = TimeToDeathFadeZero + 1/room_speed
-if TimeToDeathFadeZero &gt;= TimeToDeathFade{
-DeathFade()
-//BUT keep depth going down, or it'll not be overlapped by splats
-} else {depth = depth+1}
 }
-
+}
 
 
 </string>

@@ -41,7 +41,7 @@ GridMaxHori = GridTotal-GridSizer
 global.LevelBeingMade = room_add();
  room_set_width(global.LevelBeingMade,GridMaxHori*128);
  room_set_height(global.LevelBeingMade,GridMaxVert*128);
- room_set_background(global.LevelBeingMade,0,true,false,image_index,0,0,true,true,0,0,1)
+ room_set_background(global.LevelBeingMade,1,true,false,background3,0,0,true,true,0,0,1)
  room_set_persistent(global.LevelBeingMade, true);
  room_set_view(global.LevelBeingMade,0,true,0,0,ScreenWidth,ScreenHeight,0,0,ScreenWidth,ScreenHeight,ScreenWidth/2,ScreenHeight/2,-1,-1,oCamera)
  room_set_view_enabled(global.LevelBeingMade,true)

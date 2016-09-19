@@ -27,21 +27,26 @@ IslandGenerator(1,5,23,ACCESSIBLE,TOERODE)
 //MAKE ANTI-ISLANDS PLEASE (POOLS)
 IslandGenerator(0,3,4,INACCESSIBLE,TOERODE)
 
+//CREATE PATCHES OF CRATES
+SpecialGridGen(7,1,5,3,CRATE,true)
+
 //FINAL ISLAND GEN (Stop player spawning in a puddle)
 BeachDiskRadius = round(random_range (3,6))
 ErodedBeachDiskRadius = 0
 ds_grid_set_disk(grid,SafeIslandX,SafeIslandY,BeachDiskRadius,ACCESSIBLE)
 
-
 //GIVE EVERY EMPTY CELL IN THE GRID A VALUE
 GridDataAllocator()
+
+//FILL THE LEVEL WITH STUFF
+PopulateLevel()
+
 
 //APPLY CORRECT SPRITES AND DATA FOR CELLS THAT REQUIRE INFO
 AllocateSpritesToINACCESSIBLE()
 AllocateSpritesToOUTOFBOUNDS()
 
-//FILL THE LEVEL WITH STUFF
-PopulateLevel()
+
 
 room_goto(global.LevelBeingMade)
 
@@ -104,8 +109,10 @@ for (var row=0; row<ds_grid_height(grid); row++)
     for (var col=0; col<ds_grid_width(grid); col++)
     { 
     //ERODE AREAS WOT NEED ERODIN
+    //ERODE EDGES OF ISLANDS
     ErodeSpecialArea(TOERODE,10,INACCESSIBLE,ACCESSIBLE,col,row)
-    
+    //ERODE AREAS SET TO SPAWN PATCHES OF CRATES
+    ErodeSpecialArea(CRATE,5,CRATE,ACCESSIBLE,col,row)
     
     //FILL BLANKS WITH SEA
     if (grid[# col, row] == BLANK)
@@ -140,6 +147,207 @@ if (grid[# col, row] == SPECIALTYPE)
                 else
                 grid[# col, row] = TYPEB
 }
+
+#define PopulateLevel
+ //POPULATE THE ROOM
+ room_instance_add(global.LevelBeingMade,0,0,oEnemyArrayController)
+ room_instance_add(global.LevelBeingMade,0,0,oDebrisArray)
+ room_instance_add(global.LevelBeingMade,0,0,oImpactTracker)
+ room_instance_add(global.LevelBeingMade,SafeIslandX*128,SafeIslandY*128,oPlayer)
+ room_instance_add(global.LevelBeingMade,0,0,oPistol)
+
+ //PLACE CRATES
+ 
+ for (var row=0; row<ds_grid_height(grid); row++)
+{
+    for (var col=0; col<ds_grid_width(grid); col++)
+    { 
+    
+        //FIND CRATE SQUARES
+        if (grid[# col, row] == CRATE)
+        //CHECK IF THERE'S ROOM FOR A FAT CRATE, MATE
+        {
+        var CrateCounter = 3;
+        if (grid[# col+1, row] == CRATE) {CrateCounter--}
+        if (grid[# col+1, row+1] == CRATE) {CrateCounter--}
+        if (grid[# col, row+1] == CRATE) {CrateCounter--}
+            //ROOM FOR A FATTY? SWOOSH! CLEAR THE DATA FOR ALL FOUR SQUARES.
+            if CrateCounter = 0
+            {
+            grid[# col, row] = ACCESSIBLE
+            grid[# col+1, row] = ACCESSIBLE
+            grid[# col+1, row+1] = ACCESSIBLE
+            grid[# col, row+1] = ACCESSIBLE
+            //MAKE A BIG CRATE IN THE MIDDLE OF THE FOUR CELLS!
+            room_instance_add(global.LevelBeingMade,col*128+128,row*128+128,oIceCreamCrate)
+            }
+            else
+            //NO ROOM FOR A WHOPPER, JUST PUT A DIDDLER IN THERE.
+            {
+            room_instance_add(global.LevelBeingMade,col*128+64,row*128+64,oSmallCrate)
+            grid[# col, row] = ACCESSIBLE
+            }
+        
+        }
+    }
+}
+    
+    
+
+
+#define SetupLevelGen
+//LISTEN UP THIS IS ***IMPORTANT*** - 
+//ACCESSIBLE tiles are EMPTY spaces for bground.
+//INACCESSIBLE tiles are where invisible walls get spawned
+//OUTOFBOUNDS have different sprites, and need no walls as OOB.
+//SPECIAL are earmarked to be INACCESSIBLE after main process
+
+//STANDARD STUFF - BASIC USE
+BLANK=-1;
+ACCESSIBLE=-2;
+INACCESSIBLE=-3;
+OUTOFBOUNDS=999; //needs to be high # because of scan function
+
+//SPECIFIC VALUES FOR "SPECIAL" STUFF
+POOL=-4;
+TOERODE=-5;
+CRATE=-6
+
+//MAKE THIS NOW FOR PLAYER LOCATION DATA
+SafeIslandX = round(random_range(GridMidPointHori-GridMidPointHori/4.5,GridMidPointHori+GridMidPointHori/4.5))
+SafeIslandY = round(random_range(GridMidPointVert-GridMidPointVert/4.5,GridMidPointVert+GridMidPointVert/4.5))
+
+//CREATE THE GRID
+grid = ds_grid_create(GridMaxHori,GridMaxVert)
+ds_grid_set_region(grid,0,0,GridMaxHori-1,GridMaxVert-1,BLANK)
+
+
+
+
+#define SpecialGridGen
+//SET MIN & MAX AS 1 FOR SINGLE-SQUARE GEN ONLY
+//RECTANGULATOR WORKS AS SO:
+    //minrangevalue= Rectangle City;  
+    //maxrangevalue = Chance of BIG SQUARES ;
+
+CyclesToRun = argument0
+MinRangeCellScale = argument1
+MaxRangeCellScale = argument2
+Rectangulator = argument3
+GridValueToSet = argument4
+EdgeErosion = argument5
+
+//CREATES SPECIAL BLOCK-AREAS TO ADD VARIATION/ENVIRONMENTAL OBJECTS
+var HowManySPECIALs = CyclesToRun 
+while HowManySPECIALs >=0
+{
+//SPECIAL SIZE
+var SPECIALWidth, SPECIALHeight
+SPECIALWidth = round (random_range(MinRangeCellScale,MaxRangeCellScale))
+    //APPLY THE RECTANGULATORRRRRR
+    if SPECIALWidth < MaxRangeCellScale/Rectangulator
+    {
+    MinRangeCellScale = MinRangeCellScale/1.5
+    MinRangeCellScale = MaxRangeCellScale/1.5
+    }
+SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
+
+    
+    //ASSIGN THIS MOTHERCHUFFING BLOCK OF SPACES WITH VALUES
+    
+    //RANDOM POSITION WITHIN GRID MAIN BOUNDS
+    var RandomX, RandomY;
+    RandomX = round(random_range(GridMidPointHori-GridMidPointHori/2.5,GridMidPointHori+GridMidPointHori/3.5))
+    RandomY = round(random_range(GridMidPointVert-GridMidPointVert/2.5,GridMidPointVert+GridMidPointVert/3.5))
+    
+    //PLACE THE EROSION TILES THAT GO AROUND THE EDGE, IF APPLICABLE
+    if EdgeErosion=true
+    {
+    ds_grid_set_region(grid,RandomX-2,RandomY-2,(RandomX+SPECIALWidth)+2,(RandomY+SPECIALHeight)+2,TOERODE)
+    }
+    
+    //PLACE THE SPECIALS PLEASE, GENTLEMEN
+    ds_grid_set_region(grid,RandomX,RandomY,(RandomX+SPECIALWidth),(RandomY+SPECIALHeight),GridValueToSet)
+    HowManySPECIALs--  
+}
+
+
+#define AllocateSpritesToOUTOFBOUNDS
+//OK, now sort the deep sea tileset - and CREATE INVISIBLE WALLS, MATE!
+for (var row=0; row<ds_grid_height(grid); row++)
+    {
+        for (var col=0; col<ds_grid_width(grid); col++)
+        {
+            if grid[# col, row] = OUTOFBOUNDS
+            {
+            
+            var sum = 0; 
+            var NW,N,NE,W,E,SW,S,SE;
+            NW=0;N=0;NE=0;W=0;E=0;SW=0;S=0;SE=0;
+
+            
+                //NORTH
+            if grid[# col, row-1] >= 48
+            {N=1}
+            //WEST
+            if grid[# col-1, row] >= 48
+            {W=1}
+            //EAST
+            if grid[# col+1, row] >= 48
+            {E=1}
+            //SOUTH
+            if grid[# col, row+1] >= 48
+            {S=1}
+            
+            //NORTH-WEST
+            if N=1 && W=1
+                {
+                if grid[# col-1, row-1] >= 48
+                {NW=1}
+                }
+            //NORTH-EAST
+            if N=1 && E=1
+                {
+                if grid[# col+1, row-1] >= 48
+                {NE=1}
+                }
+            //SOUTH-WEST
+            if S=1 && W=1
+                {
+                if grid[# col-1, row+1] >= 48
+                {SW=1}
+                }
+            //SOUTH-EAST
+            if S=1 && E=1
+                {
+                if grid[# col+1, row+1] >= 48
+                {SE=1}
+                }
+                          
+            sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
+            //SET THE SPRITE ID BASED ON SUM
+
+                for (var i=0; i< array_height_2d(tileset); i+= 1)
+                    { 
+                    if (sum == tileset[i,0])
+                        {
+                        grid[# col, row] = tileset[i,1]+48
+                        
+                            if grid[# col, row] = 94 || grid[# col, row] = 48
+                            {
+                            }
+                                else
+                                {
+                                //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
+                                room_instance_add(global.LevelBeingMade,(col*128)+64, (row*128)+64,oInvisibleWall)
+                                }
+                        break;
+                        }
+                    }
+            }
+        }
+
+    }
 
 #define AllocateSpritesToINACCESSIBLE
 //ALL ASSIGNED AS ACCESSIBLE OR FULL - TIME TO PLACE THE SEA TILES        
@@ -233,158 +441,6 @@ if (grid[# col, row] == SPECIALTYPE)
                 
             }
         }
-    }
-
-#define SetupLevelGen
-//LISTEN UP THIS IS ***IMPORTANT*** - 
-//ACCESSIBLE tiles are EMPTY spaces for bground.
-//INACCESSIBLE tiles are where invisible walls get spawned
-//OUTOFBOUNDS have different sprites, and need no walls as OOB.
-//SPECIAL are earmarked to be INACCESSIBLE after main process
-
-//STANDARD STUFF - BASIC USE
-BLANK=-1;
-ACCESSIBLE=-2;
-INACCESSIBLE=-3;
-OUTOFBOUNDS=999; //needs to be high # because of scan function
-
-//SPECIFIC VALUES FOR "SPECIAL" STUFF
-POOL=-4;
-TOERODE=-5;
-
-//MAKE THIS NOW FOR PLAYER LOCATION DATA
-SafeIslandX = round(random_range(GridMidPointHori-GridMidPointHori/4.5,GridMidPointHori+GridMidPointHori/4.5))
-SafeIslandY = round(random_range(GridMidPointVert-GridMidPointVert/4.5,GridMidPointVert+GridMidPointVert/4.5))
-
-//CREATE THE GRID
-grid = ds_grid_create(GridMaxHori,GridMaxVert)
-ds_grid_set_region(grid,0,0,GridMaxHori-1,GridMaxVert-1,BLANK)
-
-
-
-
-#define SpecialGridGen
-//SET MIN & MAX AS 1 FOR SINGLE-SQUARE GEN ONLY
-//RECTANGULATOR WORKS AS SO:
-    //minrangevalue= Rectangle City;  
-    //maxrangevalue = Chance of BIG SQUARES ;
-
-CyclesToRun = argument0
-MinRangeCellScale = argument1
-MaxRangeCellScale = argument2
-Rectangulator = argument3
-GridValueToSet = argument4
-AddErosion = argument5
-
-//CREATES SPECIAL BLOCK-AREAS TO ADD VARIATION/ENVIRONMENTAL OBJECTS
-var HowManySPECIALs = CyclesToRun 
-while HowManySPECIALs >=0
-{
-//SPECIAL SIZE
-var SPECIALWidth, SPECIALHeight
-SPECIALWidth = round (random_range(MinRangeCellScale,MaxRangeCellScale))
-    //APPLY THE RECTANGULATORRRRRR
-    if SPECIALWidth < MaxRangeCellScale/Rectangulator
-    {
-    MinRangeCellScale = MinRangeCellScale/1.5
-    MinRangeCellScale = MaxRangeCellScale/1.5
-    }
-SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
-
-    
-    //ASSIGN THIS MOTHERCHUFFING BLOCK OF SPACES WITH VALUES
-    
-    //RANDOM POSITION WITHIN GRID MAIN BOUNDS
-    var RandomX, RandomY;
-    RandomX = round(random_range(GridMidPointHori-GridMidPointHori/2.5,GridMidPointHori+GridMidPointHori/3.5))
-    RandomY = round(random_range(GridMidPointVert-GridMidPointVert/2.5,GridMidPointVert+GridMidPointVert/3.5))
-    
-    //PLACE THE EROSION TILES THAT GO AROUND THE EDGE, IF APPLICABLE
-    if AddErosion=true
-    {
-    ds_grid_set_region(grid,RandomX-2,RandomY-2,(RandomX+SPECIALWidth)+2,(RandomY+SPECIALHeight)+2,TOERODE)
-    }
-    //PLACE THE SPECIALS PLEASE, GENTLEMEN
-    ds_grid_set_region(grid,RandomX,RandomY,(RandomX+SPECIALWidth),(RandomY+SPECIALHeight),GridValueToSet)
-    HowManySPECIALs--  
-}
-
-
-#define AllocateSpritesToOUTOFBOUNDS
-//OK, now sort the deep sea tileset - and CREATE INVISIBLE WALLS, MATE!
-for (var row=0; row<ds_grid_height(grid); row++)
-    {
-        for (var col=0; col<ds_grid_width(grid); col++)
-        {
-            if grid[# col, row] = OUTOFBOUNDS
-            {
-            
-            var sum = 0; 
-            var NW,N,NE,W,E,SW,S,SE;
-            NW=0;N=0;NE=0;W=0;E=0;SW=0;S=0;SE=0;
-
-            
-                //NORTH
-            if grid[# col, row-1] >= 48
-            {N=1}
-            //WEST
-            if grid[# col-1, row] >= 48
-            {W=1}
-            //EAST
-            if grid[# col+1, row] >= 48
-            {E=1}
-            //SOUTH
-            if grid[# col, row+1] >= 48
-            {S=1}
-            
-            //NORTH-WEST
-            if N=1 && W=1
-                {
-                if grid[# col-1, row-1] >= 48
-                {NW=1}
-                }
-            //NORTH-EAST
-            if N=1 && E=1
-                {
-                if grid[# col+1, row-1] >= 48
-                {NE=1}
-                }
-            //SOUTH-WEST
-            if S=1 && W=1
-                {
-                if grid[# col-1, row+1] >= 48
-                {SW=1}
-                }
-            //SOUTH-EAST
-            if S=1 && E=1
-                {
-                if grid[# col+1, row+1] >= 48
-                {SE=1}
-                }
-                          
-            sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
-            //SET THE SPRITE ID BASED ON SUM
-
-                for (var i=0; i< array_height_2d(tileset); i+= 1)
-                    { 
-                    if (sum == tileset[i,0])
-                        {
-                        grid[# col, row] = tileset[i,1]+48
-                        
-                            if grid[# col, row] = 94 || grid[# col, row] = 48
-                            {
-                            }
-                                else
-                                {
-                                //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
-                                room_instance_add(global.LevelBeingMade,(col*128)+64, (row*128)+64,oInvisibleWall)
-                                }
-                        break;
-                        }
-                    }
-            }
-        }
-
     }
 
 #define SpriteSetup
@@ -483,12 +539,3 @@ tileset[45,0] = 255
 tileset[45,1] = 46
 tileset[46,0] = 0
 tileset[46,1] = 47
-
-#define PopulateLevel
- //POPULATE THE ROOM
- room_instance_add(global.LevelBeingMade,0,0,oEnemyArrayController)
- room_instance_add(global.LevelBeingMade,0,0,oImpactTracker)
- room_instance_add(global.LevelBeingMade,SafeIslandX*128,SafeIslandY*128,oPlayer)
- room_instance_add(global.LevelBeingMade,0,0,oPistol)
-
-

@@ -30,10 +30,7 @@ image_yscale = image_xscale
 
 if image_index &gt;= image_number - 1 {
 
-ExplodeDeath = instance_create(x,y,oExplosion)
-ExplodeDeath.image_blend = c_teal
-ExplodeDeath.image_xscale = 0.6
-ExplodeDeath.image_yscale = 0.6
+ThingExplodes(1.5,c_teal)
 instance_destroy()
 }
 </string>

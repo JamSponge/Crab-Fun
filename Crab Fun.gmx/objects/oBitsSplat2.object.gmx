@@ -30,6 +30,15 @@ image_yscale = 0.01
 MaxSplatSize = random_range(0.6,1)
 SplatSetupY = random_range(0.2,0.4)
 image_speed = 0
+
+DeathFadeSetup(10)
+
+var DebrisID = self.id
+with (oDebrisArray)
+{
+CurrentArray[CurrentArraySlot] = DebrisID
+CurrentArraySlot++
+}
 </string>
           </argument>
         </arguments>
@@ -62,9 +71,7 @@ image_xscale = image_xscale+SplatScale
 image_yscale = image_xscale*SplatSetupY
 }
 
-Splatted = Yes
-
-DeathFade()
+DeathFadeAlarmTrigger()
 </string>
           </argument>
         </arguments>
