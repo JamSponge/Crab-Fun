@@ -101,5 +101,3 @@ NewBitBig2.AnimationFrameToUse = 0
 }
 
 #define ShrapnelCreator
-
-

@@ -50,11 +50,6 @@
             <string>/*facing*/
 image_angle = direction
 
-/* ENEMY MOVE OLD (objToTurn,target,turnSpeed,accuracy,MoveSpeed,FocusMoveSpeed);
-if(instance_exists(oPlayer)){
-    EnemyMovement(self.id, oPlayer,1,0.3,100,300);
-}
-
 /*bouncing*/
 BounceOffWalls()
 </string>

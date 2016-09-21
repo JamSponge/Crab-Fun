@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>//Camera Setup
 ZoomLevel = 0
-ZoomMax=600
+ZoomMax=400
 ScreenWidth = display_get_width()
 ScreenHeight = display_get_height()
 
@@ -117,23 +117,34 @@ if instance_exists(oPlayer)
     ZoomLevelW = ScreenWidth/1000*ZoomLevel
     ZoomLevelH = ScreenHeight/1000*ZoomLevel
     
-    CurrentMaxX = ScreenWidth-ZoomLevelW
-    CurrentMaxY = ScreenHeight-ZoomLevelH
+    CurrentMaxX = ScreenWidth+ZoomLevelW
+    CurrentMaxY = ScreenHeight+ZoomLevelH
     view_wview = CurrentMaxX
     view_hview = CurrentMaxY
-    
-    //ZOOM IN WITH SHOOTING
-    if mouse_check_button(mb_left)
-        {
-        ZoomLevel += (ZoomMax - ZoomLevel) *0.01;
-        }
-    
+
+var targetX,targetY
+        
     //ZOOM OUT, GUN EXPLODE!
     if mouse_check_button(mb_right)
         {
-        ZoomLevel += (0 - ZoomLevel) *0.05;
+        var PlayerX,PlayerY,PointerX,PointerY;
+        PointerX = oCrossHair.x
+        PointerY = oCrossHair.y
+        PlayerX = oPlayer.x
+        PlayerY = oPlayer.y
+        
+        ZoomLevel += (ZoomMax - ZoomLevel) *0.1;
+        
+        targetX = PlayerX+lengthdir_x(ScreenWidth/4,point_direction(PlayerX,PlayerY,PointerX,PointerY))
+        targetY = PlayerY+lengthdir_y(ScreenHeight/4,point_direction(PlayerX,PlayerY,PointerX,PointerY))
         }
-    
+        else
+        {
+        ZoomLevel += (0 - ZoomLevel) *0.5;
+        targetX=oPlayer.x;
+        targetY=oPlayer.y;
+        }
+        
     //CAM CONTROL PARAMETERS
     if  ZoomLevel &gt;= ZoomMax
         {
@@ -145,9 +156,7 @@ if instance_exists(oPlayer)
         }
 
 //SMOOTH CAMERA FOLLOW
-var targetX,targetY,xx,yy;
-targetX=oPlayer.x;
-targetY=oPlayer.y;
+var xx,yy;
 xx=x
 yy=y
 
@@ -203,8 +212,8 @@ if LevelExists
 NearestGridCellX = round(x div 128)
 NearestGridCellY = round(y div 128)
 
-GridColDrawStart = NearestGridCellX-10
-GridColDrawEnd = NearestGridCellX+10
+GridColDrawStart = NearestGridCellX-12
+GridColDrawEnd = NearestGridCellX+12
 GridRowDrawStart = NearestGridCellY-7
 GridRowDrawEnd = NearestGridCellY+7
 

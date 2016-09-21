@@ -73,7 +73,7 @@ if instance_exists(oPlayer)
     
     var maxaimbarlen;
     aimbarlen = 0
-    maxaimbarlen = 800
+    maxaimbarlen = 1200
     
     //See where the line hits something
     while 

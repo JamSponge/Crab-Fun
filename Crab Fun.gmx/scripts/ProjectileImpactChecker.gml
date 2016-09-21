@@ -60,6 +60,7 @@ if instance_place(x,y,oCrate)
             {
             image_index = image_number-4
             image_speed = 1
+            CrateRotation = CrateRotation + random_range(-CrateRotateFactor,CrateRotateFactor)
             }
     }
 }

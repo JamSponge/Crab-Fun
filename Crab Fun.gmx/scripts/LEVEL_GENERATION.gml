@@ -539,3 +539,17 @@ tileset[45,0] = 255
 tileset[45,1] = 46
 tileset[46,0] = 0
 tileset[46,1] = 47
+#define CreateNewRoom
+var GridTotal, GridSizer;
+GridTotal = 120
+GridSizer = round(random_range(50,70))
+GridMaxVert = GridSizer
+GridMaxHori = GridTotal-GridSizer
+
+global.LevelBeingMade = room_add();
+ room_set_width(global.LevelBeingMade,GridMaxHori*128);
+ room_set_height(global.LevelBeingMade,GridMaxVert*128);
+ room_set_background(global.LevelBeingMade,1,true,false,background1,0,0,true,true,0,0,1)
+ room_set_persistent(global.LevelBeingMade, true);
+ room_set_view(global.LevelBeingMade,0,true,0,0,ScreenWidth,ScreenHeight,0,0,ScreenWidth,ScreenHeight,ScreenWidth,ScreenHeight,-1,-1,oCamera)
+ room_set_view_enabled(global.LevelBeingMade,true)

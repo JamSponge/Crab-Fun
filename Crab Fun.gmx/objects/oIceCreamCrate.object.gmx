@@ -31,6 +31,7 @@ CrateColour = make_colour_rgb (173,188,237)
 CrateScale = 1
 CrateContains = 1 //CONES
 CrateRotation = random_range(-3,3)
+CrateRotateFactor = 1.5
 EnemyHealth = 5
 </string>
           </argument>

@@ -161,83 +161,87 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\DEATH_FADE.gml</script>
-    <script>scripts\CameraReset.gml</script>
-    <script>scripts\DamageEnemy.gml</script>
-    <script>scripts\EnemyMovement.gml</script>
-    <script>scripts\PlayerDies.gml</script>
-    <script>scripts\EnemyHeadBehaviour.gml</script>
-    <script>scripts\ThingExplodes.gml</script>
-    <script>scripts\WeaponPickedUp.gml</script>
-    <script>scripts\ScreenShake.gml</script>
-    <script>scripts\CrateDestroyed.gml</script>
-    <script>scripts\EnemyTurning.gml</script>
+    <scripts name="PLAYER SCRIPTS">
+      <script>scripts\PlayerDies.gml</script>
+      <script>scripts\WeaponPickedUp.gml</script>
+      <script>scripts\PlayerCollision.gml</script>
+    </scripts>
+    <scripts name="ESSENTIALS">
+      <script>scripts\DEATH_FADE.gml</script>
+      <script>scripts\CAMERA_CONTROLS.gml</script>
+      <script>scripts\GAME_SETTINGS.gml</script>
+      <script>scripts\LEVEL_GENERATION.gml</script>
+      <script>scripts\ENEMY_CONTROLS.gml</script>
+      <script>scripts\CROSSHAIR_AND_AIMING.gml</script>
+    </scripts>
+    <scripts name="SCRIPT TOOLS">
+      <scripts name="TweenGMS">
+        <scripts name="Core">
+          <script>scripts\Ease.gml</script>
+          <script>scripts\TweenNull.gml</script>
+          <script>scripts\TweenFire.gml</script>
+          <script>scripts\TweenCreate.gml</script>
+          <script>scripts\TweenPlay.gml</script>
+          <script>scripts\TweenPause.gml</script>
+          <script>scripts\TweenResume.gml</script>
+          <script>scripts\TweenStop.gml</script>
+          <script>scripts\TweenFinish.gml</script>
+          <script>scripts\TweenFinishDelay.gml</script>
+          <script>scripts\TweenReverse.gml</script>
+          <script>scripts\TweenDestroy.gml</script>
+          <script>scripts\TGMS_TweenBool.gml</script>
+          <script>scripts\TGMS_Callback.gml</script>
+          <script>scripts\TGMS_Event.gml</script>
+          <script>scripts\TGMS_TweenGet.gml</script>
+          <script>scripts\TGMS_TweenSet.gml</script>
+          <script>scripts\TGMS_Utility.gml</script>
+          <script>scripts\SharedTweener.gml</script>
+        </scripts>
+        <scripts name="Eases and Properties">
+          <script>scripts\Default_Ease_Algorithms.gml</script>
+          <script>scripts\Default_Property_Setters.gml</script>
+          <script>scripts\Default_Property_Setters_Ext.gml</script>
+        </scripts>
+        <scripts name="Extra (Not Required)">
+          <script>scripts\TPExt.gml</script>
+          <script>scripts\TweenCalc.gml</script>
+          <script>scripts\TweenStep.gml</script>
+          <script>scripts\TweenCopy.gml</script>
+          <script>scripts\TweenDefine.gml</script>
+          <script>scripts\TweenDefault.gml</script>
+          <script>scripts\TweenPath.gml</script>
+          <script>scripts\TGMS_TweenSimple.gml</script>
+          <script>scripts\TGMS_TweenDataStructure.gml</script>
+          <script>scripts\TGMS_TweenView.gml</script>
+          <script>scripts\TGMS_TweenBackground.gml</script>
+          <script>scripts\TGMS_TweenTile.gml</script>
+          <script>scripts\TGMS_TweenSystem.gml</script>
+        </scripts>
+        <scripts name="Deprecated (Please Remove)">
+          <script>scripts\Depecrated_TweenFire.gml</script>
+          <script>scripts\Deprecated_TweenPlay.gml</script>
+          <script>scripts\Deprecated_Events.gml</script>
+          <script>scripts\Deprecated_TweenDefaults.gml</script>
+        </scripts>
+      </scripts>
+      <script>scripts\IHaveLineOfSightTo.gml</script>
+      <script>scripts\Dice_Rolls.gml</script>
+    </scripts>
     <scripts name="STANDARD ENEMY SCRIPTS">
       <script>scripts\StandardEnemyHitAndKilled.gml</script>
+      <script>scripts\SpawnAnEnemy.gml</script>
+      <script>scripts\CrabBodyFacingAngle.gml</script>
+      <script>scripts\EnemyTurning.gml</script>
       <script>scripts\BounceOffWalls.gml</script>
       <script>scripts\EnemySpinAwayAndDie.gml</script>
     </scripts>
-    <script>scripts\Projectile_Calculations.gml</script>
-    <script>scripts\CrabBodyFacingAngle.gml</script>
-    <script>scripts\SpawnAnEnemy.gml</script>
-    <script>scripts\ProjectileImpactChecker.gml</script>
-    <script>scripts\IHaveLineOfSightTo.gml</script>
-    <script>scripts\Dice_Rolls.gml</script>
-    <script>scripts\PlayerCollision.gml</script>
-    <script>scripts\CROSSHAIR_AND_AIMING.gml</script>
-    <scripts name="TweenGMS">
-      <scripts name="Core">
-        <script>scripts\Ease.gml</script>
-        <script>scripts\TweenNull.gml</script>
-        <script>scripts\TweenFire.gml</script>
-        <script>scripts\TweenCreate.gml</script>
-        <script>scripts\TweenPlay.gml</script>
-        <script>scripts\TweenPause.gml</script>
-        <script>scripts\TweenResume.gml</script>
-        <script>scripts\TweenStop.gml</script>
-        <script>scripts\TweenFinish.gml</script>
-        <script>scripts\TweenFinishDelay.gml</script>
-        <script>scripts\TweenReverse.gml</script>
-        <script>scripts\TweenDestroy.gml</script>
-        <script>scripts\TGMS_TweenBool.gml</script>
-        <script>scripts\TGMS_Callback.gml</script>
-        <script>scripts\TGMS_Event.gml</script>
-        <script>scripts\TGMS_TweenGet.gml</script>
-        <script>scripts\TGMS_TweenSet.gml</script>
-        <script>scripts\TGMS_Utility.gml</script>
-        <script>scripts\SharedTweener.gml</script>
-      </scripts>
-      <scripts name="Eases and Properties">
-        <script>scripts\Default_Ease_Algorithms.gml</script>
-        <script>scripts\Default_Property_Setters.gml</script>
-        <script>scripts\Default_Property_Setters_Ext.gml</script>
-      </scripts>
-      <scripts name="Extra (Not Required)">
-        <script>scripts\TPExt.gml</script>
-        <script>scripts\TweenCalc.gml</script>
-        <script>scripts\TweenStep.gml</script>
-        <script>scripts\TweenCopy.gml</script>
-        <script>scripts\TweenDefine.gml</script>
-        <script>scripts\TweenDefault.gml</script>
-        <script>scripts\TweenPath.gml</script>
-        <script>scripts\TGMS_TweenSimple.gml</script>
-        <script>scripts\TGMS_TweenDataStructure.gml</script>
-        <script>scripts\TGMS_TweenView.gml</script>
-        <script>scripts\TGMS_TweenBackground.gml</script>
-        <script>scripts\TGMS_TweenTile.gml</script>
-        <script>scripts\TGMS_TweenSystem.gml</script>
-      </scripts>
-      <scripts name="Deprecated (Please Remove)">
-        <script>scripts\Depecrated_TweenFire.gml</script>
-        <script>scripts\Deprecated_TweenPlay.gml</script>
-        <script>scripts\Deprecated_Events.gml</script>
-        <script>scripts\Deprecated_TweenDefaults.gml</script>
-      </scripts>
+    <scripts name="SHOOTING &amp; COMBAT">
+      <script>scripts\Projectile_Calculations.gml</script>
+      <script>scripts\CrateDestroyed.gml</script>
+      <script>scripts\ThingExplodes.gml</script>
+      <script>scripts\ProjectileImpactChecker.gml</script>
+      <script>scripts\DamageEnemy.gml</script>
     </scripts>
-    <script>scripts\LEVEL_GENERATION.gml</script>
-    <script>scripts\script63.gml</script>
-    <script>scripts\GAME_SETTINGS.gml</script>
-    <script>scripts\script65.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -283,6 +287,7 @@
         <object>objects\oImpactTracker</object>
         <object>objects\oCrossHair</object>
         <object>objects\oProjectile</object>
+        <object>objects\oAimCameraShifter</object>
       </objects>
       <objects name="DEATHSPLATS">
         <object>objects\oPlayerSplat</object>
