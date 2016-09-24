@@ -3,7 +3,7 @@
   <spriteName>sprite36</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>100</depth>
+  <depth>10000</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -33,6 +33,9 @@ ScreenHeight = display_get_height()
 
 //DRAW LEVEL setup
 LevelExists=false
+TileSetSize = 128
+TileSetSizeHalved = TileSetSize/2
+TileSizeQuartered = TileSetSize/4
 
 //CAMERA SHAKE
 screenshake = false
@@ -110,6 +113,32 @@ KillerTracker = 0
             <string>//PLAYER CAMERA ACTIVE
 if instance_exists(oPlayer)
 {
+
+if LevelExists
+{
+//SETUP FOR DRAW LIMITS
+NearestGridCellX = round(x div TileSetSize)
+NearestGridCellY = round(y div TileSetSize)
+
+GridColDrawStart = NearestGridCellX-25
+GridColDrawEnd = NearestGridCellX+25
+GridRowDrawStart = NearestGridCellY-15
+GridRowDrawEnd = NearestGridCellY+15
+
+if GridRowDrawStart &lt;= 0 {GridRowDrawStart=0}
+if GridColDrawStart &lt;= 0 {GridColDrawStart=0}
+if ds_grid_width(grid) &lt;= GridColDrawEnd {GridColDrawEnd=ds_grid_width(grid)}
+if ds_grid_height(grid) &lt;= GridRowDrawEnd {GridRowDrawEnd=ds_grid_height(grid)}
+
+with (oDrawHigh)
+{
+GridRowDrawStart = oCamera.GridRowDrawStart
+GridRowDrawEnd = oCamera.GridRowDrawEnd
+GridColDrawStart = oCamera.GridColDrawStart
+GridColDrawEnd = oCamera.GridColDrawEnd
+LevelExists = true
+}
+}
 
 //CAMERA CONTROLS V1.4
 
@@ -206,23 +235,6 @@ if screenshake=true
 {ScreenShake(ShakeAmount)}
 
 
-if LevelExists
-{
-//SETUP FOR DRAW LIMITS
-NearestGridCellX = round(x div 128)
-NearestGridCellY = round(y div 128)
-
-GridColDrawStart = NearestGridCellX-12
-GridColDrawEnd = NearestGridCellX+12
-GridRowDrawStart = NearestGridCellY-7
-GridRowDrawEnd = NearestGridCellY+7
-
-if GridRowDrawStart &lt;= 0 {GridRowDrawStart=0}
-if GridColDrawStart &lt;= 0 {GridColDrawStart=0}
-if ds_grid_width(grid) &lt;= GridColDrawEnd {GridColDrawEnd=ds_grid_width(grid)}
-if ds_grid_height(grid) &lt;= GridRowDrawEnd {GridRowDrawEnd=ds_grid_height(grid)}
-}
-
 /*DEBUG VIEW MODE
   view_wview = room_width
   view_hview = room_height
@@ -250,20 +262,20 @@ if ds_grid_height(grid) &lt;= GridRowDrawEnd {GridRowDrawEnd=ds_grid_height(grid
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if LevelExists
+            <string>/* if LevelExists
 {
-
     for (var row=GridRowDrawStart; row&lt;GridRowDrawEnd; row++)
     {
             for (var col=GridColDrawStart; col&lt;GridColDrawEnd; col++)
             {  
             //ONLY PLACE TILES IN SPACES
-            if grid[# col, row] = -2
-            {}
+            if grid[# col, row] = -3
+            {
+            }
             else 
             {
-            var subimage = grid[# col, row] 
-            draw_sprite(spr_leveltiles,subimage, round((col*128)+64), round((row*128)+64));
+            var subimage = grid[# col, row];
+            draw_sprite(tileLevelTile0A,subimage, round((col*TileSetSize)+TileSetSizeHalved), round((row*TileSetSize)+TileSetSizeHalved));
             }
         }
     }

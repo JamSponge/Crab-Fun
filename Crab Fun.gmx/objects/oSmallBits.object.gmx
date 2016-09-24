@@ -37,7 +37,7 @@ SplatVarY = random_range(100,150)
 
 image_speed = 0
 
-DeathFadeSetup(10)
+DeathFadeSetup(40)
 
 var DebrisID = self.id
 with (oDebrisArray)

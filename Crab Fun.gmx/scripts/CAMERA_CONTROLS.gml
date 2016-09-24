@@ -1,4 +1,17 @@
 #define CAMERA_CONTROLS
+//DEPTHS LIST
+
+PlayerDepth = -10000
+BulletDepth = -1000
+BombDepth = -1000
+CrateDepth = -500
+EnemyDepth = -300
+EnemyDeadDepth = -300
+SeaDepth = -200
+ShrapnelDepth = 280
+DeadCrateDepth = 280
+SplatDepth = 300
+FloorDepth = 10000
 
 #define CameraReset
 //CAMERA CONTROLS V1.4

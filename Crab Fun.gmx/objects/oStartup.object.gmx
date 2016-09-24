@@ -28,6 +28,7 @@
             <string>//SET UP THE GAME
 Video_Setup()
 instance_create(x,y,oCamera)
+instance_create(x,y,oDrawHigh)
 instance_create(x,y,oPersistentValues)
 instance_create(x,y,oGame)
 

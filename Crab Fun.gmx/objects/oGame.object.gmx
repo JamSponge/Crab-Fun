@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>//SPLAT DEPTH MODIFIER
 SplatDepth = 800
+TileSetSize = 64
 
 //AUDIO SETUP
 audio_falloff_set_model (audio_falloff_exponent_distance)

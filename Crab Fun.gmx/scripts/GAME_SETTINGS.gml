@@ -9,7 +9,6 @@ window_set_fullscreen(true)
 global.DisplayWidth = display_get_width()
 global.DisplayHeight = display_get_height()
 global.DisplayRatio = global.DisplayWidth / 1000
-global.TileSpriteSize = 128
 
 /* how much of the room do we want on-screen?*/
 view_wview = global.DisplayWidth 

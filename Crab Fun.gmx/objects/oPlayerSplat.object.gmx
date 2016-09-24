@@ -30,7 +30,7 @@ image_yscale = 0.01
 MaxSplatSize = random_range(0.7,1.5)
 SplatSetupY = random_range(0.6,0.9)
 image_speed = 0
-DeathFadeSetup(10)
+DeathFadeSetup(15)
 
 var DebrisID = self.id
 with (oDebrisArray)

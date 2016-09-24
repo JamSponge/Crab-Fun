@@ -19,13 +19,19 @@ SetupLevelGen()
 SpriteSetup()
 
 //GENERATE ERRATIC SHALLOW BEACH BACKDROP (#ofcycles,minsize,maxsize,rectanglecalc,valuetoassign)
-SpecialGridGen(10,3,10,6,INACCESSIBLE,true)
+//SpecialGridGen(10,3,10,6,INACCESSIBLE,true)
 
 //MAKE ISLANDS PLEASE
-IslandGenerator(1,5,23,ACCESSIBLE,TOERODE)
+IslandGenerator(1,15,0,ACCESSIBLE,ACCESSIBLE)
+
+//MAKE LONG PATHWAYS
+SpecialGridGen(10,2,10,3,ACCESSIBLE,false)
+
+//REMOVE SECTIONS, ADD WATER
+SpecialGridGen(5,4,8,6,INACCESSIBLE,false)
 
 //MAKE ANTI-ISLANDS PLEASE (POOLS)
-IslandGenerator(0,3,4,INACCESSIBLE,TOERODE)
+IslandGenerator(0,2,4,INACCESSIBLE,ACCESSIBLE)
 
 //CREATE PATCHES OF CRATES
 SpecialGridGen(7,1,5,3,CRATE,true)
@@ -41,10 +47,9 @@ GridDataAllocator()
 //FILL THE LEVEL WITH STUFF
 PopulateLevel()
 
-
 //APPLY CORRECT SPRITES AND DATA FOR CELLS THAT REQUIRE INFO
-AllocateSpritesToINACCESSIBLE()
-AllocateSpritesToOUTOFBOUNDS()
+AllocateSpritesToACCESSIBLE()
+//AllocateSpritesToOUTOFBOUNDS()
 
 
 
@@ -110,7 +115,7 @@ for (var row=0; row<ds_grid_height(grid); row++)
     { 
     //ERODE AREAS WOT NEED ERODIN
     //ERODE EDGES OF ISLANDS
-    ErodeSpecialArea(TOERODE,10,INACCESSIBLE,ACCESSIBLE,col,row)
+    ErodeSpecialArea(TOERODE,10,ACCESSIBLE,ACCESSIBLE,col,row)
     //ERODE AREAS SET TO SPAWN PATCHES OF CRATES
     ErodeSpecialArea(CRATE,5,CRATE,ACCESSIBLE,col,row)
     
@@ -122,7 +127,7 @@ for (var row=0; row<ds_grid_height(grid); row++)
 
     //OUT OF BOUNDS AREAS
     if col <=3 || col >=GridMaxHori-4 || row <=3 || row >=GridMaxVert-4 
-    {grid[# col, row] = OUTOFBOUNDS}
+    {grid[# col, row] = INACCESSIBLE}
 }
 }
 
@@ -153,7 +158,7 @@ if (grid[# col, row] == SPECIALTYPE)
  room_instance_add(global.LevelBeingMade,0,0,oEnemyArrayController)
  room_instance_add(global.LevelBeingMade,0,0,oDebrisArray)
  room_instance_add(global.LevelBeingMade,0,0,oImpactTracker)
- room_instance_add(global.LevelBeingMade,SafeIslandX*128,SafeIslandY*128,oPlayer)
+ room_instance_add(global.LevelBeingMade,SafeIslandX*TileSetSize,SafeIslandY*TileSetSize,oPlayer)
  room_instance_add(global.LevelBeingMade,0,0,oPistol)
 
  //PLACE CRATES
@@ -179,12 +184,12 @@ if (grid[# col, row] == SPECIALTYPE)
             grid[# col+1, row+1] = ACCESSIBLE
             grid[# col, row+1] = ACCESSIBLE
             //MAKE A BIG CRATE IN THE MIDDLE OF THE FOUR CELLS!
-            room_instance_add(global.LevelBeingMade,col*128+128,row*128+128,oIceCreamCrate)
+            room_instance_add(global.LevelBeingMade,col*TileSetSize+TileSetSize,row*TileSetSize+TileSetSize,oIceCreamCrate)
             }
             else
             //NO ROOM FOR A WHOPPER, JUST PUT A DIDDLER IN THERE.
             {
-            room_instance_add(global.LevelBeingMade,col*128+64,row*128+64,oSmallCrate)
+            room_instance_add(global.LevelBeingMade,col*TileSetSize+TileSetSizeHalved,row*TileSetSize+TileSetSizeHalved,oSmallCrate)
             grid[# col, row] = ACCESSIBLE
             }
         
@@ -219,7 +224,7 @@ SafeIslandY = round(random_range(GridMidPointVert-GridMidPointVert/4.5,GridMidPo
 
 //CREATE THE GRID
 grid = ds_grid_create(GridMaxHori,GridMaxVert)
-ds_grid_set_region(grid,0,0,GridMaxHori-1,GridMaxVert-1,BLANK)
+ds_grid_set_region(grid,0,0,GridMaxHori-1,GridMaxVert-1,INACCESSIBLE)
 
 
 
@@ -272,84 +277,7 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
 }
 
 
-#define AllocateSpritesToOUTOFBOUNDS
-//OK, now sort the deep sea tileset - and CREATE INVISIBLE WALLS, MATE!
-for (var row=0; row<ds_grid_height(grid); row++)
-    {
-        for (var col=0; col<ds_grid_width(grid); col++)
-        {
-            if grid[# col, row] = OUTOFBOUNDS
-            {
-            
-            var sum = 0; 
-            var NW,N,NE,W,E,SW,S,SE;
-            NW=0;N=0;NE=0;W=0;E=0;SW=0;S=0;SE=0;
-
-            
-                //NORTH
-            if grid[# col, row-1] >= 48
-            {N=1}
-            //WEST
-            if grid[# col-1, row] >= 48
-            {W=1}
-            //EAST
-            if grid[# col+1, row] >= 48
-            {E=1}
-            //SOUTH
-            if grid[# col, row+1] >= 48
-            {S=1}
-            
-            //NORTH-WEST
-            if N=1 && W=1
-                {
-                if grid[# col-1, row-1] >= 48
-                {NW=1}
-                }
-            //NORTH-EAST
-            if N=1 && E=1
-                {
-                if grid[# col+1, row-1] >= 48
-                {NE=1}
-                }
-            //SOUTH-WEST
-            if S=1 && W=1
-                {
-                if grid[# col-1, row+1] >= 48
-                {SW=1}
-                }
-            //SOUTH-EAST
-            if S=1 && E=1
-                {
-                if grid[# col+1, row+1] >= 48
-                {SE=1}
-                }
-                          
-            sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
-            //SET THE SPRITE ID BASED ON SUM
-
-                for (var i=0; i< array_height_2d(tileset); i+= 1)
-                    { 
-                    if (sum == tileset[i,0])
-                        {
-                        grid[# col, row] = tileset[i,1]+48
-                        
-                            if grid[# col, row] = 94 || grid[# col, row] = 48
-                            {
-                            }
-                                else
-                                {
-                                //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
-                                room_instance_add(global.LevelBeingMade,(col*128)+64, (row*128)+64,oInvisibleWall)
-                                }
-                        break;
-                        }
-                    }
-            }
-        }
-
-    }
-
-#define AllocateSpritesToINACCESSIBLE
+#define AllocateSpritesToACCESSIBLE
 //ALL ASSIGNED AS ACCESSIBLE OR FULL - TIME TO PLACE THE SEA TILES        
 //ONLY APPLY TO REQUIRED SPACES, SO THIS IS A SECOND FULL-SCAN OF THE GRID
  //SCAN THROUGH GRID
@@ -358,8 +286,8 @@ for (var row=0; row<ds_grid_height(grid); row++)
         for (var col=0; col<ds_grid_width(grid); col++)
         {
             
-            //CHECK IT'S A SEA TILE, IF IT IS, WE'LL WORK OUT WHAT TYPE.
-            if (grid[# col, row] == INACCESSIBLE)
+            //CHECK IT'S A LAND TILE, IF IT IS, WE'LL WORK OUT WHAT TYPE.
+            if (grid[# col, row] == ACCESSIBLE)
             {
             var sum = 0; 
             var NW,N,NE,W,E,SW,S,SE;
@@ -367,78 +295,94 @@ for (var row=0; row<ds_grid_height(grid); row++)
 
             
             //NORTH
-            if grid[# col, row-1] != ACCESSIBLE {N=1}
+            if grid[# col, row-1] != INACCESSIBLE {N=1}
             //WEST
-            if grid[# col-1, row] != ACCESSIBLE {W=1}
+            if grid[# col-1, row] != INACCESSIBLE {W=1}
             //EAST
-            if grid[# col+1, row] != ACCESSIBLE {E=1}
+            if grid[# col+1, row] != INACCESSIBLE {E=1}
             //SOUTH
-            if grid[# col, row+1] != ACCESSIBLE {S=1}
+            if grid[# col, row+1] != INACCESSIBLE {S=1}
             
             //NORTH-WEST
             if N=1 && W=1
                 {
-                if grid[# col-1, row-1] != ACCESSIBLE {NW=1}
+                if grid[# col-1, row-1] != INACCESSIBLE {NW=1}
                 }
             //NORTH-EAST
             if N=1 && E=1
                 {
-                if grid[# col+1, row-1] != ACCESSIBLE {NE=1}
+                if grid[# col+1, row-1] != INACCESSIBLE {NE=1}
                 }
             //SOUTH-WEST
             if S=1 && W=1
                 {
-                if grid[# col-1, row+1] != ACCESSIBLE {SW=1}
+                if grid[# col-1, row+1] != INACCESSIBLE {SW=1}
                 }
             //SOUTH-EAST
             if S=1 && E=1
                 {
-                if grid[# col+1, row+1] != ACCESSIBLE {SE=1}
+                if grid[# col+1, row+1] != INACCESSIBLE {SE=1}
                 }
                 
             sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
-            //SET THE SPRITE ID BASED ON SUM
-
-                for (var i=0; i< array_height_2d(tileset); i+= 1)
-                    { 
-                    if (sum == tileset[i,0])
+            
+            //IF IT'S A SOLO SQUARE, KILL IT
+            if sum = 0 {grid[# col, row] = INACCESSIBLE}
+            
+                else
+                {
+                //SET THE TILE BASED ON SUM
+    
+                    for (var i=0; i< array_height_2d(tileset); i+= 1)
+                        { 
+                        if (sum == tileset[i,0])
                         {
-                        grid[# col, row] = tileset[i,1]
-                        //MAKE ONLY ONE TYPE OF SEA-SEA TILE
-                        if grid[# col, row] = 46 {grid[# col, row] =0}
-                        break;
+                        var TileNo,xx,yy;
+                        TileNo = tileset[i,1];
+                        xx = (tilelocation[TileNo,0]);
+                        yy = (tilelocation[TileNo,1]);
+                        room_tile_add(global.LevelBeingMade,LandA0,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
+                        room_tile_add(global.LevelBeingMade,LandA1,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                           /*ADD RANDOM CHANCE FOR ALTERNATE TILESET
+                        grid[# col, row] = choose
+                        (tileset[i,1],tileset[i,1]+48) */
+                        break;       
                         }
                     }
+                }
             }
+            if (grid[# col, row] == INACCESSIBLE)
+            room_tile_add(global.LevelBeingMade,SeaSquare,TileSizeQuartered,TileSizeQuartered,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
         }
     }
             
-//OK, DEEP SEA TIME MOTHERHUBBARDDDD! FIND THEM DEEP SEA TILES!            
+//OK, MAKE EDGE WATER TILES INVIS WALLS    
     for (var row=0; row<ds_grid_height(grid); row++)
     {
         for (var col=0; col<ds_grid_width(grid); col++)
         {
-
-        //CREATE DEEP SEA TILES, ONLY IF THEY ARE OUT IN THE SEAAAA
-            if grid[# col, row] = 0
+            if grid[# col, row] = INACCESSIBLE
             {
-            //NESW - FULL CHECK FOR FULL SEA TILES
-           var deepenough = 3;
+            //NESW - CHECK FOR AT LEAST ONE NEARBY TILE
+           var LandNearby = 0;
         
-           if grid[# col, row-1] = 0 || grid[# col, row-1] = OUTOFBOUNDS
-           {deepenough--}
+           if grid[# col, row-1] != INACCESSIBLE
+           {LandNearby++}
            
-           if grid[# col-1, row] = 0 || grid[# col-1, row] = OUTOFBOUNDS
-            {deepenough--}
+           if grid[# col-1, row] != INACCESSIBLE
+            {LandNearby++}
             
-           if grid[# col+1, row] = 0 || grid[# col+1, row] = OUTOFBOUNDS
-            {deepenough--}
+           if grid[# col+1, row] != INACCESSIBLE
+            {LandNearby++}
             
-           if grid[# col, row+1] = 0 || grid[# col, row+1] = OUTOFBOUNDS
-            {deepenough--}
+           if grid[# col, row+1] != INACCESSIBLE
+            {LandNearby++}
             
-            if deepenough <= 1 {grid[# col, row] = OUTOFBOUNDS}  
-                
+                if 1 <= LandNearby 
+                {
+                //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
+                //room_instance_add(global.LevelBeingMade,(col*TileSetSize)+TileSetSizeHalved, (row*TileSetSize)+TileSetSizeHalved,oInvisibleWall)
+                }
             }
         }
     }
@@ -539,6 +483,28 @@ tileset[45,0] = 255
 tileset[45,1] = 46
 tileset[46,0] = 0
 tileset[46,1] = 47
+
+//INITIALISE TILESET LOCATION GRID --- 0 = x , 1 = y
+var TilesAcross = 0;
+var RowsDown = 0;
+var NextTileAcross = TileSizeQuartered + TileSetSize; //160
+
+//INITIALISE ARRAY
+for (var i = 0; i <= 47 ; i += 1)
+{
+    tilelocation[i,0] = TileSizeQuartered+(NextTileAcross*TilesAcross)
+    tilelocation[i,1] = TileSizeQuartered+(NextTileAcross*RowsDown)
+        if TilesAcross >= 7 
+        {
+        RowsDown ++
+        TilesAcross = 0
+        }
+            else
+            {
+            TilesAcross ++
+            }
+}
+
 #define CreateNewRoom
 var GridTotal, GridSizer;
 GridTotal = 120
@@ -547,9 +513,86 @@ GridMaxVert = GridSizer
 GridMaxHori = GridTotal-GridSizer
 
 global.LevelBeingMade = room_add();
- room_set_width(global.LevelBeingMade,GridMaxHori*128);
- room_set_height(global.LevelBeingMade,GridMaxVert*128);
- room_set_background(global.LevelBeingMade,1,true,false,background1,0,0,true,true,0,0,1)
+ room_set_width(global.LevelBeingMade,GridMaxHori*TileSetSize);
+ room_set_height(global.LevelBeingMade,GridMaxVert*TileSetSize);
+ //room_set_background(global.LevelBeingMade,1,true,false,background1,0,0,true,true,0,0,1)
  room_set_persistent(global.LevelBeingMade, true);
  room_set_view(global.LevelBeingMade,0,true,0,0,ScreenWidth,ScreenHeight,0,0,ScreenWidth,ScreenHeight,ScreenWidth,ScreenHeight,-1,-1,oCamera)
  room_set_view_enabled(global.LevelBeingMade,true)
+
+#define AllocateSpritesToOUTOFBOUNDS
+//OK, now sort the deep sea tileset - and CREATE INVISIBLE WALLS, MATE!
+/*for (var row=0; row<ds_grid_height(grid); row++)
+    {
+        for (var col=0; col<ds_grid_width(grid); col++)
+        {
+            if grid[# col, row] = OUTOFBOUNDS
+            {
+            
+            var sum = 0; 
+            var NW,N,NE,W,E,SW,S,SE;
+            NW=0;N=0;NE=0;W=0;E=0;SW=0;S=0;SE=0;
+
+            
+                //NORTH
+            if grid[# col, row-1] >= 48
+            {N=1}
+            //WEST
+            if grid[# col-1, row] >= 48
+            {W=1}
+            //EAST
+            if grid[# col+1, row] >= 48
+            {E=1}
+            //SOUTH
+            if grid[# col, row+1] >= 48
+            {S=1}
+            
+            //NORTH-WEST
+            if N=1 && W=1
+                {
+                if grid[# col-1, row-1] >= 48
+                {NW=1}
+                }
+            //NORTH-EAST
+            if N=1 && E=1
+                {
+                if grid[# col+1, row-1] >= 48
+                {NE=1}
+                }
+            //SOUTH-WEST
+            if S=1 && W=1
+                {
+                if grid[# col-1, row+1] >= 48
+                {SW=1}
+                }
+            //SOUTH-EAST
+            if S=1 && E=1
+                {
+                if grid[# col+1, row+1] >= 48
+                {SE=1}
+                }
+                          
+            sum = (1*NW + 2*N + 4*NE + 8*W + 16*E + 32*SW + 64*S + 128*SE)
+            //SET THE SPRITE ID BASED ON SUM
+
+                for (var i=0; i< array_height_2d(tileset); i+= 1)
+                    { 
+                    if (sum == tileset[i,0])
+                        {
+                        grid[# col, row] = tileset[i,1]+48
+                        
+                            if grid[# col, row] = 94 || grid[# col, row] = 48
+                            {
+                            }
+                                else
+                                {
+                                //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
+                                room_instance_add(global.LevelBeingMade,(col*128)+64, (row*128)+64,oInvisibleWall)
+                                }
+                        break;
+                        }
+                    }
+            }
+        }
+
+    }

@@ -145,19 +145,26 @@
     <sprite>sprites\sIceCreamCone</sprite>
     <sprite>sprites\sIceCreamPool</sprite>
     <sprite>sprites\sprite34</sprite>
+    <sprite>sprites\spr_leveltiles</sprite>
     <sprite>sprites\sprite36</sprite>
     <sprite>sprites\sprite37</sprite>
-    <sprite>sprites\spr_leveltiles</sprite>
+    <sprite>sprites\spr_leveltiles2</sprite>
     <sprite>sprites\sMovementBlocker</sprite>
     <sprite>sprites\sExplosionEstimater</sprite>
     <sprite>sprites\sprite40</sprite>
     <sprite>sprites\sExplosionEstimaterPart2</sprite>
     <sprite>sprites\sprite42</sprite>
+    <sprite>sprites\tileLevelTile0B</sprite>
+    <sprite>sprites\tileSea</sprite>
+    <sprite>sprites\tileLevelTile0A</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
     <background>background\bg_tile</background>
     <background>background\background3</background>
+    <background>background\LandA0</background>
+    <background>background\SeaSquare</background>
+    <background>background\LandA1</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -249,6 +256,7 @@
   <objects name="objects">
     <objects name="ESSENTIAL AT GAME START">
       <object>objects\oGame</object>
+      <object>objects\oDrawHigh</object>
       <object>objects\oCamera</object>
       <object>objects\oPersistentValues</object>
       <object>objects\oStartGame</object>
