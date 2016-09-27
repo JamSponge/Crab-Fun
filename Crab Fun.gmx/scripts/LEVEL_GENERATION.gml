@@ -341,6 +341,61 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                         TileNo = tileset[i,1];
                         xx = (tilelocation[TileNo,0]);
                         yy = (tilelocation[TileNo,1]);
+                        
+                        
+                        //SET ALTERNATE VERSIONS - TOTALLY FUDGED THE NUMBERS ON MY LOVELY ALGORITHMS SOZ
+                        if TileNo == 12
+                        {
+                        if RollD6(2)
+                            {
+                            TileNo = choose(6,7)
+                            xx = (tilelocation[TileNo,0])-16;
+                            yy = 16
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            break;
+                            }
+                        }
+                        
+                        if TileNo == 28
+                        {
+                        if RollD6(2)
+                            {
+                            TileNo = choose(2,3)
+                            xx = (tilelocation[TileNo,0])-16;
+                            yy = 16
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            break;
+                            }
+                        }
+                        
+                        if TileNo == 36
+                        {
+                        if RollD6(2)
+                            {
+                            TileNo = choose(4,5)
+                            xx = (tilelocation[TileNo,0])-16;
+                            yy = 16
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            break;
+                            }
+                        }
+                        
+                        if TileNo == 42
+                        {
+                        if RollD6(2)
+                            {
+                            TileNo = choose(0,1)
+                            xx = (tilelocation[TileNo,0])-16;
+                            yy = 16
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            break;
+                            }
+                        }
+                        
                         room_tile_add(global.LevelBeingMade,LandA0,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
                         room_tile_add(global.LevelBeingMade,LandA1,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
                            /*ADD RANDOM CHANCE FOR ALTERNATE TILESET

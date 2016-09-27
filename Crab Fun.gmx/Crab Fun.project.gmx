@@ -165,6 +165,8 @@
     <background>background\LandA0</background>
     <background>background\SeaSquare</background>
     <background>background\LandA1</background>
+    <background>background\LandA0Extra</background>
+    <background>background\LandA1Extra</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
