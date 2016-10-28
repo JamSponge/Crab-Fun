@@ -38,7 +38,7 @@ DrawAimingBeam = false
 GunBombCharging = false
 
 //GENERIC WEAPON SETUP - VARIABLES
-ShotsFiredCountMax = 10
+ShotsFiredCountMax = 20
 MyBulletSpeed = 3500 / room_speed
 RateOfFire = 0.2 //---IN SECONDS
 

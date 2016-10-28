@@ -26,6 +26,7 @@ PlayerSplashSetup()
 PlayerWetFeetParticlesSetup()
 ShotImpactSetup()
 HitCrateParticlesSetup()
+DestroyCrateParticlesSetup()
 
 #define Particle_Burst
 //PARTICLES, PLEASE (PartTyoe)

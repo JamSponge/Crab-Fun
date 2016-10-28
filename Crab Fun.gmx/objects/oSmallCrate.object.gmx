@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>image_speed = 0
 image_index = 0
-CrateColour = make_colour_rgb (108,81,14)
+CrateColour = make_colour_rgb (212,177,109)
 CrateScale = 0.5
 CrateContains = 0
 CrateRotation = random_range(-4,4)
