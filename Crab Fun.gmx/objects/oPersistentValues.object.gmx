@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>CrabsKilled = 0
+            <string>global.CrabsKilled = 0
+global.CoinsCollected = 0
 </string>
           </argument>
         </arguments>

@@ -29,7 +29,7 @@
 
 
 
-draw_text (10,10,oPersistentValues.CrabsKilled)
+draw_text (10,10,global.CrabsKilled)
 
 
 </string>

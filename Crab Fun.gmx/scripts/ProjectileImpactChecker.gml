@@ -8,7 +8,11 @@ var ProjectileType = argument3 //PROJECTILE TYPES: 1 NonPierce, 2 Pierce, 3 Expl
 if instance_place(x,y,oEnemyBody) {
 EnemyHit = instance_nearest (x,y,oEnemyBody)
     //DESTROY THE BULLET
-    if ProjectileType = 1 {instance_destroy()}    
+    if ProjectileType = 1 
+    {
+    ShotImpactParticles(image_angle-220,image_angle-140)
+    instance_destroy()
+    }    
     //DMG THE FOE
     with EnemyHit 
         {
@@ -17,7 +21,8 @@ EnemyHit = instance_nearest (x,y,oEnemyBody)
             AttackSource = DamageSource
             YesEnemyIsDead = true
             WeaponImpact = ProjectileImpact
-            oPersistentValues.CrabsKilled++
+            global.CrabsKilled++
+            instance_create(x,y,oMoney)
             break;
             }
             else
@@ -33,7 +38,6 @@ EnemyToNudge = instance_nearest(x,y,oDeadEnemy)
     var xx,yy;
     xx = EnemyToNudge.x
     yy = EnemyToNudge.y
-    
     with EnemyToNudge if Nudged = false {
     direction = point_direction (DamageSource.x,DamageSource.y,xx,yy)
     speed = ProjectileImpact
@@ -47,6 +51,8 @@ if instance_place(x,y,oCrate)
 {
     {
     CrateToBlowUp = instance_place(x,y,oCrate)
+    HitCrateParticles(image_angle-220,image_angle-140,CrateToBlowUp.CrateColour)
+    ShotImpactParticles(image_angle-220,image_angle-140)
     if ProjectileType = 1 {instance_destroy()}    
     }
     with (CrateToBlowUp)

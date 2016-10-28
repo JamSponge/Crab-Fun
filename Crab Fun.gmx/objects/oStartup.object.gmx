@@ -27,10 +27,12 @@
             <kind>1</kind>
             <string>//SET UP THE GAME
 Video_Setup()
+Global_Part_Setup()
 instance_create(x,y,oCamera)
 instance_create(x,y,oDrawHigh)
 instance_create(x,y,oPersistentValues)
 instance_create(x,y,oGame)
+
 
 </string>
           </argument>

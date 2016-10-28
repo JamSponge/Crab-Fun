@@ -27,7 +27,6 @@
             <kind>1</kind>
             <string>//SPLAT DEPTH MODIFIER
 SplatDepth = 800
-TileSetSize = 64
 
 //AUDIO SETUP
 audio_falloff_set_model (audio_falloff_exponent_distance)
@@ -83,6 +82,7 @@ if keyboard_check_pressed(vk_escape) {
     
 if keyboard_check_pressed(ord('R')) {
 //ds_grid_destroy(oCamera.grid)
+    part_system_destroy(global.ps)
     game_restart()
     }
     

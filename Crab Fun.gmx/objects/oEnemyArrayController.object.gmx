@@ -121,13 +121,18 @@ SpawnAnEnemy(1,SpawnX,SpawnY,90)
 
 //NO SPAWN, BUT THEY CAN STILL MOVE
 if instance_exists(oCamera){
-
+    
     //MOVE EACH ENEMY IN THE ARRAY
       //Set up some variables to save CPU!
                 var TargetX = oCamera.x
                 var TargetY = oCamera.y
                 var PlayerX = TargetX
                 var PlayerY = TargetY
+    if instance_exists(oPlayer)
+    {
+    var PlayerX = oPlayer.x
+    var PlayerY = oPlayer.y
+    }
     var i;
      for (i = 0; i &lt; array_height_2d(EnemyArray); i += 1) //Loop Through Full Array
         
@@ -159,9 +164,9 @@ if instance_exists(oCamera){
                 
                      //GIVE CRAB DATA NEEDED FOR EVASION
                          with (EnemyArray[i,1]) {
-                           var turnSpeed = EnemyTurnSpeed*0.2
-                           var enemyspeed = EnemySpeed*0.8      
-                           var accuracy = EnemyAccuracy  
+                           turnSpeed = EnemyTurnSpeed*0.2
+                           enemyspeed = EnemySpeed*0.8      
+                           accuracy = EnemyAccuracy  
                            
                              //TEMPORARILY MOVE CRAB MILES AWAY TO GET ACCURATE NEAREST DATA
                              
@@ -194,35 +199,50 @@ if instance_exists(oCamera){
                             ActualX = x
                             ActualY = y 
                             
-                            var turnSpeed = EnemyTurnSpeed
-                            var accuracy = EnemyAccuracy
-                            var enemyspeed = EnemySpeed   
+                            //DETERMINE GRID LOCATION
+                            var col = x div global.TileSetSize;
+                            var row = y div global.TileSetSize;
+                            CurrentLocation = oCamera.grid[# col, row];
+
+                            accuracy = EnemyAccuracy
+                            enemyspeed = EnemySpeed
+                            turnSpeed = EnemyTurnSpeed
                             
+                                //WATER CHECK, YO
+                                if CurrentLocation = -3
+                                {
+                                enemyspeed = EnemySpeed*1.6
+                                turnSpeed = EnemyTurnSpeed*0.5
+                                }
                             }           
                         }
             
 //FINAL INSTRUCTIONS FOR EACH SET OF LEGS
-            with (EnemyArray[i,1]) {
-            //THERE'S A CLEAR LINE TO THE PLAYER MATE, GUN IT.
-            if IHaveLineOfSightTo(oPlayer){
-            var enemyspeed = EnemySpeed*1.2
-            var turnSpeed = EnemyTurnSpeed*1.5
-            var accuracy = EnemyAccuracy/2
+            with (EnemyArray[i,1])
+            {
+
+                //THERE'S A CLEAR LINE TO THE PLAYER MATE, GUN IT.
+                if IHaveLineOfSightTo(oPlayer)
+                    {
+                //RESET SETTINGS TO NORMAL CRAB MODE, POINT TOWARDS THE PLAYER!
+                    CurrentX = ActualX
+                    CurrentY = ActualY
+                    TargetX = PlayerX 
+                    TargetY = PlayerY
             
-            //RESET SETTINGS TO NORMAL CRAB MODE, POINT TOWARDS THE PLAYER!
-            CurrentX = ActualX
-            CurrentY = ActualY
-            TargetX = PlayerX 
-            TargetY = PlayerY
-            } else {}
-            
-             //WHOA FUCK THAT GUY I SAW AN ICECREAM
-                   if IceCreamValue = 0 and distance_to_object (oDeadIceCreamCone) &lt;= 200 {
+                    enemyspeed = enemyspeed*1.2
+                    turnSpeed = EnemyTurnSpeed*1.5
+                    accuracy = EnemyAccuracy/2
+                    }
+                
+                    //WHOA FUCK THAT GUY I SAW AN ICECREAM
+                   if IceCreamValue = 0 and distance_to_object (oDeadIceCreamCone) &lt;= 200 
+                   {
                    var NearestIceCreamCone = instance_nearest (x,y,oDeadIceCreamCone)
                    var TargetX = NearestIceCreamCone.x
                    var TargetY = NearestIceCreamCone.y
+                   }
                    
-                    }
                 
                 //OBJECT COLLISION CHECK
                 if place_meeting (x+(hspeed*3),y+(vspeed*3),oSolidObject){
@@ -230,8 +250,8 @@ if instance_exists(oCamera){
                 hspeed = hspeed*-1
                 direction = direction + choose (-35,-20,0,20,35)
                 
-                var turnSpeed = EnemyTurnSpeed*0.3
-                var accuracy = EnemyAccuracy*0.5
+                turnSpeed = EnemyTurnSpeed*0.3
+                accuracy = EnemyAccuracy*0.5
                 }
                          
             //CARRY OUT ACTUAL ANGLE AND SPEED

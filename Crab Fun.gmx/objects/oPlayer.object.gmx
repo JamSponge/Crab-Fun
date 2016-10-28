@@ -30,6 +30,11 @@ WeaponCount = 0
 WeaponArrayIndex = 0
 PlayerNoGun = false
 
+
+FootStepAlarmTriggered = false
+PlayerStep = room_speed/6
+WetFeet = 0
+
 //Camera &amp; HUD
 instance_create(x,y,oHUD)
 
@@ -53,6 +58,43 @@ TotalBits = 4
 BitsCreated = 0
 ExtraSplatChance = random_range(1,10)
      
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if CurrentLocation = -3 //WATER
+{
+WetFeet = 20
+PlayerSplashParticles()
+}
+
+if CurrentLocation = -2 //LAND
+{
+    if 0 &lt; WetFeet
+    {
+    PlayerWetFeetParticles(direction,direction,WetFeet) 
+    WetFeet--
+    }
+}
+FootStepAlarmTriggered = false
 </string>
           </argument>
         </arguments>
@@ -144,7 +186,7 @@ Facing = point_direction(x,y,mouse_x,mouse_y)
 
 //AudioPerspective
 audio_listener_position(x,y,0)
-    
+
 //DEATH
 
 if instance_place (x,y,oEnemy){
@@ -161,6 +203,24 @@ x = x +lengthdir_x(BulletKick,BulletKickDir)
 y = y +lengthdir_y(BulletKick,BulletKickDir)
 }
 */
+
+if instance_place (x,y,oMoney)
+{
+global.CoinsCollected++
+with (instance_nearest(x,y,oMoney)) instance_destroy()
+}
+
+//DETERMINE GRID LOCATION
+var col = x div global.TileSetSize;
+var row = y div global.TileSetSize;
+CurrentLocation = oCamera.grid[# col, row];
+    
+//FOOTSTEP ALARM, I.E PACE OF WALKING
+    if FootStepAlarmTriggered = false &amp;&amp; speed !=0
+        {
+        alarm[0] = PlayerStep
+        FootStepAlarmTriggered = true
+        }
 
 //COLLISION
 PlayerCollision(oSolidObject)
@@ -189,7 +249,7 @@ PlayerCollision(oInvisibleWall)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_text(x,y,oPlayer.x)
+            <string>//draw_text(x,y,oPlayer.x)
 
 //DrawSprite Normally but facing player without turning image_angle
 draw_sprite_ext(sPlayer,image_index,x,y,image_xscale,image_yscale,Facing,image_blend,image_alpha)

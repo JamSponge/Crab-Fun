@@ -1,5 +1,6 @@
 #define Projectile_Calculations
 
+
 #define ShotgunProjectileCreation
   //MUZZLE FLASH
     instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
@@ -25,10 +26,14 @@
     
 
 #define PistolProjectileCreation
-    //PROJECTILE CREATION
-    //MUZZLE FLASH
-    instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
+ var xx,yy;
+ xx = x + lengthdir_x(80, image_angle)
+ yy = y + lengthdir_y(80, image_angle)
     
+     //PROJECTILE CREATION
+    //MUZZLE FLASH
+    instance_create(xx,yy,MuzzleFlareType)
+    Particle_Burst(global.Particle1,image_angle-50,image_angle+50,xx,yy)
         oCamera.ShakeAmount = WeaponScreenShake
         with (oCamera) {
         screenshake = true

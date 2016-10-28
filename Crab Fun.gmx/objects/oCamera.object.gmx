@@ -33,9 +33,9 @@ ScreenHeight = display_get_height()
 
 //DRAW LEVEL setup
 LevelExists=false
-TileSetSize = 128
-TileSetSizeHalved = TileSetSize/2
-TileSizeQuartered = TileSetSize/4
+global.TileSetSize = 128
+TileSetSizeHalved = global.TileSetSize/2
+TileSizeQuartered = global.TileSetSize/4
 
 //CAMERA SHAKE
 screenshake = false
@@ -117,8 +117,8 @@ if instance_exists(oPlayer)
 if LevelExists
 {
 //SETUP FOR DRAW LIMITS
-NearestGridCellX = round(x div TileSetSize)
-NearestGridCellY = round(y div TileSetSize)
+NearestGridCellX = round(x div global.TileSetSize)
+NearestGridCellY = round(y div global.TileSetSize)
 
 GridColDrawStart = NearestGridCellX-25
 GridColDrawEnd = NearestGridCellX+25

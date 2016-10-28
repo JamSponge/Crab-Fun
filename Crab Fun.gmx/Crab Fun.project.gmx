@@ -157,6 +157,7 @@
     <sprite>sprites\tileLevelTile0B</sprite>
     <sprite>sprites\tileSea</sprite>
     <sprite>sprites\tileLevelTile0A</sprite>
+    <sprite>sprites\sprite47</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -251,6 +252,11 @@
       <script>scripts\ProjectileImpactChecker.gml</script>
       <script>scripts\DamageEnemy.gml</script>
     </scripts>
+    <scripts name="PARTICLES">
+      <script>scripts\Global_Part_Setup.gml</script>
+      <script>scripts\PlayerWaterParticles.gml</script>
+      <script>scripts\Impact_Particles.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -336,6 +342,7 @@
     <objects name="PICKUPS AND POWERS">
       <object>objects\oShotgunPickup</object>
       <object>objects\oMachineGunPickup</object>
+      <object>objects\oMoney</object>
     </objects>
     <objects name="TweenGMS">
       <object>objects\obj_SharedTweener</object>

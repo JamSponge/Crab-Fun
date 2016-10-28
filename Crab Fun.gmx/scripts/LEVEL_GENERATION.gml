@@ -158,7 +158,7 @@ if (grid[# col, row] == SPECIALTYPE)
  room_instance_add(global.LevelBeingMade,0,0,oEnemyArrayController)
  room_instance_add(global.LevelBeingMade,0,0,oDebrisArray)
  room_instance_add(global.LevelBeingMade,0,0,oImpactTracker)
- room_instance_add(global.LevelBeingMade,SafeIslandX*TileSetSize,SafeIslandY*TileSetSize,oPlayer)
+ room_instance_add(global.LevelBeingMade,SafeIslandX*global.TileSetSize,SafeIslandY*global.TileSetSize,oPlayer)
  room_instance_add(global.LevelBeingMade,0,0,oPistol)
 
  //PLACE CRATES
@@ -184,12 +184,12 @@ if (grid[# col, row] == SPECIALTYPE)
             grid[# col+1, row+1] = ACCESSIBLE
             grid[# col, row+1] = ACCESSIBLE
             //MAKE A BIG CRATE IN THE MIDDLE OF THE FOUR CELLS!
-            room_instance_add(global.LevelBeingMade,col*TileSetSize+TileSetSize,row*TileSetSize+TileSetSize,oIceCreamCrate)
+            room_instance_add(global.LevelBeingMade,col*global.TileSetSize+global.TileSetSize,row*global.TileSetSize+global.TileSetSize,oIceCreamCrate)
             }
             else
             //NO ROOM FOR A WHOPPER, JUST PUT A DIDDLER IN THERE.
             {
-            room_instance_add(global.LevelBeingMade,col*TileSetSize+TileSetSizeHalved,row*TileSetSize+TileSetSizeHalved,oSmallCrate)
+            room_instance_add(global.LevelBeingMade,col*global.TileSetSize+TileSetSizeHalved,row*global.TileSetSize+TileSetSizeHalved,oSmallCrate)
             grid[# col, row] = ACCESSIBLE
             }
         
@@ -351,8 +351,8 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(6,7)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
                             break;
                             }
                         }
@@ -364,8 +364,8 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(2,3)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
                             break;
                             }
                         }
@@ -377,8 +377,8 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(4,5)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
                             break;
                             }
                         }
@@ -390,14 +390,14 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(0,1)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
                             break;
                             }
                         }
                         
-                        room_tile_add(global.LevelBeingMade,LandA0,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),10000)
-                        room_tile_add(global.LevelBeingMade,LandA1,xx,yy,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+                        room_tile_add(global.LevelBeingMade,LandA0,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
+                        room_tile_add(global.LevelBeingMade,LandA1,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
                            /*ADD RANDOM CHANCE FOR ALTERNATE TILESET
                         grid[# col, row] = choose
                         (tileset[i,1],tileset[i,1]+48) */
@@ -407,7 +407,7 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                 }
             }
             if (grid[# col, row] == INACCESSIBLE)
-            room_tile_add(global.LevelBeingMade,SeaSquare,TileSizeQuartered,TileSizeQuartered,TileSetSize,TileSetSize,round((col*TileSetSize)), round((row*TileSetSize)),300)
+            room_tile_add(global.LevelBeingMade,SeaSquare,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
         }
     }
             
@@ -436,7 +436,7 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                 if 1 <= LandNearby 
                 {
                 //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
-                //room_instance_add(global.LevelBeingMade,(col*TileSetSize)+TileSetSizeHalved, (row*TileSetSize)+TileSetSizeHalved,oInvisibleWall)
+                //room_instance_add(global.LevelBeingMade,(col*global.TileSetSize)+TileSetSizeHalved, (row*global.TileSetSize)+TileSetSizeHalved,oInvisibleWall)
                 }
             }
         }
@@ -542,7 +542,7 @@ tileset[46,1] = 47
 //INITIALISE TILESET LOCATION GRID --- 0 = x , 1 = y
 var TilesAcross = 0;
 var RowsDown = 0;
-var NextTileAcross = TileSizeQuartered + TileSetSize; //160
+var NextTileAcross = TileSizeQuartered + global.TileSetSize; //160
 
 //INITIALISE ARRAY
 for (var i = 0; i <= 47 ; i += 1)
@@ -568,8 +568,8 @@ GridMaxVert = GridSizer
 GridMaxHori = GridTotal-GridSizer
 
 global.LevelBeingMade = room_add();
- room_set_width(global.LevelBeingMade,GridMaxHori*TileSetSize);
- room_set_height(global.LevelBeingMade,GridMaxVert*TileSetSize);
+ room_set_width(global.LevelBeingMade,GridMaxHori*global.TileSetSize);
+ room_set_height(global.LevelBeingMade,GridMaxVert*global.TileSetSize);
  //room_set_background(global.LevelBeingMade,1,true,false,background1,0,0,true,true,0,0,1)
  room_set_persistent(global.LevelBeingMade, true);
  room_set_view(global.LevelBeingMade,0,true,0,0,ScreenWidth,ScreenHeight,0,0,ScreenWidth,ScreenHeight,ScreenWidth,ScreenHeight,-1,-1,oCamera)
