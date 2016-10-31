@@ -1,178 +1,200 @@
 #define Projectile_Calculations
 
 
-#define ShotgunProjectileCreation
-  //MUZZLE FLASH
-    instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
-      
-    //ACTUAL BULLETS
-    
-    BulletsFired = 0
-    while BulletsFired <10 {
-    MyBullet = instance_create(x,y,BulletType)
-    MyBullet.Owner = self.id
-    MyBullet.direction = image_angle +(choose(5,6,8,10,11,15))
-    MyBullet.speed = MyBulletSpeed
-    BulletsFired ++
-    
-    MyBullet = instance_create(x,y,BulletType)
-    MyBullet.Owner = self.id
-    MyBullet.direction = image_angle -(choose(5,6,8,10,11,15))
-    MyBullet.speed = MyBulletSpeed
-    BulletsFired ++
-    }
-    
-    audio_play_sound(GunShootSFX,100,false)
-    
+#define ShootAGun
+//TIMER BETWEEN SHOTS, MUST RUN EACH FRAME
+TimeSinceLastShot = TimeSinceLastShot +1/room_speed
 
-#define PistolProjectileCreation
- var xx,yy;
- xx = x + lengthdir_x(80, image_angle)
- yy = y + lengthdir_y(80, image_angle)
+//ONTO THE ACTUAL SHOOTIN'
+if mouse_check_button(mb_left)
+    {
+        //IS IT TIME TO SHOOT?
+        if TimeSinceLastShot >= RateOfFire
+        {
+        
+        //DO YOU HAVE AMMO?
+            
+            //NO
+            if CanShoot=(false)
+            {
+            audio_play_sound(OutOfAmmoSFX,100,false)
+            ShotsFiredCount = ShotsFiredCount + 1
+            TimeSinceMouseReleased = 0
+            TimeSinceLastShot = 0
+            }
+            else 
+                //YES
+                {
+                //CREATE A PROJECTILE POW POW POW
+                ProjectileCreation()
+                
+                //INCREASE NUMBER OF SHOTS FIRED
+                ShotsFiredCount = ShotsFiredCount + 1
+                //RESET TIMER
+                TimeSinceLastShot = 0
+                TimeSinceMouseReleased = 0
+                    
+                    //Shots Fired Hits Max!
+                    if ShotsFiredCount >= ShotsFiredCountMax
+                    {
+                    ShotsFiredCount = ShotsFiredCountMax
+                    CanShoot=false
+                    }
+                }
+        }
+    }
+
+
+    /*Code to stop people from tapping button!
+    if !mouse_check_button(mb_left)
+    {
+    TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
+    }
+    if ShotsFiredCount <= 0 {ShotsFiredCount =0}
+
+
+#define ProjectileCreation
+var xx,yy,ShotSound,BulletScale
+xx = x + lengthdir_x(50, image_angle)
+yy = y + lengthdir_y(50, image_angle)
+ShotSound = 0
     
      //PROJECTILE CREATION
     //MUZZLE FLASH
-    instance_create(xx,yy,MuzzleFlareType)
-    Particle_Burst(global.Particle1,image_angle-50,image_angle+50,xx,yy)
+    Particle_Burst(BlastParticle,image_angle-BlastP_Angle,image_angle+BlastP_Angle,xx,yy)
+    
+    //SCREEN SHAKE
         oCamera.ShakeAmount = WeaponScreenShake
+        oCamera.DirShakeChance = DirShakeChance
         with (oCamera) {
         screenshake = true
         alarm[0]=300/room_speed
+        if RollD6(DirShakeChance)
+            {
+            ShakeDirectional = true
+            }
         }
     
     //SHOOTING SFX
-    if ShotsFiredCount = ShotsFiredCountMax - 1 
-        {
-        audio_play_sound(GunShootSFXLow1,100,false)
-        BulletScale = 0.4
-        BulletAlpha = 0.4
-        }
-    else if ShotsFiredCount = ShotsFiredCountMax - 2
-        {
-        audio_play_sound(GunShootSFXLow2,100,false)
-        BulletScale = 0.6
-        BulletAlpha = 0.6
-        }
-    else if ShotsFiredCount = ShotsFiredCountMax - 3
-        {
-        audio_play_sound(GunShootSFXLow3,100,false)
-        BulletScale = 0.8
-        BulletAlpha = 0.8
-        }
-    else
-        {
-        audio_play_sound(choose(sPistol1,sPistol2,sPistol3,sPistol4),100,false)
-        BulletScale = 1
-        BulletAlpha = 1
-        }
-       
-    //ACTUAL BULLET
-    MyBullet = instance_create(x,y,BulletType)
-    MyBullet.Owner = self.id
-    MyBullet.direction = image_angle
-    MyBullet.speed = MyBulletSpeed
-    MyBullet.image_angle = image_angle
-    MyBullet.image_yscale = BulletScale    
-    MyBullet.image_alpha = BulletAlpha 
     
-     /*BULLET BEAM - oBSOLETE
-            var dir,dist,dist2;
-        laser_ox = x; //set this to the origin x of the laser
-        laser_oy = y; //set this to the origin y of the laser
-        laser_ex = mouse_x; //set this to the "endpoint" x of the laser
-        laser_ey = mouse_y; //set this to the "endpoint" y of the laser
-        dist = 1000; //set this to the length of the laser. 
-                    //For a beam weapon, probably high enough to ensure that the end is always offscreen.
-        dir=degtorad(point_direction(laser_ox,laser_oy,laser_ex,laser_ey)); //Finds the direction of the laser
-        
-        laser_ex=laser_ox+cos(dir)*dist; //sets the x-endpoint of the laser
-        laser_ey=laser_oy-sin(dir)*dist; //sets the y-endpoint of the laser
-        
-        /*
-        Now you should check for collisions with enemies. 
-        If an enemy is hit and is closer to the origin point than the current length of the laser, shorten the laser.
-        
-        with(oGlobalSolid){
-         if (collision_line(other.laser_ox,other.laser_oy,other.laser_ex,other.laser_ey,id,true,false)!=noone){
-              dist2=point_distance(x,y,other.laser_ox,other.laser_oy);
-              if (dist2<dist) dist = dist2;
-         }
-        }
-        
-        //Now set the endpoints again with the new distance, and you're set. Use these variables when drawing the laser.
-        laser_ex=laser_ox+cos(dir)*dist; //sets the x-endpoint of the laser
-        laser_ey=laser_oy-sin(dir)*dist; //sets the y-endpoint of the laser
-        
-        LaserXScale = distance_to_point(laser_ex,laser_ey)     
-        
-        //Impact Animation!
-        var BeamImpactScale = random_range(1.5,2);
-        MyBeamImpact = instance_create(x + lengthdir_x(LaserXScale-20, image_angle), y + lengthdir_y(LaserXScale-20, image_angle),ImpactAnimationType)
-        MyBeamImpact.image_xscale = BeamImpactScale
-        MyBeamImpact.image_yscale = BeamImpactScale
-        
-        //Create the BEAM
-        MyBeam = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),BulletBeamType)
-        MyBeam.Owner = self.id
-        MyBeam.direction = image_angle
-        MyBeam.image_angle = image_angle
-        MyBeam.image_xscale = LaserXScale-80
-
-#define MachineGunProjectileCreation
-    //PROJECTILE CREATION
-    //MUZZLE FLASH
-    instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),MuzzleFlareType)
-           
-        with (oCamera) {screenshake = true
-        alarm[0]=300/room_speed
-        }
-    
-    //SHOOTING SFX
-    if ShotsFiredCount = ShotsFiredCountMax - 1 
-        {
-        audio_play_sound(GunShootSFXLow1,100,false)
-        BulletScale = 0.4
-        BulletAlpha = 0.4
-        }
-    else if ShotsFiredCount = ShotsFiredCountMax - 2
-        {
-        audio_play_sound(GunShootSFXLow2,100,false)
-        BulletScale = 0.6
-        BulletAlpha = 0.6
-        }
-    else if ShotsFiredCount = ShotsFiredCountMax - 3
-        {
-        audio_play_sound(GunShootSFXLow3,100,false)
-        BulletScale = 0.8
-        BulletAlpha = 0.8
-        }
-    else
-        {
-        audio_play_sound(choose(sPistol1,sPistol2,sPistol3,sPistol4),100,false)
-        BulletScale = 1
-        BulletAlpha = 1
-        }
-       
-    //ACTUAL BULLET
-    
-    //ACCURACY & STRAYFIRE POTENTIAL
-    var Accuracy, AccChance
-    AccChance = random(20)
-    if AccChance <5
+    //DIMINISHING SHOT SIZE & VISUALS AS CLIP EMPTIES
+    if ShotsFiredCountMax/1.2 < ShotsFiredCount
     {
-    Accuracy = choose(-2,-1,1,2)
-        if AccChance <2  
+    ShotSound = GunShootSFXLow3
+    BulletScale = 0.8 
+        if ShotsFiredCountMax/1.1 < ShotsFiredCount
         {
-        Accuracy = choose(7,-7)
+        ShotSound = GunShootSFXLow2
+        BulletScale = 0.6
+            if ShotsFiredCountMax/1.05 < ShotsFiredCount
+            {
+            ShotSound = GunShootSFXLow1
+            BulletScale = 0.5
+            }
         }
     }
-    else {Accuracy =0}
+    if ShotSound = 0
+    {
+    ShotSound = choose(GunShootSFX1,GunShootSFX2,GunShootSFX3,GunShootSFX4)
+    BulletScale = 1
+    }
+
+        
+        //PLAY SHOT SOUND
+        audio_play_sound(ShotSound,100,false)
     
-    
-    MyBullet = instance_create(x,y,BulletType)
+    BulletsToFire = WeaponBulletsPerShot
+    while 0 < BulletsToFire
+    {
+    //ACTUAL BULLET
+    MyBullet = instance_create(xx,yy,BulletType)
     MyBullet.Owner = self.id
-    MyBullet.direction = image_angle+Accuracy
-    MyBullet.image_angle = image_angle+Accuracy
+    //ACCURACY STUFF
+    if Accuracy = 0 {MyBullet.direction = image_angle}
+    else {MyBullet.direction = image_angle + (round(random(Accuracy)) - Accuracy/2)}
     MyBullet.speed = MyBulletSpeed
+    MyBullet.image_angle = MyBullet.direction
     MyBullet.image_yscale = BulletScale    
-    MyBullet.image_alpha = BulletAlpha 
+    MyBullet.image_alpha = BulletScale //Using same numbers, so figured make it one variable
+    BulletsToFire--
+    }
+
+#define ProjectileImpactChecker
+var DamageSource = argument0
+var ProjectileDamage = argument1
+var ProjectileImpact = argument2  //0.8-1 for guns, 1-3 for explosions
+var ProjectileType = argument3 //PROJECTILE TYPES: 1 NonPierce, 2 Pierce, 3 Explosion
+
+
+//DIRECT HIT ON AN ENEMY!
+if instance_place(x,y,oEnemyBody) {
+EnemyHit = instance_nearest (x,y,oEnemyBody)
+    //DESTROY THE BULLET
+    if ProjectileType = 1 
+    {
+    ShotImpactParticles(image_angle-220,image_angle-140)
+    instance_destroy()
+    }    
+    //DMG THE FOE
+    with EnemyHit 
+        {
+        if DamageEnemy(ProjectileDamage)
+            {
+            AttackSource = DamageSource
+            YesEnemyIsDead = true
+            WeaponImpact = ProjectileImpact
+            global.CrabsKilled++
+            instance_create(x,y,oMoney)
+            break;
+            }
+            else
+            {
+            image_index = image_number-4
+            }
+    }
+}
+    
+//NUDGE DEAD BODIES
+if instance_place(x,y,oDeadEnemy) {
+EnemyToNudge = instance_nearest(x,y,oDeadEnemy)
+    var xx,yy;
+    xx = EnemyToNudge.x
+    yy = EnemyToNudge.y
+    with EnemyToNudge if Nudged = false {
+    direction = point_direction (DamageSource.x,DamageSource.y,xx,yy)
+    speed = ProjectileImpact
+    friction = EnemyWeight
+    Nudged = true
+    } else {}
+}
+
+//DIRECT HIT ON A CRATE
+if instance_place(x,y,oCrate)
+{
+        CrateToBlowUp = instance_place(x,y,oCrate)
+        if CrateToBlowUp.image_index = 0
+        {
+        HitCrateParticles(image_angle-220,image_angle-140,CrateToBlowUp.CrateColour)
+        ShotImpactParticles(image_angle-220,image_angle-140)
+        if ProjectileType = 1 {instance_destroy()}    
+        
+            with (CrateToBlowUp)
+            {
+            if DamageEnemy(ProjectileDamage)
+                {
+                CrateDestroyed(CrateColour,CrateScale,CrateRotation)
+                break;
+                }
+                else
+                    {
+                    image_index = image_number-4
+                    image_speed = 1
+                    CrateRotation = CrateRotation + random_range(-CrateRotateFactor,CrateRotateFactor)
+                    }
+            }
+        }
+        
+}
+
+
+if instance_place(x,y,oSolidObject) && ProjectileType != 3 {instance_destroy()}

@@ -15,6 +15,7 @@ audio_play_sound_at(aExplode,x,y,0,100,800,1,false,1)
 
 with (oCamera) 
 {
+ShakeDirectional = false
 screenshake = true
 ShakeAmount = global.DisplayRatio*((ExplosionSize*20)+5)
 bonusscreenshake = bonusscreenshake + ExplosionSize

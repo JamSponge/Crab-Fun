@@ -3,7 +3,7 @@
   <spriteName>sExplosion</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>300</depth>
+  <depth>-12000</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,14 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>DeathFadeSetup(1)
-
-var DebrisID = self.id
-with (oDebrisArray)
-{
-CurrentArray[CurrentArraySlot] = DebrisID
-CurrentArraySlot++
-}
+            <string>Scorch_Particles()
 </string>
           </argument>
         </arguments>
@@ -57,13 +50,12 @@ CurrentArraySlot++
             <kind>1</kind>
             <string>if image_speed = 0
 {
-DeathFadeAlarmTrigger()
+instance_destroy()
 }
-else
-{
+
 
 //IS IT ACTUALLY AN EXPLOSION?
-if image_index &lt; 8 &amp;&amp; image_index &gt; 5
+if image_index == 4
     {
     //KILL PLAYER WITHIN RADIUS WHEN FRAME IS CORRECT
     if instance_place(x,y,oPlayer)
@@ -81,25 +73,12 @@ if image_index &lt; 8 &amp;&amp; image_index &gt; 5
         }
         
         ProjectileImpactChecker(id,WeaponDamage,Impact,3)
-}
-     if  image_index == 4  
-    while instance_place(x,y,oCrate)
-    {
-    with instance_nearest(x,y,oCrate)
-        {
-        CrateDestroyed(CrateColour,CrateScale,CrateRotation)
-        instance_destroy()
-        }
     }
-    
 
-
-if image_index &gt;= image_number-1 {
-image_speed = 0
-}
-}
-
-
+    if image_index &gt;= image_number-1 
+    {
+    image_speed = 0
+    }
 </string>
           </argument>
         </arguments>

@@ -25,40 +25,44 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//ADD WEAPON TO ARRAY
-WeaponPickedUp()
-
-//GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
+            <string>//GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
 CanShoot=true
 ShotsFiredCount = 0
 TimeSinceLastShot = 0
 TimeBetweenShots = 1
 TimeSinceMouseReleased = 0
-DrawAimingBeam = false
 GunBombCharging = false
 
 //GENERIC WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 20
-MyBulletSpeed = 3500 / room_speed
+MyBulletSpeed = 2000 / room_speed
+WeaponBulletsPerShot = 1
 RateOfFire = 0.2 //---IN SECONDS
+Accuracy = 0 //potential variance in degrees, innit
 
 //AUDIO
-GunShootSFX = choose (sPistol1,sPistol2,sPistol3,sPistol4) //ALSO IN PistolProjectileCreation SCRIPT
+GunShootSFX1 = sPistol1
+GunShootSFX2 = sPistol2
+GunShootSFX3 = sPistol3
+GunShootSFX4 = sPistol4
 GunShootSFXLow3 = sPistolLow0
 GunShootSFXLow2 = sPistolLow1
 GunShootSFXLow1 = sPistolLow2
 OutOfAmmoSFX = aPlayerShootClick
 
 //VISUAL
-MuzzleFlareType = oMuzzleFlare
 BulletType = oBullet2
-BulletBeamType = oBulletBeam
-ImpactAnimationType = oPistolShotImpact
+AmmoVisuals = sBulletBar
 
+    //MUZZLE FLASH PARTICLE SETUP
+    BlastParticle = global.Particle1
+    BlastP_Angle = 50
+    
 //GUN-FEEL
-WeaponScreenShake = global.DisplayRatio*12
+WeaponScreenShake = global.DisplayRatio*5
+DirShakeChance = 3 //Dice roll, 1-6. Roll higher &amp; shake is directional, else general.
 
-    //WEAPON-SPECIFIC SETUP
+//WEAPON-SPECIFIC SETUP
     
     //EXPLODYTIMES
     MyGunBombSpeed = 2000/room_speed
@@ -91,119 +95,12 @@ WeaponScreenShake = global.DisplayRatio*12
             <kind>1</kind>
             <string>if instance_exists (oPlayer)
     {
-    
-    x = Owner.x
-    y = Owner.y
-    image_angle = Owner.Facing
-    
-    if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
-    
-    //SHOOTING THE GUN
-    //Check Time Since Last Shot
-    TimeSinceLastShot = TimeSinceLastShot +1/room_speed
-    //Timercheck &amp; CANNOT Shoot!
-    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
-    audio_play_sound(OutOfAmmoSFX,100,false)
-    ShotsFiredCount = ShotsFiredCount + 1
-    TimeSinceMouseReleased = 0
-    TimeSinceLastShot = 0
+    x = oPlayer.x
+    y = oPlayer.y
+    image_angle = oPlayer.Facing
+    ShootAGun()
+    Pistol_Stuff()
     }
-    //TimerCheck &amp; CAN Shoot
-    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) 
-        {
-        TimeSinceMouseReleased = 0
-            
-        //CREATE A PROJECTILE POW POW POW
-        PistolProjectileCreation()
-                    
-        //INCREASE NUMBER OF SHOTS FIRED
-        ShotsFiredCount = ShotsFiredCount + 1
-        //RESET TIMER
-        TimeSinceLastShot = 0
-        }
-    //Shots Fired Hits Max!
-    if ShotsFiredCount &gt;= ShotsFiredCountMax{
-    ShotsFiredCount = ShotsFiredCountMax
-    CanShoot=false
-    }
-            
-    //Code to stop people from tapping button!
-    if !mouse_check_button(mb_left){
-    TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
-    }
-    if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
-        
-        
-    //MAXED GUN, THROW TO EXPLODE!
-    if BombGunThrown = false
-    {
-    
-    if mouse_check_button_pressed(mb_right)
-    {
-    GunBombCharging = true
-    //PASS DATA ONTO CROSSHAIR, IN CASE PISTOL GOES AWAY FOR SOME REASON??
-    //HOW BIG IS THIS "BIG BOOM" GOING TO BE, SIR?
-    ExplosionSize = ShotsFiredCount/ShotsFiredCountMax; if ExplosionSize &lt;WeaponMinExplodeSize {ExplosionSize = WeaponMinExplodeSize}
-    //SWITCH ON BEAM GRAPHICS &amp; PREP IT ETC
-    oCrossHair.DrawAimingBeam = true
-    //PUT IMPACT TRACKER IN ROUGHLY THE RIGHT PLACE
-    oImpactTracker.x = x
-    oImpactTracker.y = y
-    }
-    
-    //HOLD DOWN, INCREASE BOMB SIZE
-    if mouse_check_button(mb_right) 
-    {
-        if GunBombCharging = true
-        {
-        ExplosionSize += (WeaponMaxExplodeSize - ExplosionSize) *WeaponExplodeSizeGrowthRate;
-        if WeaponMaxExplodeSize &lt; ExplosionSize {ExplosionSize = WeaponMaxExplodeSize}
-        oCrossHair.ExplosionSize = ExplosionSize
-        } 
-        else
-        {
-        GunBombCharging = true
-        //THIS IS DUPLICATE OF STUFF ABOVE - PROBABLY SCRIPT AT SOME POINT, MATEY
-        //HOW BIG IS THIS "BIG BOOM" GOING TO BE, SIR?
-        ExplosionSize = ShotsFiredCount/ShotsFiredCountMax; if ExplosionSize &lt;WeaponMinExplodeSize {ExplosionSize = WeaponMinExplodeSize}
-        //SWITCH ON BEAM GRAPHICS &amp; PREP IT ETC
-        oCrossHair.DrawAimingBeam = true
-        //PUT IMPACT TRACKER IN ROUGHLY THE RIGHT PLACE
-        oImpactTracker.x = x
-        oImpactTracker.y = y
-        }
-    }
-
-        //RELEASE AND FIRE IT
-        if mouse_check_button_released(mb_right)
-        {
-        GunBombCharging = false
-        BombGunThrown = true
-        ShotsFiredCount = 0
-        CanShoot = true
-        MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
-                
-        audio_play_sound(aPlayerShoot,100,false)
-        MyGunBomb.direction = image_angle
-        MyGunBomb.speed = MyGunBombSpeed
-        MyGunBomb.ExplosionSize = ExplosionSize
-        
-            //SWITCH OFF LASER AIM BEAM SHIT
-            with (oCrossHair)
-            {
-            DrawAimingBeam=false
-            PowerBarXScale=0
-            PowerBarYScale=0
-            PowerBarAlpha=0
-            }
-        }
-        
-    
-    }
-    }
-    }
-    else {}
-    
 </string>
           </argument>
         </arguments>
@@ -227,10 +124,7 @@ WeaponScreenShake = global.DisplayRatio*12
           <argument>
             <kind>1</kind>
             <string>if instance_exists(oPlayer){
-
-if Owner.Weapon[Owner.WeaponArrayIndex] = self.id{
-draw_sprite_ext(sBulletBar, ((ShotsFiredCount/ShotsFiredCountMax)*100)/5, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
-}
+draw_sprite_ext(AmmoVisuals,((ShotsFiredCount/ShotsFiredCountMax)*100)/5, oPlayer.x, oPlayer.y, oPlayer.BulletBarScale, oPlayer.BulletBarScale, oPlayer.BulletBarRotation,-1,oPlayer.BulletBarAlpha);
 }
 </string>
           </argument>

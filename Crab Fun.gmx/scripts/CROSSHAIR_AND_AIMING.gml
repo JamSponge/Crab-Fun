@@ -102,12 +102,12 @@ if instance_exists(oPlayer)
     ExplosionSizeVisualiser += (ExplosionSizeVisualiserMax - ExplosionSizeVisualiser) *ScaleTweenSpeedIn;
     }
     //OUTER LIMITS
-    if ExplosionSizeVisualiser <= 0 {ExplosionSizeVisualiser = 0}
+    if ExplosionSizeVisualiser <= 0.8 {ExplosionSizeVisualiser = 0.8}
     if ExplosionSizeVisualiserMax <= ExplosionSizeVisualiser {ExplosionSizeVisualiser = ExplosionSizeVisualiserMax} 
     //ALPHA FADE
     if ExplosionSizeVisualiser <= ExplosionSizeVisualiserMax*0.75
     {
-    ImpactTrackerAlpha += (0 - ImpactTrackerAlpha) *AlphaTweenSpeed;
+    ImpactTrackerAlpha += (0.3 - ImpactTrackerAlpha) *AlphaTweenSpeed;
     }
     else
     if ImpactTrackerAlpha <1

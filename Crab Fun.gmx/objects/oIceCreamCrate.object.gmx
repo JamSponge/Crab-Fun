@@ -3,7 +3,7 @@
   <spriteName>sIceCreamCrate</spriteName>
   <solid>-1</solid>
   <visible>-1</visible>
-  <depth>-500</depth>
+  <depth>-11000</depth>
   <persistent>0</persistent>
   <parentName>oCrate</parentName>
   <maskName>&lt;undefined&gt;</maskName>

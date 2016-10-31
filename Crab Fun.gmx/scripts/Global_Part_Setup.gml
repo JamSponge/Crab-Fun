@@ -1,11 +1,11 @@
 #define Global_Part_Setup
 //Setup the Particle Sys
 global.ps=part_system_create();
-part_system_depth(global.ps, -220);
+part_system_depth(global.ps, -7000);
 
 //ONLY APPEAR ON LAND, ETC
 global.psLandOnly=part_system_create();
-part_system_depth(global.psLandOnly, -100);
+part_system_depth(global.psLandOnly, 0);
 
 //CREATE PARTICLE TYPES
 
@@ -27,9 +27,10 @@ PlayerWetFeetParticlesSetup()
 ShotImpactSetup()
 HitCrateParticlesSetup()
 DestroyCrateParticlesSetup()
+Scorch_Particles_Setup()
 
 #define Particle_Burst
-//PARTICLES, PLEASE (PartTyoe)
+//PARTICLES, PLEASE (PartType)
 PartType = argument0
 DirMin = argument1
 DirMax = argument2

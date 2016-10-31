@@ -46,10 +46,13 @@ view_hview = ScreenHeight/1.8
 
 #define ScreenShake
 ShakeAmount =argument0
-
-if bonusscreenshake >= 6
+if ShakeDirectional = false
 {
-bonusscreenshake = 6
+x += random(ShakeAmount)- (ShakeAmount/2)+(bonusscreenshake/2);
+y += random(ShakeAmount)- (ShakeAmount/2)+(bonusscreenshake/2);
 }
-x += random(ShakeAmount)+bonusscreenshake - (ShakeAmount/2)+(bonusscreenshake/2);
-y += random(ShakeAmount)+bonusscreenshake - (ShakeAmount/2)+(bonusscreenshake/2);
+else
+{
+x += lengthdir_x(random(ShakeAmount),PlayerToPointer-180)//-(ShakeAmount/4)
+y += lengthdir_y(random(ShakeAmount),PlayerToPointer-180)//-(ShakeAmount/4)
+}

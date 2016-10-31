@@ -25,35 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//ADD WEAPON TO ARRAY
-WeaponPickedUp()
-instance_deactivate_object(oPistol)
-
-//GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
-CanShoot=true
-ShotsFiredCount = 0
-TimeSinceLastShot = 0
-TimeBetweenShots = 1
-TimeSinceMouseReleased = 0
-
-//GENERIC WEAPON SETUP - VARIABLES
-ShotsFiredCountMax = 4
-MyBulletSpeed = 4000 / room_speed
-RateOfFire = 0.2 //---IN SECONDS
-//AUDIO
-GunShootSFX = aPlayerShoot
-OutOfAmmoSFX = aPlayerShootClick
-//VISUAL
-MuzzleFlareType = oMuzzleFlare
-BulletType = oBullet2
-BulletBeamType = oBulletBeam
-ImpactAnimationType = oPistolShotImpact
-
-
-    //WEAPON-SPECIFIC SETUP
-    MyGunBombSpeed = 1500/room_speed
-    BombGunThrown = false
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>
@@ -75,63 +47,7 @@ ImpactAnimationType = oPistolShotImpact
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if instance_exists(oPlayer)
-{
-x = Owner.x
-y = Owner.y
-image_angle = Owner.Facing
-
-{
-
-//SHOOTING THE GUN
-//Check Time Since Last Shot
-TimeSinceLastShot = TimeSinceLastShot +1/room_speed
-//Timercheck &amp; CANNOT Shoot!
-if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
-audio_play_sound(OutOfAmmoSFX,100,false)
-ShotsFiredCount = ShotsFiredCount + 1
-TimeSinceMouseReleased = 0
-TimeSinceLastShot = 0
-}
-//TimerCheck &amp; CAN Shoot
-if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
-TimeSinceMouseReleased = 0
-    
-//RUN PROJECTILE CREATION SCRIPT
-ShotgunProjectileCreation()
-
-//Player KICKBACK
-with (oPlayer){
-motion_add(point_direction(x,y,mouse_x,mouse_y)+180,2000/room_speed);
-}
-
-//INCREASE NUMBER OF SHOTS FIRED
-ShotsFiredCount = ShotsFiredCount + 1
-//RESET TIMER
-TimeSinceLastShot = 0
-}
-//Shots Fired Hits Max!
-if ShotsFiredCount &gt;= ShotsFiredCountMax{
-ShotsFiredCount = ShotsFiredCountMax
-CanShoot=false
-
-instance_activate_object(oPistol)
-instance_destroy()
-}
-        
-//Code to stop people from tapping button!
-if !mouse_check_button(mb_left){
-TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
-}
-if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
-    
-    
-    
-
-    }}
-    else {}
-    
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>

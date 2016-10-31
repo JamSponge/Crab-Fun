@@ -11,6 +11,48 @@ GridMidPointVert= (GridMaxVert div 2)
 //ASSIGN GRID IDENTITIES & DRAW SPRITES
 LevelGenProcess()
 
+#define SetupLevelGen
+//LISTEN UP THIS IS ***IMPORTANT*** - 
+//ACCESSIBLE tiles are EMPTY spaces for bground.
+//INACCESSIBLE tiles are where invisible walls get spawned
+//OUTOFBOUNDS have different sprites, and need no walls as OOB.
+//SPECIAL are earmarked to be INACCESSIBLE after main process
+
+//STANDARD STUFF - BASIC USE
+BLANK=-1;
+ACCESSIBLE=-2;
+INACCESSIBLE=-3;
+OUTOFBOUNDS=999; //needs to be high # because of scan function
+
+//SPECIFIC VALUES FOR "SPECIAL" STUFF
+POOL=-4;
+TOERODE=-5;
+
+//GRID2 VALUES
+CRATE=-6;
+CRABAPORTER=-7;
+
+//DRAW DEPTH FOR 2 LAYERS
+DrawLowDepth = 10000
+DrawHighDepth = -3000
+DrawHighestDepth = -3500
+
+//MAKE THIS NOW FOR PLAYER LOCATION DATA
+SafeIslandX = round(random_range(GridMidPointHori-GridMidPointHori/4.5,GridMidPointHori+GridMidPointHori/4.5))
+SafeIslandY = round(random_range(GridMidPointVert-GridMidPointVert/4.5,GridMidPointVert+GridMidPointVert/4.5))
+
+//VARIABLES
+
+global.CrabaporterQuantities = 3 //ONE LESS THAN YOU'D ACTUALLY LIKE, BECAUSE ZERO etc
+
+//CREATE THE GRIDS
+grid = ds_grid_create(GridMaxHori,GridMaxVert)
+ds_grid_set_region(grid,0,0,GridMaxHori-1,GridMaxVert-1,INACCESSIBLE)
+
+//GRID2 is an OVERLAY GRID, items etc
+grid2 = ds_grid_create(GridMaxHori,GridMaxVert)
+ds_grid_set_region(grid2,0,0,GridMaxHori-1,GridMaxVert-1,0)
+
 #define LevelGenProcess
 //SET INITIAL VARIABLES AND GRID SIZE / BOUNDARIES
 SetupLevelGen()
@@ -25,16 +67,25 @@ SpriteSetup()
 IslandGenerator(1,15,0,ACCESSIBLE,ACCESSIBLE)
 
 //MAKE LONG PATHWAYS
-SpecialGridGen(10,2,10,3,ACCESSIBLE,false)
+SpecialGridGen(10,2,10,3,ACCESSIBLE,false,grid)
 
 //REMOVE SECTIONS, ADD WATER
-SpecialGridGen(5,4,8,6,INACCESSIBLE,false)
+SpecialGridGen(5,4,8,6,INACCESSIBLE,false,grid)
 
 //MAKE ANTI-ISLANDS PLEASE (POOLS)
 IslandGenerator(0,2,4,INACCESSIBLE,ACCESSIBLE)
-
-//CREATE PATCHES OF CRATES
-SpecialGridGen(7,1,5,3,CRATE,true)
+    
+    //********LAYER TWOOOOO*************
+    
+    //CREATE PATCHES OF CRATES
+    SpecialGridGen(7,1,5,3,CRATE,true,grid)
+    
+    //CREATE CRABAPORTATION PADS
+    SpecialGridGen(global.CrabaporterQuantities,0,0,1,CRABAPORTER,false,grid2)
+    
+    //POPULATE THE 2nd GRID WITH ITEMS/KEY OBJECTS ETC
+    AllocateSpritesToGrid2()
+    
 
 //FINAL ISLAND GEN (Stop player spawning in a puddle)
 BeachDiskRadius = round(random_range (3,6))
@@ -44,11 +95,11 @@ ds_grid_set_disk(grid,SafeIslandX,SafeIslandY,BeachDiskRadius,ACCESSIBLE)
 //GIVE EVERY EMPTY CELL IN THE GRID A VALUE
 GridDataAllocator()
 
-//FILL THE LEVEL WITH STUFF
+//FILL THE LEVEL WITH STUFF (THIS NEEDS REFACTORING!!!)
 PopulateLevel()
 
 //APPLY CORRECT SPRITES AND DATA FOR CELLS THAT REQUIRE INFO
-AllocateSpritesToACCESSIBLE()
+AllocateSpritesToGrid()
 //AllocateSpritesToOUTOFBOUNDS()
 
 
@@ -189,8 +240,16 @@ if (grid[# col, row] == SPECIALTYPE)
             else
             //NO ROOM FOR A WHOPPER, JUST PUT A DIDDLER IN THERE.
             {
-            room_instance_add(global.LevelBeingMade,col*global.TileSetSize+TileSetSizeHalved,row*global.TileSetSize+TileSetSizeHalved,oSmallCrate)
-            grid[# col, row] = ACCESSIBLE
+                if RollD20(18)
+                {
+                room_instance_add(global.LevelBeingMade,col*global.TileSetSize+TileSetSizeHalved,row*global.TileSetSize+TileSetSizeHalved,oGunCrate)
+                grid[# col, row] = ACCESSIBLE
+                }
+                    else
+                    {
+                    room_instance_add(global.LevelBeingMade,col*global.TileSetSize+TileSetSizeHalved,row*global.TileSetSize+TileSetSizeHalved,oSmallCrate)
+                    grid[# col, row] = ACCESSIBLE
+                    }
             }
         
         }
@@ -198,35 +257,6 @@ if (grid[# col, row] == SPECIALTYPE)
 }
     
     
-
-
-#define SetupLevelGen
-//LISTEN UP THIS IS ***IMPORTANT*** - 
-//ACCESSIBLE tiles are EMPTY spaces for bground.
-//INACCESSIBLE tiles are where invisible walls get spawned
-//OUTOFBOUNDS have different sprites, and need no walls as OOB.
-//SPECIAL are earmarked to be INACCESSIBLE after main process
-
-//STANDARD STUFF - BASIC USE
-BLANK=-1;
-ACCESSIBLE=-2;
-INACCESSIBLE=-3;
-OUTOFBOUNDS=999; //needs to be high # because of scan function
-
-//SPECIFIC VALUES FOR "SPECIAL" STUFF
-POOL=-4;
-TOERODE=-5;
-CRATE=-6
-
-//MAKE THIS NOW FOR PLAYER LOCATION DATA
-SafeIslandX = round(random_range(GridMidPointHori-GridMidPointHori/4.5,GridMidPointHori+GridMidPointHori/4.5))
-SafeIslandY = round(random_range(GridMidPointVert-GridMidPointVert/4.5,GridMidPointVert+GridMidPointVert/4.5))
-
-//CREATE THE GRID
-grid = ds_grid_create(GridMaxHori,GridMaxVert)
-ds_grid_set_region(grid,0,0,GridMaxHori-1,GridMaxVert-1,INACCESSIBLE)
-
-
 
 
 #define SpecialGridGen
@@ -241,6 +271,7 @@ MaxRangeCellScale = argument2
 Rectangulator = argument3
 GridValueToSet = argument4
 EdgeErosion = argument5
+WhichGrid = argument6
 
 //CREATES SPECIAL BLOCK-AREAS TO ADD VARIATION/ENVIRONMENTAL OBJECTS
 var HowManySPECIALs = CyclesToRun 
@@ -268,16 +299,16 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
     //PLACE THE EROSION TILES THAT GO AROUND THE EDGE, IF APPLICABLE
     if EdgeErosion=true
     {
-    ds_grid_set_region(grid,RandomX-2,RandomY-2,(RandomX+SPECIALWidth)+2,(RandomY+SPECIALHeight)+2,TOERODE)
+    ds_grid_set_region(WhichGrid,RandomX-2,RandomY-2,(RandomX+SPECIALWidth)+2,(RandomY+SPECIALHeight)+2,TOERODE)
     }
     
     //PLACE THE SPECIALS PLEASE, GENTLEMEN
-    ds_grid_set_region(grid,RandomX,RandomY,(RandomX+SPECIALWidth),(RandomY+SPECIALHeight),GridValueToSet)
+    ds_grid_set_region(WhichGrid,RandomX,RandomY,(RandomX+SPECIALWidth),(RandomY+SPECIALHeight),GridValueToSet)
     HowManySPECIALs--  
 }
 
 
-#define AllocateSpritesToACCESSIBLE
+#define AllocateSpritesToGrid
 //ALL ASSIGNED AS ACCESSIBLE OR FULL - TIME TO PLACE THE SEA TILES        
 //ONLY APPLY TO REQUIRED SPACES, SO THIS IS A SECOND FULL-SCAN OF THE GRID
  //SCAN THROUGH GRID
@@ -351,8 +382,8 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(6,7)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawLowDepth)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
                             break;
                             }
                         }
@@ -364,8 +395,8 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(2,3)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawLowDepth)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
                             break;
                             }
                         }
@@ -377,8 +408,8 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(4,5)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawLowDepth)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
                             break;
                             }
                         }
@@ -390,14 +421,14 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                             TileNo = choose(0,1)
                             xx = (tilelocation[TileNo,0])-16;
                             yy = 16
-                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
-                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
+                            room_tile_add(global.LevelBeingMade,LandA0Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawLowDepth)
+                            room_tile_add(global.LevelBeingMade,LandA1Extra,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
                             break;
                             }
                         }
                         
-                        room_tile_add(global.LevelBeingMade,LandA0,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),10000)
-                        room_tile_add(global.LevelBeingMade,LandA1,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
+                        room_tile_add(global.LevelBeingMade,LandA0,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawLowDepth)
+                        room_tile_add(global.LevelBeingMade,LandA1,xx,yy,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
                            /*ADD RANDOM CHANCE FOR ALTERNATE TILESET
                         grid[# col, row] = choose
                         (tileset[i,1],tileset[i,1]+48) */
@@ -407,9 +438,10 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                 }
             }
             if (grid[# col, row] == INACCESSIBLE)
-            room_tile_add(global.LevelBeingMade,SeaSquare,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),300)
+            room_tile_add(global.LevelBeingMade,SeaSquare,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
         }
     }
+
             
 //OK, MAKE EDGE WATER TILES INVIS WALLS    
     for (var row=0; row<ds_grid_height(grid); row++)
@@ -439,6 +471,41 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                 //room_instance_add(global.LevelBeingMade,(col*global.TileSetSize)+TileSetSizeHalved, (row*global.TileSetSize)+TileSetSizeHalved,oInvisibleWall)
                 }
             }
+        }
+    }
+
+#define AllocateSpritesToGrid2
+    //ALLOCATE SPRITES TO GRID2
+    
+    var i;
+    i = 0;
+    
+    for (var row=0; row<ds_grid_height(grid2); row++)
+    {
+        for (var col=0; col<ds_grid_width(grid2); col++)
+        {
+                if grid2[# col, row] = CRABAPORTER
+                {
+                var GridX,GridY;
+                GridX = col*global.TileSetSize
+                GridY = row*global.TileSetSize
+                           
+                NewCrabaporter = room_instance_add(global.LevelBeingMade,GridX+global.TileSetSize,GridY+global.TileSetSize,oCrabaporter)
+                global.CrabaporterObjects[i] = NewCrabaporter
+                
+                //SET CRABAPORT PADS
+                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,DrawHighestDepth)
+                //ENSURE AREAS BENEATH CRABAPORTER PADS ARE LAND
+                grid[# col, row] = ACCESSIBLE
+                grid[# col+1, row] = ACCESSIBLE
+                grid[# col+1, row+1] = ACCESSIBLE
+                grid[# col, row+1] = ACCESSIBLE
+                
+                i++
+                }
         }
     }
 

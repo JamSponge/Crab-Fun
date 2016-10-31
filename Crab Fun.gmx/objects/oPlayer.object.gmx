@@ -249,8 +249,7 @@ PlayerCollision(oInvisibleWall)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//draw_text(x,y,oPlayer.x)
-
+            <string>//draw_text(x,y,global.CrabaporterLocations[3,0])
 //DrawSprite Normally but facing player without turning image_angle
 draw_sprite_ext(sPlayer,image_index,x,y,image_xscale,image_yscale,Facing,image_blend,image_alpha)
 </string>

@@ -25,41 +25,45 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>WeaponPickedUp()
-
-//DEACTIVATE PISTOL
+            <string>//DEACTIVATE PISTOL
 instance_deactivate_object(oPistol)
 
 //GENERIC WEAPON SETUP - NO NEED TO EVER CHANGE
 CanShoot=true
 ShotsFiredCount = 0
 TimeSinceLastShot = 0
-TimeBetweenShots = 0.5
+TimeBetweenShots = 1
 TimeSinceMouseReleased = 0
+GunBombCharging = false
 
-//GENERIC WEAPON SETUP - VARIABLES
-ShotsFiredCountMax = 100
-MyBulletSpeed = 3500 / room_speed
-RateOfFire = 0.1 //---IN SECONDS
+//WEAPON SETUP - VARIABLES
+ShotsFiredCountMax = 1000
+MyBulletSpeed = 2800 / room_speed
+RateOfFire = 0.05 //---IN SECONDS
+WeaponBulletsPerShot = 3
+Accuracy = 30 //div this by 2 for the potential variance in degrees either way
+
 //AUDIO
-GunShootSFX = choose (sPistol1,sPistol2,sPistol3,sPistol4) //ALSO IN PistolProjectileCreation SCRIPT
-GunShootSFXLow3 = sPistolLow0
+GunShootSFX1 = sPistol1
+GunShootSFX2 = sPistol2
+GunShootSFX3 = sPistol3
+GunShootSFX4 = sPistol4
+GunShootSFXLow3 = sPistolLow1
 GunShootSFXLow2 = sPistolLow1
 GunShootSFXLow1 = sPistolLow2
 OutOfAmmoSFX = aPlayerShootClick
 
-
-
 //VISUAL
-MuzzleFlareType = oMuzzleFlare
 BulletType = oBullet2
-BulletBeamType = oBulletBeam
-ImpactAnimationType = oPistolShotImpact
+AmmoVisuals = sBulletBar
 
-
-    //WEAPON-SPECIFIC SETUP
-    MyGunBombSpeed = 1500/room_speed
-    BombGunThrown = false
+    //MUZZLE FLASH PARTICLE SETUP
+    BlastParticle = global.Particle1
+    BlastP_Angle = 50
+    
+//GUN-FEEL
+WeaponScreenShake = global.DisplayRatio*15
+DirShakeChance = 3
 </string>
           </argument>
         </arguments>
@@ -84,66 +88,14 @@ ImpactAnimationType = oPistolShotImpact
             <kind>1</kind>
             <string>if instance_exists (oPlayer)
     {
-    x = Owner.x
-    y = Owner.y
-    image_angle = Owner.Facing
-    
-    //SHOOTING THE GUN
-    //Check Time Since Last Shot
-    TimeSinceLastShot = TimeSinceLastShot +1/room_speed
-    //Timercheck &amp; CANNOT Shoot!
-    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(false){
-    audio_play_sound(OutOfAmmoSFX,100,false)
-    ShotsFiredCount = ShotsFiredCount + 1
-    TimeSinceMouseReleased = 0
-    TimeSinceLastShot = 0
+    x = oPlayer.x
+    y = oPlayer.y
+    image_angle = oPlayer.Facing
+    ShootAGun()
+    MachineGun_Stuff()
     }
-    //TimerCheck &amp; CAN Shoot
-    if mouse_check_button(mb_left) and TimeSinceLastShot &gt;= RateOfFire and CanShoot=(true) {
-    TimeSinceMouseReleased = 0
-        
-    //RUN PROJECTILE CREATION SCRIPT
-    MachineGunProjectileCreation()
-                
-    //INCREASE NUMBER OF SHOTS FIRED
-    ShotsFiredCount = ShotsFiredCount + 1
-    //RESET TIMER
-    TimeSinceLastShot = 0
-    }
-    //Shots Fired Hits Max!
-    if ShotsFiredCount &gt;= ShotsFiredCountMax{
-    ShotsFiredCount = ShotsFiredCountMax
-    CanShoot=false
-    }
-            
-    //Code to stop people from tapping button!
-    if !mouse_check_button(mb_left){
-    TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
-    }
-    if ShotsFiredCount &lt;= 0 {ShotsFiredCount =0}
-        
-        
-        //MAXED GUN, THROW TO EXPLODE!
-        if mouse_check_button(mb_right) and ShotsFiredCount = ShotsFiredCountMax and BombGunThrown = false{
-        BombGunThrown = true
-        ShotsFiredCount = 0
-        CanShoot = true
-        
-        MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
-                
-        audio_play_sound(aPlayerShoot,100,false)
-        MyGunBomb.direction = image_angle
-        MyGunBomb.speed = MyGunBombSpeed
-        
-        instance_activate_object(oPistol)
-        instance_destroy()
-        }
-        
-    
-        }
-    
-    else {}
-    
+
+
 </string>
           </argument>
         </arguments>

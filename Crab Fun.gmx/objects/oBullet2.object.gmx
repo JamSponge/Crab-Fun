@@ -28,7 +28,7 @@
             <string>WeaponDamage = 1
 Impact = 1000/room_speed
 
-image_xscale = 7
+image_xscale = 2
 image_angle = direction
 alarm[0] = room_speed
 </string>
@@ -78,7 +78,10 @@ alarm[0] = room_speed
             <kind>1</kind>
             <string>ProjectileImpactChecker(oCamera,WeaponDamage,Impact,1)
 
-
+if image_xscale &lt;9
+{
+image_xscale = image_xscale+room_speed/100
+}
 
 
 </string>

@@ -130,6 +130,7 @@
     <sprite>sprites\sBulletBeam</sprite>
     <sprite>sprites\sExplosion</sprite>
     <sprite>sprites\sCrate</sprite>
+    <sprite>sprites\sGunCrate</sprite>
     <sprite>sprites\sIceCreamCrate</sprite>
     <sprite>sprites\sBigCrate</sprite>
     <sprite>sprites\sBulletBeamVisible</sprite>
@@ -158,6 +159,7 @@
     <sprite>sprites\tileSea</sprite>
     <sprite>sprites\tileLevelTile0A</sprite>
     <sprite>sprites\sprite47</sprite>
+    <sprite>sprites\sScorchParticles</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -168,6 +170,8 @@
     <background>background\LandA1</background>
     <background>background\LandA0Extra</background>
     <background>background\LandA1Extra</background>
+    <background>background\background8</background>
+    <background>background\bCRABAPORT</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -249,13 +253,14 @@
       <script>scripts\Projectile_Calculations.gml</script>
       <script>scripts\CrateDestroyed.gml</script>
       <script>scripts\ThingExplodes.gml</script>
-      <script>scripts\ProjectileImpactChecker.gml</script>
       <script>scripts\DamageEnemy.gml</script>
+      <script>scripts\Weapon_Specific.gml</script>
     </scripts>
     <scripts name="PARTICLES">
       <script>scripts\Global_Part_Setup.gml</script>
       <script>scripts\PlayerWaterParticles.gml</script>
-      <script>scripts\Impact_Particles.gml</script>
+      <script>scripts\Object_Impact_Particles.gml</script>
+      <script>scripts\Explosion_Particles.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -281,6 +286,7 @@
     <objects name="ENVIRONMENT AND OBJECTS">
       <object>objects\oCrate</object>
       <object>objects\oSmallCrate</object>
+      <object>objects\oGunCrate</object>
       <object>objects\oBigCrate</object>
       <objects name="ICE CREAM">
         <object>objects\oIceCreamCrate</object>
@@ -313,7 +319,6 @@
       </objects>
       <objects name="EXPLOSIONS ETC">
         <object>objects\oExplosion</object>
-        <object>objects\oSmokePuff</object>
       </objects>
       <object>objects\oPistol</object>
       <object>objects\oShotgun</object>
@@ -347,6 +352,7 @@
     <objects name="TweenGMS">
       <object>objects\obj_SharedTweener</object>
     </objects>
+    <object>objects\oCrabaporter</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\MAIN_MENU_temp</room>

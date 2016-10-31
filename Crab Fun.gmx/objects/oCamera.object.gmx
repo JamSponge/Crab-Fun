@@ -38,6 +38,7 @@ TileSetSizeHalved = global.TileSetSize/2
 TileSizeQuartered = global.TileSetSize/4
 
 //CAMERA SHAKE
+ShakeDirectional = false
 screenshake = false
 bonusscreenshake = 0
 KillerTracker = 0
@@ -150,28 +151,28 @@ LevelExists = true
     CurrentMaxY = ScreenHeight+ZoomLevelH
     view_wview = CurrentMaxX
     view_hview = CurrentMaxY
-
-var targetX,targetY
         
-    //ZOOM OUT, GUN EXPLODE!
-    if mouse_check_button(mb_right)
-        {
+    //THESE VARIABLES ARE USED FOR SCREENSHAKE, TOO.
+        var targetX,targetY
         var PlayerX,PlayerY,PointerX,PointerY;
         PointerX = oCrossHair.x
         PointerY = oCrossHair.y
         PlayerX = oPlayer.x
         PlayerY = oPlayer.y
+        PlayerToPointer = point_direction(PlayerX,PlayerY,PointerX,PointerY)
         
+    //ZOOM OUT, GUN EXPLODE!
+    if mouse_check_button(mb_right)
+        {
         ZoomLevel += (ZoomMax - ZoomLevel) *0.1;
-        
-        targetX = PlayerX+lengthdir_x(ScreenWidth/4,point_direction(PlayerX,PlayerY,PointerX,PointerY))
-        targetY = PlayerY+lengthdir_y(ScreenHeight/4,point_direction(PlayerX,PlayerY,PointerX,PointerY))
+        targetX = PlayerX+lengthdir_x(ScreenWidth/4,PlayerToPointer)
+        targetY = PlayerY+lengthdir_y(ScreenHeight/4,PlayerToPointer)
         }
         else
         {
         ZoomLevel += (0 - ZoomLevel) *0.5;
-        targetX=oPlayer.x;
-        targetY=oPlayer.y;
+        targetX=PlayerX+lengthdir_x(ScreenWidth/10,PlayerToPointer)
+        targetY=PlayerY+lengthdir_y(ScreenHeight/10,PlayerToPointer)
         }
         
     //CAM CONTROL PARAMETERS

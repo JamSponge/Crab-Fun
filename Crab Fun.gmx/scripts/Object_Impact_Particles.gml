@@ -1,4 +1,4 @@
-#define Impact_Particles
+#define Object_Impact_Particles
 
 
 #define HitCrateParticlesSetup
