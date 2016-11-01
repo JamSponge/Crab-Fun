@@ -186,7 +186,7 @@
       <script>scripts\CAMERA_CONTROLS.gml</script>
       <script>scripts\GAME_SETTINGS.gml</script>
       <script>scripts\LEVEL_GENERATION.gml</script>
-      <script>scripts\ENEMY_CONTROLS.gml</script>
+      <script>scripts\ENEMY_SPAWN_AND_MOVE.gml</script>
       <script>scripts\CROSSHAIR_AND_AIMING.gml</script>
     </scripts>
     <scripts name="SCRIPT TOOLS">

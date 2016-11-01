@@ -1,4 +1,4 @@
-#define ENEMY_CONTROLS
+#define ENEMY_SPAWN_AND_MOVE
 
 
 #define EnemySpawnSetup
@@ -346,6 +346,11 @@ else
         case 4:
         xx = dx
         yy = dy
+        break;
+        
+        case 5:
+        xx = x
+        yy = x
         break;
         }
     
