@@ -160,6 +160,7 @@
     <sprite>sprites\tileLevelTile0A</sprite>
     <sprite>sprites\sprite47</sprite>
     <sprite>sprites\sScorchParticles</sprite>
+    <sprite>sprites\sprite50</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -343,6 +344,7 @@
       <object>objects\oStandardEnemyDead</object>
       <object>objects\oExplodeEnemyDead</object>
       <object>objects\oExplodeEnemyBOOM</object>
+      <object>objects\oEnemyTeleportingIn</object>
     </objects>
     <objects name="PICKUPS AND POWERS">
       <object>objects\oShotgunPickup</object>

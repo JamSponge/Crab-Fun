@@ -84,7 +84,7 @@ IslandGenerator(0,2,4,INACCESSIBLE,ACCESSIBLE)
     SpecialGridGen(global.CrabaporterQuantities,0,0,1,CRABAPORTER,false,grid2)
     
     //POPULATE THE 2nd GRID WITH ITEMS/KEY OBJECTS ETC
-    AllocateSpritesToGrid2()
+    SetUpTeleporterPads()
     
 
 //FINAL ISLAND GEN (Stop player spawning in a puddle)
@@ -242,12 +242,12 @@ if (grid[# col, row] == SPECIALTYPE)
             {
                 if RollD20(18)
                 {
-                room_instance_add(global.LevelBeingMade,col*global.TileSetSize+TileSetSizeHalved,row*global.TileSetSize+TileSetSizeHalved,oGunCrate)
+                room_instance_add(global.LevelBeingMade,col*global.TileSetSize+global.TileSetSizeHalved,row*global.TileSetSize+global.TileSetSizeHalved,oGunCrate)
                 grid[# col, row] = ACCESSIBLE
                 }
                     else
                     {
-                    room_instance_add(global.LevelBeingMade,col*global.TileSetSize+TileSetSizeHalved,row*global.TileSetSize+TileSetSizeHalved,oSmallCrate)
+                    room_instance_add(global.LevelBeingMade,col*global.TileSetSize+global.TileSetSizeHalved,row*global.TileSetSize+global.TileSetSizeHalved,oSmallCrate)
                     grid[# col, row] = ACCESSIBLE
                     }
             }
@@ -438,7 +438,7 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                 }
             }
             if (grid[# col, row] == INACCESSIBLE)
-            room_tile_add(global.LevelBeingMade,SeaSquare,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
+            room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,round((col*global.TileSetSize)), round((row*global.TileSetSize)),DrawHighDepth)
         }
     }
 
@@ -468,13 +468,13 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                 if 1 <= LandNearby 
                 {
                 //INVISIBLE WALLS! I'M MAKING INVISIBLE WALLS! I'M OFFICIALLY PART OF THE PROBLEM!
-                //room_instance_add(global.LevelBeingMade,(col*global.TileSetSize)+TileSetSizeHalved, (row*global.TileSetSize)+TileSetSizeHalved,oInvisibleWall)
+                //room_instance_add(global.LevelBeingMade,(col*global.TileSetSize)+global.TileSetSizeHalved, (row*global.TileSetSize)+global.TileSetSizeHalved,oInvisibleWall)
                 }
             }
         }
     }
 
-#define AllocateSpritesToGrid2
+#define SetUpTeleporterPads
     //ALLOCATE SPRITES TO GRID2
     
     var i;
@@ -486,18 +486,25 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
         {
                 if grid2[# col, row] = CRABAPORTER
                 {
+                //THIS IS TRIGGERED BY LEVELGEN SCRIPT
+
                 var GridX,GridY;
                 GridX = col*global.TileSetSize
                 GridY = row*global.TileSetSize
-                           
+                
+                //CREATE THE INVISIBLE PAD OBJECT
                 NewCrabaporter = room_instance_add(global.LevelBeingMade,GridX+global.TileSetSize,GridY+global.TileSetSize,oCrabaporter)
+        
+                //SET OBJECT IN ARRAY FOR FUTURE
                 global.CrabaporterObjects[i] = NewCrabaporter
                 
+                    //DATA IS ASSIGNED VIA A SCRIPT IN THE CREATE EVENT, AS YOU CANNOT DO IT IN OTHER ROOMS ETC.//
+                
                 //SET CRABAPORT PADS
-                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY,DrawHighestDepth)
-                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,DrawHighestDepth)
-                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,DrawHighestDepth)
-                room_tile_add(global.LevelBeingMade,bCRABAPORT,TileSizeQuartered,TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,DrawHighestDepth)
+                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,DrawHighestDepth)
                 //ENSURE AREAS BENEATH CRABAPORTER PADS ARE LAND
                 grid[# col, row] = ACCESSIBLE
                 grid[# col+1, row] = ACCESSIBLE
@@ -609,13 +616,13 @@ tileset[46,1] = 47
 //INITIALISE TILESET LOCATION GRID --- 0 = x , 1 = y
 var TilesAcross = 0;
 var RowsDown = 0;
-var NextTileAcross = TileSizeQuartered + global.TileSetSize; //160
+var NextTileAcross = global.TileSizeQuartered + global.TileSetSize; //160
 
 //INITIALISE ARRAY
 for (var i = 0; i <= 47 ; i += 1)
 {
-    tilelocation[i,0] = TileSizeQuartered+(NextTileAcross*TilesAcross)
-    tilelocation[i,1] = TileSizeQuartered+(NextTileAcross*RowsDown)
+    tilelocation[i,0] = global.TileSizeQuartered+(NextTileAcross*TilesAcross)
+    tilelocation[i,1] = global.TileSizeQuartered+(NextTileAcross*RowsDown)
         if TilesAcross >= 7 
         {
         RowsDown ++

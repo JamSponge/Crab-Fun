@@ -34,8 +34,8 @@ ScreenHeight = display_get_height()
 //DRAW LEVEL setup
 LevelExists=false
 global.TileSetSize = 128
-TileSetSizeHalved = global.TileSetSize/2
-TileSizeQuartered = global.TileSetSize/4
+global.TileSetSizeHalved = global.TileSetSize/2
+global.TileSizeQuartered = global.TileSetSize/4
 
 //CAMERA SHAKE
 ShakeDirectional = false

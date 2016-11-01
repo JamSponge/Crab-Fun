@@ -11,6 +11,11 @@ EnemyCollisionTIMERVALUE = 2
 EnemyDeathAnimation = 3
 EnemyDeathSpeed = 4
 
+//SETUP FOR TELEPORTERS
+global.TeleporterCooldownTime = room_speed*2
+global.TeleporterWarmUpSpeed = room_speed
+//TIME BETWEEN SPAWN CHECKS
+alarm[1] = room_speed
 
 EnemyInactivityDistance = 2000
 alarm[0] = room_speed*2
@@ -43,17 +48,6 @@ var i;
 alarm[0] = room_speed*0.5
 
 #define StandardEnemyArray
-
-//SPAWN ENEMIES
-//CHECK NUMBER OF FOES, CHOOSE LOCATION TO SPAWN
-if instance_exists(oPlayer) and instance_number (oEnemyBody) <30 {
-var i,xx,yy;
-i = choose(0,1,2,3);
-xx = global.CrabaporterObjects[i].x
-yy = global.CrabaporterObjects[i].y
-SpawnAnEnemy(1,xx,yy,random(360))
-}
-
 //NO SPAWN, BUT THEY CAN STILL MOVE
 if instance_exists(oCamera){
     
@@ -165,9 +159,9 @@ if instance_exists(oCamera){
                     TargetX = PlayerX 
                     TargetY = PlayerY
             
-                    enemyspeed = enemyspeed*1.2
-                    turnSpeed = EnemyTurnSpeed*1.5
-                    accuracy = EnemyAccuracy/2
+                    enemyspeed = enemyspeed*1.5
+                    turnSpeed = EnemyTurnSpeed*2
+                    accuracy = EnemyAccuracy*1.5
                     }
                 
                     //WHOA FUCK THAT GUY I SAW AN ICECREAM
@@ -255,3 +249,110 @@ if instance_exists(oCamera){
              }
          }    */         
             
+
+#define Spawn_Enemies_Alarm
+//SPAWN ENEMIES
+//CHECK NUMBER OF FOES, CHOOSE LOCATION TO SPAWN
+if instance_exists(oPlayer)
+    {
+        if instance_number (oEnemyBody) <30 
+            {
+            var i = round(random_range(0,global.CrabaporterQuantities));
+                //LOCATION CHOSEN, ACTIVATE TIMER
+                with (global.CrabaporterObjects[i])
+                {
+                //TODOPLS "teleporting in" particles & hum noise go here
+                alarm[0] = global.TeleporterWarmUpSpeed //How long before they actually arrive?
+                alarm[1] = global.TeleporterCooldownTime //How Long Before This Can Happen Again
+                TeleporterOnCooldown = true
+                
+                ds_list_shuffle(TeleporterPadSpecificLocations)
+                }
+            }
+        
+        //RESET YOUR OWN ALARM
+        alarm[1]=room_speed
+    }
+
+
+#define Crab_Teleporter_Create_Event
+
+TeleporterActive = false
+TeleporterOnCooldown = false
+//SETUP THE LIST THAT DETERMINES SPAWN ORDER
+
+TeleporterPadSpecificLocations = ds_list_create()
+
+//PRESET POTENTIAL LOCATIONS TO SPAWN (FOUR CORNERS, BASICALLY - NW to SE as per)
+
+ax = x-global.TileSetSizeHalved
+ay = y-global.TileSetSizeHalved
+
+bx = x+global.TileSetSizeHalved
+by = y-global.TileSetSizeHalved
+
+cx = x-global.TileSetSizeHalved
+cy = y+global.TileSetSizeHalved
+                
+dx = x+global.TileSetSizeHalved
+dy = y+global.TileSetSizeHalved
+
+#define Crab_Teleporter_Step_Event
+//Step Script Triggered by oCrabaporter
+
+if TeleporterOnCooldown = false
+    {
+        if TeleporterActive = true
+            {
+                ds_list_add(TeleporterPadSpecificLocations,1,2,3,4)
+                alarm[2] = room_speed/4
+                TeleporterActive = false
+            }
+    }
+
+#define Crab_Teleporter_Active_Alarm
+//Alarm[1] of oCrabaporter
+
+
+var val,xx,yy,enemyfacing;
+val = ds_list_find_value (TeleporterPadSpecificLocations,0)
+    
+    //ALL DATA FROM LIST IS GONE, MATE. END THIS.
+    if is_undefined(val)
+    {
+    }
+
+else
+    {
+    ds_list_delete(TeleporterPadSpecificLocations,0)
+    
+        switch (val)
+        {
+        case 1: 
+        xx = ax
+        yy = ay 
+        break;
+        
+        case 2:
+        xx = bx
+        yy = by
+        break;
+        
+        case 3:
+        xx = cx
+        yy = cy
+        break;
+        
+        case 4:
+        xx = dx
+        yy = dy
+        break;
+        }
+    
+    instance_create(xx,yy,oEnemyTeleportingIn)
+        
+        //RESET TELEPORTER OR LOOP IF ENEMIES STILL ON THE WAY
+        {
+        alarm[2] = room_speed/4
+        }
+    }
