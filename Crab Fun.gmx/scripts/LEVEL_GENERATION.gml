@@ -37,6 +37,11 @@ DrawLowDepth = 10000
 DrawHighDepth = -3000
 DrawHighestDepth = -3500
 
+//TELEPORTER DRAW DEPTHS
+TPLow = 9000
+TPMid = 8000
+TPHigh = -1000
+
 //MAKE THIS NOW FOR PLAYER LOCATION DATA
 SafeIslandX = round(random_range(GridMidPointHori-GridMidPointHori/4.5,GridMidPointHori+GridMidPointHori/4.5))
 SafeIslandY = round(random_range(GridMidPointVert-GridMidPointVert/4.5,GridMidPointVert+GridMidPointVert/4.5))
@@ -501,10 +506,31 @@ SPECIALHeight = round (random_range(MinRangeCellScale,MaxRangeCellScale))
                     //DATA IS ASSIGNED VIA A SCRIPT IN THE CREATE EVENT, AS YOU CANNOT DO IT IN OTHER ROOMS ETC.//
                 
                 //SET CRABAPORT PADS
-                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY,DrawHighestDepth)
-                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,DrawHighestDepth)
-                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,DrawHighestDepth)
-                room_tile_add(global.LevelBeingMade,SeaSquare,global.TileSizeQuartered,global.TileSizeQuartered,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,DrawHighestDepth)
+                
+                var xya, xyb, xyc, xyd;
+                xya = 32;
+                xyb = 192; 
+                xyc = 352; 
+                xyd = 512;
+                
+                //PLACE TOP-LAYER TILES (HIGHLIGHTING, ETC)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xya,xya,global.TileSetSize,global.TileSetSize,GridX,GridY,TPHigh)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyb,xya,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,TPHigh)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyc,xya,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,TPHigh)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyd,xya,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,TPHigh)
+                
+                //DRAW MIDDLE AREA (GRATING)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xya,xyb,global.TileSetSize,global.TileSetSize,GridX,GridY,TPMid)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyb,xyb,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,TPMid)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyc,xyb,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,TPMid)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyd,xyb,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,TPMid)
+                
+                //DRAW BOTTOM AREA (DARK BLUE BACKGROUND)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xya,xyc,global.TileSetSize,global.TileSetSize,GridX,GridY,TPLow)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyb,xyc,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY,TPLow)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyc,xyc,global.TileSetSize,global.TileSetSize,GridX,GridY+global.TileSetSize,TPLow)
+                room_tile_add(global.LevelBeingMade,bTeleporter,xyd,xyc,global.TileSetSize,global.TileSetSize,GridX+global.TileSetSize,GridY+global.TileSetSize,TPLow)
+                
                 //ENSURE AREAS BENEATH CRABAPORTER PADS ARE LAND
                 grid[# col, row] = ACCESSIBLE
                 grid[# col+1, row] = ACCESSIBLE

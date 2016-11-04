@@ -7,6 +7,10 @@ part_system_depth(global.ps, -7000);
 global.psLandOnly=part_system_create();
 part_system_depth(global.psLandOnly, 0);
 
+//TELEPORTER SPECIFIC!
+global.psTeleporter=part_system_create();
+part_system_depth(global.psTeleporter, 8100);
+
 //CREATE PARTICLE TYPES
 
 global.Particle1 = part_type_create();
@@ -28,6 +32,7 @@ ShotImpactSetup()
 HitCrateParticlesSetup()
 DestroyCrateParticlesSetup()
 Scorch_Particles_Setup()
+TP_Particle_Setup()
 
 #define Particle_Burst
 //PARTICLES, PLEASE (PartType)

@@ -5,15 +5,15 @@
   <tileheight>128</tileheight>
   <tilexoff>32</tilexoff>
   <tileyoff>32</tileyoff>
-  <tilehsep>16</tilehsep>
-  <tilevsep>0</tilevsep>
+  <tilehsep>32</tilehsep>
+  <tilevsep>32</tilevsep>
   <HTile>-1</HTile>
   <VTile>-1</VTile>
   <TextureGroups>
     <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
   <For3D>0</For3D>
-  <width>128</width>
-  <height>128</height>
-  <data>images\bCRABAPORT.png</data>
+  <width>668</width>
+  <height>514</height>
+  <data>images\bTeleporter.png</data>
 </background>

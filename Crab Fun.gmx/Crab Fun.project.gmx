@@ -172,7 +172,8 @@
     <background>background\LandA0Extra</background>
     <background>background\LandA1Extra</background>
     <background>background\background8</background>
-    <background>background\bCRABAPORT</background>
+    <background>background\bTeleporter</background>
+    <background>background\background10</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -262,6 +263,7 @@
       <script>scripts\PlayerWaterParticles.gml</script>
       <script>scripts\Object_Impact_Particles.gml</script>
       <script>scripts\Explosion_Particles.gml</script>
+      <script>scripts\Teleporter_Particles.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">

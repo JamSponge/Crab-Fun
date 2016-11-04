@@ -12,10 +12,10 @@ EnemyDeathAnimation = 3
 EnemyDeathSpeed = 4
 
 //SETUP FOR TELEPORTERS
-global.TeleporterCooldownTime = room_speed*2
-global.TeleporterWarmUpSpeed = room_speed
+global.TeleporterCooldownTime = room_speed
+global.TeleporterWarmUpSpeed = room_speed*3
 //TIME BETWEEN SPAWN CHECKS
-alarm[1] = room_speed
+alarm[1] = room_speed*3
 
 EnemyInactivityDistance = 2000
 alarm[0] = room_speed*2
@@ -265,7 +265,7 @@ if instance_exists(oPlayer)
                 alarm[0] = global.TeleporterWarmUpSpeed //How long before they actually arrive?
                 alarm[1] = global.TeleporterCooldownTime //How Long Before This Can Happen Again
                 TeleporterOnCooldown = true
-                
+                TeleporterIsGo = true
                 ds_list_shuffle(TeleporterPadSpecificLocations)
                 }
             }
@@ -276,9 +276,12 @@ if instance_exists(oPlayer)
 
 
 #define Crab_Teleporter_Create_Event
-
+TeleporterIsGo = false
 TeleporterActive = false
 TeleporterOnCooldown = false
+alarm[3] = room_speed/2 //ALARM FOR NOT ACTIVE PARTICLE SPAWNING
+
+
 //SETUP THE LIST THAT DETERMINES SPAWN ORDER
 
 TeleporterPadSpecificLocations = ds_list_create()
@@ -320,6 +323,7 @@ val = ds_list_find_value (TeleporterPadSpecificLocations,0)
     //ALL DATA FROM LIST IS GONE, MATE. END THIS.
     if is_undefined(val)
     {
+    TeleporterIsGo = false
     }
 
 else
@@ -353,7 +357,9 @@ else
         yy = x
         break;
         }
-    
+    //TP PARTICLES! SHAZZAAAAMMM
+    part_emitter_region(global.ps, global.pe_Teleport_In, xx,xx,yy,yy, ps_shape_rectangle, ps_distr_linear);
+    part_emitter_burst(global.ps, global.pe_Teleport_In, global.pt_Teleport_In, 1);
     instance_create(xx,yy,oEnemyTeleportingIn)
         
         //RESET TELEPORTER OR LOOP IF ENEMIES STILL ON THE WAY
