@@ -34,7 +34,7 @@ if CrateContains = 1
         {
         NewCone = instance_create(x,y,oIceCreamCone)
         NewCone.direction = AttackSourceDir+random_range(2,270)
-        NewCone.speed= 2000/room_speed
+        NewCone.speed= 2000/global.RealGame_Speed
         ConeNum--
         }
         CrateContains = 0

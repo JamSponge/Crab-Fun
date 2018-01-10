@@ -75,7 +75,7 @@ image_yscale = image_xscale
 
 //SPINNY!
 if speed &gt; 15{
-SpinTime = SpinTime + 0.7/room_speed
+SpinTime = SpinTime + 0.7/global.RealGame_Speed
 if SpinTime &lt; SpinLength{
   image_angle += (0 - 360) *random_range(0.001,0.02);
   }

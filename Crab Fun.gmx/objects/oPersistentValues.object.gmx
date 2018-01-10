@@ -27,6 +27,9 @@
             <kind>1</kind>
             <string>global.CrabsKilled = 0
 global.CoinsCollected = 0
+global.RealGame_Speed = 60
+
+alarm[0] = global.RealGame_Speed/5
 </string>
           </argument>
         </arguments>

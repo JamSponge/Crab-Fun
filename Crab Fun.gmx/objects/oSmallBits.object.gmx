@@ -78,7 +78,7 @@ else
 {
 
 if speed &gt; Deceleration {
-speed = speed-(Deceleration/room_speed)
+speed = speed-(Deceleration/global.RealGame_Speed)
 } else{ speed=0}
 
 if speed &gt; 0 {

@@ -8,7 +8,7 @@ theboom.TimeToDeathFade = 1
 theboom.image_xscale = ExplosionSize
 theboom.image_yscale = ExplosionSize
 theboom.WeaponDamage = ExplosionSize*5
-theboom.Impact = ExplosionSize*1500/room_speed
+theboom.Impact = ExplosionSize*1500/global.RealGame_Speed
 
 
 audio_play_sound_at(aExplode,x,y,0,100,800,1,false,1)
@@ -19,8 +19,8 @@ ShakeDirectional = false
 screenshake = true
 ShakeAmount = global.DisplayRatio*((ExplosionSize*20)+5)
 bonusscreenshake = bonusscreenshake + ExplosionSize
-alarm[0]=600/room_speed
-alarm[1]=room_speed*1.5
+alarm[0]=600/global.RealGame_Speed
+alarm[1]=global.RealGame_Speed*1.5
 }
 
 

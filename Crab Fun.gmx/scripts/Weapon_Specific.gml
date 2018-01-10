@@ -1,5 +1,6 @@
 #define Weapon_Specific
 
+
 #define Pistol_Stuff
 //MAXED GUN, THROW TO EXPLODE!
     if BombGunThrown = false
@@ -44,10 +45,17 @@
         //RELEASE AND FIRE IT
         if mouse_check_button_released(mb_right)
         {
-        GunBombCharging = false
-        BombGunThrown = true
+        
+        //RESET PISTOL SETTINGS
         ShotsFiredCount = 0
         CanShoot = true
+        RateOfFire = 0.2
+        ShotSound = 0
+        MyBulletSpeed = 4000 / global.RealGame_Speed
+        
+        //BOMB GUN
+        GunBombCharging = false
+        BombGunThrown = true
         MyGunBomb = instance_create(x + lengthdir_x(80, image_angle), y + lengthdir_y(80, image_angle),oExplodeGun)
                 
         audio_play_sound(aPlayerShoot,100,false)

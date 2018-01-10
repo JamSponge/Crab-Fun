@@ -31,6 +31,10 @@ ZoomMax=400
 ScreenWidth = display_get_width()
 ScreenHeight = display_get_height()
 
+//Set Maximum View Size
+if ScreenWidth &gt; 1920 {ScreenWidth = 1920}
+if ScreenHeight &gt; 1080 {ScreenHeight = 1080}
+
 //DRAW LEVEL setup
 LevelExists=false
 global.TileSetSize = 128

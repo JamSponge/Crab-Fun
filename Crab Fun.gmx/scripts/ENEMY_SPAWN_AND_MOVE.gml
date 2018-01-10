@@ -1,6 +1,5 @@
 #define ENEMY_SPAWN_AND_MOVE
 
-
 #define EnemySpawnSetup
 //2D ARRAY WITH ENEMY DATA [0 Number of the Enemy, 0 legs of enemy 1 collision imminent?]
 EnemyArray[0,0] = 0
@@ -12,13 +11,13 @@ EnemyDeathAnimation = 3
 EnemyDeathSpeed = 4
 
 //SETUP FOR TELEPORTERS
-global.TeleporterCooldownTime = room_speed
-global.TeleporterWarmUpSpeed = room_speed*3
+global.TeleporterCooldownTime = global.RealGame_Speed/2
+global.TeleporterWarmUpSpeed = global.RealGame_Speed*1.5
 //TIME BETWEEN SPAWN CHECKS
-alarm[1] = room_speed*3
+alarm[1] = global.RealGame_Speed*1.5
 
 EnemyInactivityDistance = 2000
-alarm[0] = room_speed*2
+alarm[0] = global.RealGame_Speed*2
 
 /*
 instance_create(global.CrabaporterLocations[#0,0],global.CrabaporterLocations[#1,1],oMoney)
@@ -45,7 +44,7 @@ var i;
     }
 
 //RESET ALARM         
-alarm[0] = room_speed*0.5
+alarm[0] = global.RealGame_Speed*0.5
 
 #define StandardEnemyArray
 //NO SPAWN, BUT THEY CAN STILL MOVE
@@ -271,7 +270,7 @@ if instance_exists(oPlayer)
             }
         
         //RESET YOUR OWN ALARM
-        alarm[1]=room_speed
+        alarm[1]=global.RealGame_Speed
     }
 
 
@@ -279,7 +278,7 @@ if instance_exists(oPlayer)
 TeleporterIsGo = false
 TeleporterActive = false
 TeleporterOnCooldown = false
-alarm[3] = room_speed/2 //ALARM FOR NOT ACTIVE PARTICLE SPAWNING
+alarm[3] = global.RealGame_Speed/2 //ALARM FOR NOT ACTIVE PARTICLE SPAWNING
 
 
 //SETUP THE LIST THAT DETERMINES SPAWN ORDER
@@ -308,7 +307,7 @@ if TeleporterOnCooldown = false
         if TeleporterActive = true
             {
                 ds_list_add(TeleporterPadSpecificLocations,1,2,3,4)
-                alarm[2] = room_speed/4
+                alarm[2] = global.RealGame_Speed/4
                 TeleporterActive = false
             }
     }
@@ -364,6 +363,6 @@ else
         
         //RESET TELEPORTER OR LOOP IF ENEMIES STILL ON THE WAY
         {
-        alarm[2] = room_speed/4
+        alarm[2] = global.RealGame_Speed/4
         }
     }

@@ -30,12 +30,12 @@ CanShoot=true
 ShotsFiredCount = 0
 TimeSinceLastShot = 0
 TimeBetweenShots = 1
+MyBulletSpeed = 4000 / global.RealGame_Speed
 TimeSinceMouseReleased = 0
 GunBombCharging = false
 
 //GENERIC WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 20
-MyBulletSpeed = 2000 / room_speed
 WeaponBulletsPerShot = 1
 RateOfFire = 0.2 //---IN SECONDS
 Accuracy = 0 //potential variance in degrees, innit
@@ -65,7 +65,7 @@ DirShakeChance = 3 //Dice roll, 1-6. Roll higher &amp; shake is directional, els
 //WEAPON-SPECIFIC SETUP
     
     //EXPLODYTIMES
-    MyGunBombSpeed = 2000/room_speed
+    MyGunBombSpeed = 3000/global.RealGame_Speed
     BombGunThrown = false
     WeaponMinExplodeSize = 0.1
     WeaponMaxExplodeSize = 2

@@ -3,7 +3,7 @@
   <spriteName>sprite18</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-1000</depth>
+  <depth>-24000</depth>
   <persistent>0</persistent>
   <parentName>oProjectile</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -26,11 +26,13 @@
           <argument>
             <kind>1</kind>
             <string>WeaponDamage = 1
-Impact = 1000/room_speed
-
+Impact = 1000/global.RealGame_Speed
 image_xscale = 2
 image_angle = direction
-alarm[0] = room_speed
+alarm[0] = global.RealGame_Speed/2
+
+//SET SO POINT-BLANK SHOTS WORK RIGHT
+alarm[1] = global.RealGame_Speed/5
 </string>
           </argument>
         </arguments>
@@ -76,11 +78,11 @@ alarm[0] = room_speed
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ProjectileImpactChecker(oCamera,WeaponDamage,Impact,1)
+            <string>ProjectileImpactChecker(oPlayerLocation,WeaponDamage,Impact,1)
 
 if image_xscale &lt;9
 {
-image_xscale = image_xscale+room_speed/100
+image_xscale = image_xscale+global.RealGame_Speed/100
 }
 
 

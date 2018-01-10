@@ -29,7 +29,8 @@
 
 
 
-draw_text (10,10,global.CrabsKilled)
+draw_text (100,100,global.CoinsCollected)
+
 
 
 </string>

@@ -56,7 +56,7 @@ Owner = self.id
           <argument>
             <kind>1</kind>
             <string>//SPINNY GUN
-SpinTime = SpinTime + 0.7/room_speed
+SpinTime = SpinTime + 0.7/global.RealGame_Speed
 if SpinTime &lt; SpinLength{
   image_angle += (0 - 360) *random_range(0.001,0.1);
   }
@@ -64,7 +64,7 @@ if SpinTime &lt; SpinLength{
 speed += (0 - speed) *0.05;
 
 //TIMER COUNTDOWN
-GunExplodeTimer = GunExplodeTimer + 1/room_speed
+GunExplodeTimer = GunExplodeTimer + 1/global.RealGame_Speed
 
 /*BOUNCE OFF ENEMIES - slight speed bump and random direction bounce for the lols
 while place_meeting(x+hspeed,y+vspeed,oEnemyBody) and GunHitEnemy=false{

@@ -161,6 +161,7 @@
     <sprite>sprites\sprite47</sprite>
     <sprite>sprites\sScorchParticles</sprite>
     <sprite>sprites\sprite50</sprite>
+    <sprite>sprites\sEscapePad</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -305,7 +306,9 @@
         <object>objects\oInvisibleWall</object>
         <object>objects\oGlobalSolid</object>
       </objects>
+      <object>objects\oEscapeTeleporter</object>
     </objects>
+    <object>objects\oPlayerLocation</object>
     <object>objects\oPlayer</object>
     <objects name="WEAPONS AND SHOOTIN">
       <objects name="NON-SPECIFIC STUFF">

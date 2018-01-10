@@ -215,7 +215,9 @@ if (grid[# col, row] == SPECIALTYPE)
  room_instance_add(global.LevelBeingMade,0,0,oDebrisArray)
  room_instance_add(global.LevelBeingMade,0,0,oImpactTracker)
  room_instance_add(global.LevelBeingMade,SafeIslandX*global.TileSetSize,SafeIslandY*global.TileSetSize,oPlayer)
+ room_instance_add(global.LevelBeingMade,SafeIslandX*global.TileSetSize,SafeIslandY*global.TileSetSize,oEscapeTeleporter)
  room_instance_add(global.LevelBeingMade,0,0,oPistol)
+ room_instance_add(global.LevelBeingMade,0,0,oPlayerLocation)
 
  //PLACE CRATES
  
@@ -667,7 +669,9 @@ GridSizer = round(random_range(50,70))
 GridMaxVert = GridSizer
 GridMaxHori = GridTotal-GridSizer
 
+
 global.LevelBeingMade = room_add();
+
  room_set_width(global.LevelBeingMade,GridMaxHori*global.TileSetSize);
  room_set_height(global.LevelBeingMade,GridMaxVert*global.TileSetSize);
  //room_set_background(global.LevelBeingMade,1,true,false,background1,0,0,true,true,0,0,1)

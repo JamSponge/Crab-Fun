@@ -83,7 +83,7 @@ if AlarmTriggered = false
     if distance_to_object(oPlayer) &lt;= 300
         {
         CurrentSpeed = CurrentSpeed +15
-        alarm[0]=room_speed/10
+        alarm[0]=global.RealGame_Speed/10
         AlarmTriggered = true
         }
     }

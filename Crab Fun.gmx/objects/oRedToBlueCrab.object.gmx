@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Timer = room_speed
+            <string>Timer = global.RealGame_Speed
 </string>
           </argument>
         </arguments>

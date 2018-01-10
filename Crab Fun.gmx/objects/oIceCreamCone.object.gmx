@@ -52,7 +52,7 @@ image_speed = 0
           <argument>
             <kind>1</kind>
             <string>//SPINNY
-SpinTime = SpinTime + 0.7/room_speed
+SpinTime = SpinTime + 0.7/global.RealGame_Speed
 if SpinTime &lt; SpinLength/2
   {
   image_angle += (0 - 360) *random_range(0.01,0.02);

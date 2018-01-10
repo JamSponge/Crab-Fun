@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x = oCamera.ScreenWidth div 2
+            <string>//ROOM SPEED
+
+x = oCamera.ScreenWidth div 2
 y = oCamera.ScreenHeight div 2
 
 if mouse_check_button_pressed(mb_left)

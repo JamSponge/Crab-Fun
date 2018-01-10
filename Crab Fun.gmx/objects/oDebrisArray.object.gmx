@@ -98,7 +98,7 @@ DeathFadeCountdown = true
             <kind>1</kind>
             <string>if DeathFadeCountdown = true
 {
-alarm[0] = room_speed*1.5
+alarm[0] = global.RealGame_Speed*1.5
 DeathFadeCountdown = false
 }
 </string>

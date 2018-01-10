@@ -90,7 +90,7 @@ if TeleporterIsGo = false
 part_emitter_region(global.psTeleporter, global.pe_Telepad_Not_Active_Rings, x, x, y, y, ps_shape_rectangle, ps_distr_linear);
 part_emitter_burst(global.psTeleporter, global.pe_Telepad_Not_Active_Rings, global.pt_Telepad_Not_Active_Rings, 1);
 
-alarm[3] = room_speed
+alarm[3] = global.RealGame_Speed
 }
 else
 {
@@ -100,5 +100,5 @@ part_emitter_burst(global.psTeleporter, global.pe_Telepad_Active_Rings, global.p
 
 part_emitter_region(global.ps, global.pe_FloatyTeleporterBits_copy, x-100,x+100,y-100,y+100, ps_shape_ellipse, ps_distr_linear);
 part_emitter_burst(global.ps, global.pe_FloatyTeleporterBits_copy, global.pt_FloatyTeleporterBits_copy, 3);
-alarm[3] = room_speed/3
+alarm[3] = global.RealGame_Speed/3
 }

@@ -22,7 +22,7 @@ DeadEnemy.SpinType = choose (0.5,-0.5,1,-1,)
 DeadEnemy.Dead=false
 DeadEnemy.Nudged=false
 DeadEnemy.EnemyWeight = EnemyWeight*0.8
-DeadEnemy.alarm[0] = 3000/room_speed
+DeadEnemy.alarm[0] = 3000/global.RealGame_Speed
 //TELL CAMERA TO TRACK DEAD ENEMY
 oCamera.KillerTracker = DeadEnemy
 
@@ -55,14 +55,14 @@ NewBitSmall = instance_create(x,y,SmallSplatterUsed)
 NewBitSmall.image_blend = make_colour_rgb (SplatterColourR,SplatterColourG,SplatterColourB)
 NewBitSmall.direction = point_direction(AttackSource.x,AttackSource.y, x,y)+random_range(5,35)
 NewBitSmall.image_angle=direction
-NewBitSmall.speed= 2000/room_speed
+NewBitSmall.speed= 2000/global.RealGame_Speed
 NewBitSmall.SecondsUntilFadeStarts = 4
 
 NewBitSmall2 = instance_create(x,y,SmallSplatterUsed)
 NewBitSmall2.image_blend = make_colour_rgb (SplatterColourR,SplatterColourG,SplatterColourB)
 NewBitSmall2.direction = point_direction(AttackSource.x,AttackSource.y, x,y)-random_range(5,35)
 NewBitSmall2.image_angle=direction
-NewBitSmall2.speed= 2000/room_speed
+NewBitSmall2.speed= 2000/global.RealGame_Speed
 NewBitSmall2.SecondsUntilFadeStarts = 4
 }
 

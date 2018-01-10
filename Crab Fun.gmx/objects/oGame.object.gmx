@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//SPLAT DEPTH MODIFIER
+            <string>
+//SPLAT DEPTH MODIFIER
 SplatDepth = 800
 
 //AUDIO SETUP
@@ -54,7 +55,10 @@ audio_listener_orientation(0,1,0,0,0,1)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//SPLAT DEPTH RESET
+            <string>//ROOM SPEED
+room_speed = global.RealGame_Speed
+
+//SPLAT DEPTH RESET
 if SplatDepth &lt;= 300 {SplatDepth = 800}
 
 //PAUSE BACKDROP TRANSITION

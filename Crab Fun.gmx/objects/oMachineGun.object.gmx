@@ -38,7 +38,7 @@ GunBombCharging = false
 
 //WEAPON SETUP - VARIABLES
 ShotsFiredCountMax = 1000
-MyBulletSpeed = 2800 / room_speed
+MyBulletSpeed = 2800 / global.RealGame_Speed
 RateOfFire = 0.05 //---IN SECONDS
 WeaponBulletsPerShot = 3
 Accuracy = 30 //div this by 2 for the potential variance in degrees either way

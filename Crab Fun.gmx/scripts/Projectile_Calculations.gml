@@ -3,7 +3,7 @@
 
 #define ShootAGun
 //TIMER BETWEEN SHOTS, MUST RUN EACH FRAME
-TimeSinceLastShot = TimeSinceLastShot +1/room_speed
+TimeSinceLastShot = TimeSinceLastShot +1/global.RealGame_Speed
 
 //ONTO THE ACTUAL SHOOTIN'
 if mouse_check_button(mb_left)
@@ -48,7 +48,7 @@ if mouse_check_button(mb_left)
     /*Code to stop people from tapping button!
     if !mouse_check_button(mb_left)
     {
-    TimeSinceMouseReleased =  TimeSinceMouseReleased +1/room_speed
+    TimeSinceMouseReleased =  TimeSinceMouseReleased +1/global.RealGame_Speed
     }
     if ShotsFiredCount <= 0 {ShotsFiredCount =0}
 
@@ -68,31 +68,40 @@ ShotSound = 0
         oCamera.DirShakeChance = DirShakeChance
         with (oCamera) {
         screenshake = true
-        alarm[0]=300/room_speed
+        alarm[0]=300/global.RealGame_Speed
         if RollD6(DirShakeChance)
             {
             ShakeDirectional = true
             }
         }
     
-    //SHOOTING SFX
+    //SHOOTING SFX !!!!!FIX add sounds for BIGGER SHOTZ
     
-    //DIMINISHING SHOT SIZE & VISUALS AS CLIP EMPTIES
+    //INCREASING!! SHOT SIZE & VISUALS AS CLIP EMPTIES
     if ShotsFiredCountMax/1.2 < ShotsFiredCount
     {
     ShotSound = GunShootSFXLow3
-    BulletScale = 0.8 
+    BulletScale = 2
+    //RateOfFire = 0.25
+    //MyBulletSpeed = MyBulletSpeed/1.2
+    
         if ShotsFiredCountMax/1.1 < ShotsFiredCount
         {
         ShotSound = GunShootSFXLow2
-        BulletScale = 0.6
+        BulletScale = 2.5
+        //RateOfFire = 0.3
+        //MyBulletSpeed = MyBulletSpeed/1.4
+        
             if ShotsFiredCountMax/1.05 < ShotsFiredCount
             {
             ShotSound = GunShootSFXLow1
-            BulletScale = 0.5
+            BulletScale = 3
+            //RateOfFire = 0.35
+            //MyBulletSpeed = MyBulletSpeed/1.7
             }
         }
     }
+    //BULLETSCALE DEPENDENT ON AUDIO CLIP ABOVE BEING LINKED!
     if ShotSound = 0
     {
     ShotSound = choose(GunShootSFX1,GunShootSFX2,GunShootSFX3,GunShootSFX4)
@@ -114,7 +123,7 @@ ShotSound = 0
     else {MyBullet.direction = image_angle + (round(random(Accuracy)) - Accuracy/2)}
     MyBullet.speed = MyBulletSpeed
     MyBullet.image_angle = MyBullet.direction
-    MyBullet.image_yscale = BulletScale    
+    MyBullet.image_yscale = BulletScale  
     MyBullet.image_alpha = BulletScale //Using same numbers, so figured make it one variable
     BulletsToFire--
     }
@@ -129,12 +138,7 @@ var ProjectileType = argument3 //PROJECTILE TYPES: 1 NonPierce, 2 Pierce, 3 Expl
 //DIRECT HIT ON AN ENEMY!
 if instance_place(x,y,oEnemyBody) {
 EnemyHit = instance_nearest (x,y,oEnemyBody)
-    //DESTROY THE BULLET
-    if ProjectileType = 1 
-    {
-    ShotImpactParticles(image_angle-220,image_angle-140)
-    instance_destroy()
-    }    
+   
     //DMG THE FOE
     with EnemyHit 
         {
@@ -151,7 +155,14 @@ EnemyHit = instance_nearest (x,y,oEnemyBody)
             {
             image_index = image_number-4
             }
-    }
+        }
+        
+    //DESTROY THE BULLET
+    if ProjectileType = 1 
+    {
+    ShotImpactParticles(image_angle-220,image_angle-140)
+    instance_destroy()
+    } 
 }
     
 //NUDGE DEAD BODIES

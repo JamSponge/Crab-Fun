@@ -32,7 +32,7 @@ PlayerNoGun = false
 
 
 FootStepAlarmTriggered = false
-PlayerStep = room_speed/6
+PlayerStep = global.RealGame_Speed/6
 WetFeet = 0
 
 //Camera &amp; HUD
@@ -50,7 +50,7 @@ Facing = point_direction (x,y,mouse_x,mouse_y)
 //Movement Speed When Shooting
 //SPEEDS
     //Movement Speed When Shooting
-    PlayerSpeed = (500 / room_speed)
+    PlayerSpeed = (500 / global.RealGame_Speed)
     Reloading = false
     
 //HEALTH AND CHUNKS ETC
@@ -117,9 +117,7 @@ FootStepAlarmTriggered = false
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>room_speed = 60
-
-if gameover = true {
+            <string>if gameover = true {
 speed = 0
 image_alpha=0
 }
@@ -167,10 +165,10 @@ hspeed = PlayerSpeed
 
 //SHOOTING MOVING SPEED - CHECK IF NO GUN
 if PlayerNoGun = true {
-PlayerSpeed = 700 / room_speed
+PlayerSpeed = 700 / global.RealGame_Speed
 }
 else {
-PlayerSpeed = 500 / room_speed
+PlayerSpeed = 500 / global.RealGame_Speed
 }
 
 //SHOOTING SLOWDOWN
@@ -196,7 +194,7 @@ oCamera.KillerTracker = EnemyThatKilledYou
 PlayerDies()
 }
 
-/*BulletKick = 100 / room_speed
+/*BulletKick = 100 / global.RealGame_Speed
 BulletKickDir = image_angle +180
  
 x = x +lengthdir_x(BulletKick,BulletKickDir)
