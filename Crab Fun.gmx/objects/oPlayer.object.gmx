@@ -29,6 +29,7 @@
 WeaponCount = 0
 WeaponArrayIndex = 0
 PlayerNoGun = false
+MoneyCollectAudioPitch = 0
 
 
 FootStepAlarmTriggered = false
@@ -58,6 +59,29 @@ TotalBits = 4
 BitsCreated = 0
 ExtraSplatChance = random_range(1,10)
      
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>MoneyCollectAudioPitch = 0
 </string>
           </argument>
         </arguments>
@@ -202,9 +226,14 @@ y = y +lengthdir_y(BulletKick,BulletKickDir)
 }
 */
 
+//PICKING UP MONEY
 if instance_place (x,y,oMoney)
 {
 global.CoinsCollected++
+alarm[1] = global.RealGame_Speed
+// soundtoplay = argument0, pitchrate = argument1, minpitch = argument2, maxpitch = argument3
+MoneyCollectAudioPitch++
+PlaySoundWithCumulativePitch(aPickupMoney,MoneyCollectAudioPitch/2,0,5,10)
 with (instance_nearest(x,y,oMoney)) instance_destroy()
 }
 

@@ -254,7 +254,7 @@ if instance_exists(oCamera){
 //CHECK NUMBER OF FOES, CHOOSE LOCATION TO SPAWN
 if instance_exists(oPlayer)
     {
-        if instance_number (oEnemyBody) <30 
+        if instance_number (oEnemyBody) <20 
             {
             var i = round(random_range(0,global.CrabaporterQuantities));
                 //LOCATION CHOSEN, ACTIVATE TIMER
@@ -270,7 +270,7 @@ if instance_exists(oPlayer)
             }
         
         //RESET YOUR OWN ALARM
-        alarm[1]=global.RealGame_Speed
+        alarm[1]=global.RealGame_Speed*4
     }
 
 
@@ -334,32 +334,38 @@ else
         case 1: 
         xx = ax
         yy = ay 
+        SoundPitch = 1
         break;
         
         case 2:
         xx = bx
         yy = by
+        SoundPitch = 2
         break;
         
         case 3:
         xx = cx
         yy = cy
+        SoundPitch = 4
         break;
         
         case 4:
         xx = dx
         yy = dy
+        SoundPitch = 5
         break;
         
         case 5:
         xx = x
         yy = x
+        SoundPitch = 9
         break;
         }
     //TP PARTICLES! SHAZZAAAAMMM
     part_emitter_region(global.ps, global.pe_Teleport_In, xx,xx,yy,yy, ps_shape_rectangle, ps_distr_linear);
     part_emitter_burst(global.ps, global.pe_Teleport_In, global.pt_Teleport_In, 1);
     instance_create(xx,yy,oEnemyTeleportingIn)
+    PlaySoundWithCumulativePitch(aCrabTeleportsIn,SoundPitch,0,10,20) 
         
         //RESET TELEPORTER OR LOOP IF ENEMIES STILL ON THE WAY
         {

@@ -57,8 +57,10 @@ if mouse_check_button(mb_left)
 var xx,yy,ShotSound,BulletScale
 xx = x + lengthdir_x(50, image_angle)
 yy = y + lengthdir_y(50, image_angle)
-ShotSound = 0
-    
+var ShotSound = choose(GunShootSFX1,GunShootSFX2,GunShootSFX3,GunShootSFX4);
+var BulletScale = 1;
+var SoundPitch = 8;
+
      //PROJECTILE CREATION
     //MUZZLE FLASH
     Particle_Burst(BlastParticle,image_angle-BlastP_Angle,image_angle+BlastP_Angle,xx,yy)
@@ -75,42 +77,36 @@ ShotSound = 0
             }
         }
     
-    //SHOOTING SFX !!!!!FIX add sounds for BIGGER SHOTZ
+    //SHOOTING SFX
     
     //INCREASING!! SHOT SIZE & VISUALS AS CLIP EMPTIES
     if ShotsFiredCountMax/1.2 < ShotsFiredCount
     {
-    ShotSound = GunShootSFXLow3
+    SoundPitch = 4
     BulletScale = 2
     //RateOfFire = 0.25
     //MyBulletSpeed = MyBulletSpeed/1.2
     
         if ShotsFiredCountMax/1.1 < ShotsFiredCount
         {
-        ShotSound = GunShootSFXLow2
+        SoundPitch = 3
         BulletScale = 2.5
         //RateOfFire = 0.3
         //MyBulletSpeed = MyBulletSpeed/1.4
         
             if ShotsFiredCountMax/1.05 < ShotsFiredCount
             {
-            ShotSound = GunShootSFXLow1
-            BulletScale = 3
+            SoundPitch = 1
+            varBulletScale = 3
             //RateOfFire = 0.35
             //MyBulletSpeed = MyBulletSpeed/1.7
             }
         }
     }
-    //BULLETSCALE DEPENDENT ON AUDIO CLIP ABOVE BEING LINKED!
-    if ShotSound = 0
-    {
-    ShotSound = choose(GunShootSFX1,GunShootSFX2,GunShootSFX3,GunShootSFX4)
-    BulletScale = 1
-    }
+    
+    //PLAY CORRECT SOUND EFFECT
+    PlaySoundWithCumulativePitch(ShotSound,SoundPitch,0,10,100)
 
-        
-        //PLAY SHOT SOUND
-        audio_play_sound(ShotSound,100,false)
     
     BulletsToFire = WeaponBulletsPerShot
     while 0 < BulletsToFire
@@ -134,78 +130,123 @@ var ProjectileDamage = argument1
 var ProjectileImpact = argument2  //0.8-1 for guns, 1-3 for explosions
 var ProjectileType = argument3 //PROJECTILE TYPES: 1 NonPierce, 2 Pierce, 3 Explosion
 
+//COLLISION PRIORITY - ENEMY, SCENERY, AESTHETIC (DEAD ENEMY)
 
 //DIRECT HIT ON AN ENEMY!
-if instance_place(x,y,oEnemyBody) {
-EnemyHit = instance_nearest (x,y,oEnemyBody)
-   
-    //DMG THE FOE
-    with EnemyHit 
-        {
-        if DamageEnemy(ProjectileDamage)
-            {
-            AttackSource = DamageSource
-            YesEnemyIsDead = true
-            WeaponImpact = ProjectileImpact
-            global.CrabsKilled++
-            instance_create(x,y,oMoney)
-            break;
-            }
-            else
-            {
-            image_index = image_number-4
-            }
-        }
-        
-    //DESTROY THE BULLET
-    if ProjectileType = 1 
+if instance_place(x,y,oEnemyBody) 
+{
+    hit_list = Instance_Place_List(x, y,oEnemyBody);
+    if (hit_list != noone) 
     {
-    ShotImpactParticles(image_angle-220,image_angle-140)
-    instance_destroy()
-    } 
-}
-    
-//NUDGE DEAD BODIES
-if instance_place(x,y,oDeadEnemy) {
-EnemyToNudge = instance_nearest(x,y,oDeadEnemy)
-    var xx,yy;
-    xx = EnemyToNudge.x
-    yy = EnemyToNudge.y
-    with EnemyToNudge if Nudged = false {
-    direction = point_direction (DamageSource.x,DamageSource.y,xx,yy)
-    speed = ProjectileImpact
-    friction = EnemyWeight
-    Nudged = true
-    } else {}
+   var n = 0;
+            
+       while (n < ds_list_size(hit_list)) 
+       {
+          with (hit_list[| n]) 
+          {
+            
+                //DAMAGE THE ENEMY
+                {
+                        //IS THIS BASTARD DEAD
+                        if DamageEnemy(ProjectileDamage)
+                        {
+                        AttackSource = DamageSource
+                        YesEnemyIsDead = true
+                        WeaponImpact = ProjectileImpact
+                        global.CrabsKilled++
+                        instance_create(x,y,oMoney)
+                        break;
+                        }
+                            else
+                            //NOT DEAD, JUST ANIMATE BEING HIT
+                            {
+                            image_index = image_number-4
+                            }
+                }
+          }
+          
+                    //IS IT A ONE-HIT BULLET? DESTROY IT!
+                    if ProjectileType = 1 
+                    {
+                    ShotImpactParticles(image_angle-220,image_angle-140)
+                    instance_destroy()
+                    exit
+                    } 
+          
+          n += 1;
+       }
+   //instance_destroy();
+   ds_list_destroy(hit_list);
+    }
 }
 
 //DIRECT HIT ON A CRATE
-if instance_place(x,y,oCrate)
+if instance_place(x,y,oCrate) 
 {
-        CrateToBlowUp = instance_place(x,y,oCrate)
-        if CrateToBlowUp.image_index = 0
-        {
-        HitCrateParticles(image_angle-220,image_angle-140,CrateToBlowUp.CrateColour)
-        ShotImpactParticles(image_angle-220,image_angle-140)
-        if ProjectileType = 1 {instance_destroy()}    
-        
-            with (CrateToBlowUp)
+    hit_list = Instance_Place_List(x, y,oCrate);
+    if (hit_list != noone) 
+    {
+   var n = 0;
+            
+       while (n < ds_list_size(hit_list)) 
+       {
+                  with (hit_list[| n]) 
+                  {
+                        if DamageEnemy(ProjectileDamage)
+                        {
+                        CrateDestroyed(CrateColour,CrateScale,CrateRotation)
+                        }
+                        else
+                        {
+                        //NUDGE IT AND MAKE IT FLASH
+                        image_index = image_number-4
+                        image_speed = 1
+                        CrateRotation = CrateRotation + random_range(-CrateRotateFactor,CrateRotateFactor)
+                        //RELEASE DELICIOUS WOODY PARTICLES
+                        HitCrateParticles(image_angle-220,image_angle-140,CrateColour)
+                        }
+                  }
+                  
+            //IS IT A ONE-HIT BULLET? DESTROY IT!
+            if ProjectileType = 1 
             {
-            if DamageEnemy(ProjectileDamage)
-                {
-                CrateDestroyed(CrateColour,CrateScale,CrateRotation)
-                break;
-                }
-                else
-                    {
-                    image_index = image_number-4
-                    image_speed = 1
-                    CrateRotation = CrateRotation + random_range(-CrateRotateFactor,CrateRotateFactor)
-                    }
-            }
-        }
-        
+            ShotImpactParticles(image_angle-220,image_angle-140)
+            instance_destroy()
+            exit
+            } 
+              
+       n += 1;
+       }
+   //instance_destroy();
+   ds_list_destroy(hit_list);
+    }
 }
 
+//NUDGE DEAD BODIES
+if instance_place(x,y,oDeadEnemy) 
+{
+    hit_list = Instance_Place_List(x, y,oDeadEnemy);
+    if (hit_list != noone) 
+    {
+   var n = 0;
+            
+       while (n < ds_list_size(hit_list)) 
+       {
+                  with (hit_list[| n]) 
+                  {
+                        if Nudged = false
+                        {
+                        direction = point_direction (DamageSource.x,DamageSource.y,x,y)
+                        speed = ProjectileImpact
+                        friction = EnemyWeight
+                        Nudged = true
+                        }  
+                  }
+                
+       n += 1;
+       }
+   ds_list_destroy(hit_list);
+    }
+}
 
 if instance_place(x,y,oSolidObject) && ProjectileType != 3 {instance_destroy()}

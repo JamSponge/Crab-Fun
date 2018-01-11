@@ -104,6 +104,9 @@
       <sound>sound\sPistolLow2</sound>
     </sounds>
     <sound>sound\aExplode</sound>
+    <sound>sound\aPickupMoney</sound>
+    <sound>sound\aCrabTeleportsIn</sound>
+    <sound>sound\sChargeEscapeTelepad</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
@@ -129,6 +132,7 @@
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sBulletBeam</sprite>
     <sprite>sprites\sExplosion</sprite>
+    <sprite>sprites\sINVISIBLERADIUSCHECKER</sprite>
     <sprite>sprites\sCrate</sprite>
     <sprite>sprites\sGunCrate</sprite>
     <sprite>sprites\sIceCreamCrate</sprite>
@@ -266,6 +270,10 @@
       <script>scripts\Explosion_Particles.gml</script>
       <script>scripts\Teleporter_Particles.gml</script>
     </scripts>
+    <scripts name="AUDIOSCRIPTS">
+      <script>scripts\PlaySoundWithCumulativePitch.gml</script>
+    </scripts>
+    <script>scripts\Instance_Place_List.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fCrabPoints</font>
@@ -325,6 +333,7 @@
       </objects>
       <objects name="EXPLOSIONS ETC">
         <object>objects\oExplosion</object>
+        <object>objects\oExplosionEnemyDamage</object>
       </objects>
       <object>objects\oPistol</object>
       <object>objects\oShotgun</object>

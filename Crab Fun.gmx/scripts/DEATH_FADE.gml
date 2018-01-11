@@ -1,5 +1,6 @@
 #define DEATH_FADE
 
+
 #define DeathFadeTimer
 depth = depth+20
 if depth >=1000{ depth =1000}

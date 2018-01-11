@@ -55,8 +55,14 @@ instance_destroy()
 
 
 //IS IT ACTUALLY AN EXPLOSION?
-if image_index == 4
+if image_index == 6
     {
+    //CREATE INVISIBLE EXPLOSION TRACKER
+    var HiddenEnemyOnlyExplosionRadius = instance_create(x,y,oExplosionEnemyDamage);
+    HiddenEnemyOnlyExplosionRadius.image_xscale = image_xscale*8
+    HiddenEnemyOnlyExplosionRadius.image_yscale = image_yscale*8
+    HiddenEnemyOnlyExplosionRadius.Parent = id
+
     //KILL PLAYER WITHIN RADIUS WHEN FRAME IS CORRECT
     if instance_place(x,y,oPlayer)
         {

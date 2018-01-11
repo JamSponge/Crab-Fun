@@ -61,7 +61,8 @@
         audio_play_sound(aPlayerShoot,100,false)
         MyGunBomb.direction = image_angle
         MyGunBomb.speed = MyGunBombSpeed
-        MyGunBomb.ExplosionSize = ExplosionSize
+        //MyGunBomb.ExplosionSize = ExplosionSize
+        MyGunBomb.ExplosionSize = WeaponMaxExplodeSize
         
             //SWITCH OFF LASER AIM BEAM SHIT
             with (oCrossHair)
